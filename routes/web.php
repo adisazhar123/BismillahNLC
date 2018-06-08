@@ -22,5 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Yang halaman ini belum diproteksi pakai Guard.
 //Jadi tanpa login langsung akses ke /admin
 Route::get('/admin', function(){
-	return view("admin.dashboard");
+	//Contoh dari list
+	return view("admin.list");
 });
