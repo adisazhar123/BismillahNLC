@@ -42,7 +42,7 @@ class LoginController extends Controller
     protected function authenticated(\Illuminate\Http\Request $request, $user){
       if(Auth::check()){
         if (Auth::user()->role == 2){
-          return "Peserta";
+          return redirect()->route('peserta.home');
         }else{
           return "Admin";
         }
