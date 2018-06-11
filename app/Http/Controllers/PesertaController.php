@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Packet;
+use App\Question;
 use Illuminate\Http\Request;
 
 class PesertaController extends Controller
@@ -32,5 +34,10 @@ class PesertaController extends Controller
 
     public function submitAnsStat(Request $request){
       return response()->json($request->all());
+    }
+
+    public function getQuestions(){
+      $questions = Question::all();
+      return $questions;
     }
 }
