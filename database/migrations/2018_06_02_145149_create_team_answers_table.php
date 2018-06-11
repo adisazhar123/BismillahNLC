@@ -17,7 +17,7 @@ class CreateTeamAnswersTable extends Migration
             $table->increments('id');
             $table->integer('id_team');
             $table->integer('id_packet');
-            $table->integer('id_question');
+            $table->text('id_question', 10)->nullable();
             $table->text('team_ans', 10)->nullable();
         });
     }

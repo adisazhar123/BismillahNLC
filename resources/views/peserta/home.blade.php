@@ -81,7 +81,6 @@ $(document).on("click", ".question_no", function(){
       console.log(data)
     }
   })
-
 })
 
 $(document).on("click", ".fa-refresh", function(){

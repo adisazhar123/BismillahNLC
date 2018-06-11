@@ -8,5 +8,5 @@ class Packet extends Model
 {
     protected $table = 'packet';
     protected $primary_key = 'id_packet';
-    public $time_stamps = false;
+    public $timestamps = false;
 }
