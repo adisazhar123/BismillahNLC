@@ -34,23 +34,18 @@
 </head>
 
 <body>
-    <!-- Side Navbar -->
     <nav class="side-navbar">
         <div class="side-navbar-wrapper">
-            <!-- Sidebar Header    -->
             <div class="sidenav-header d-flex align-items-center justify-content-center">
-                <!-- User Info-->
                 <div class="sidenav-header-inner text-center">
 					<img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
                     <h2 class="h5">NLC Superuser</h2>
 					<span>Schematics 2018</span>
                 </div>
-                <!-- Small Brand information, appears on minimized sidebar-->
                 <div class="sidenav-header-logo">
                     <img class="brand-small" src="{{ asset('img/schematics.png') }}" style="height:unset">
                 </div>
             </div>
-            <!-- Sidebar Navigation Menus-->
             <div class="main-menu">
                 @include('newadmin.menu')
             </div>
@@ -77,15 +72,6 @@
                 </div>
             </nav>
         </header>
-        <!-- Breadcrumb-->
-        <div class="breadcrumb-holder">
-            <div class="container-fluid">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Tables </li>
-                </ul>
-            </div>
-        </div>
         <section>
             <div class="container-fluid">
                 @yield('main')
