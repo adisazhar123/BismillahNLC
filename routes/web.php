@@ -23,5 +23,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Jadi tanpa login langsung akses ke /admin
 Route::get('/admin', function(){
 	//Contoh dari list
-	return view("admin.list");
+	return view("newadmin.template");
+});
+
+Route::get('/admin1', function(){
+	//Contoh dari list
+	return view("admin.template");
 });
