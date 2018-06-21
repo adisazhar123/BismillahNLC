@@ -31,3 +31,8 @@ Route::get('/peserta/get-questions', 'PesertaController@getQuestions')->name('pe
 //Yang halaman ini belum diproteksi pakai Guard.
 //Jadi tanpa login langsung akses ke /admin
 Route::get('/admin', 'AdminController@index')->name('index.admin');
+Route::get('/admin/get-teams', 'AdminController@getTeams')->name('get.teams.admin');
+Route::get('/admin/packets', 'AdminController@packetPage')->name('packet.admin');
+Route::get('/admin/get-packets', 'AdminController@getPackets')->name('get.packets.admin');
+Route::post('/admin/new-packet', 'AdminController@newPacket')->name('new.packet.admin');
+Route::delete('/admin/delete-packet', 'AdminController@deletePacket')->name('delete.packet.admin');

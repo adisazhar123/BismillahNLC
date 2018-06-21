@@ -29,6 +29,13 @@
 	   <link rel="icon" href="{{ asset('img/logo.png') }}">
 
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
+		 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.dataTables.min.css">
+
+		 <!-- CSS -->
+		 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
+		 <!-- Default theme -->
+		 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
+
      @yield('style')
 </head>
 
@@ -100,8 +107,13 @@
     <!-- Main File-->
     <script src="{{asset('js/front.js')}}"></script>
 
+
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
-    @yield('script')
+		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.js"></script>
+
+		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+
+	  @yield('script')
 </body>
 
 </html>

@@ -1,12 +1,12 @@
 <h5 class="sidenav-heading">Menu Utama</h5>
 <ul id="side-main-menu" class="side-menu list-unstyled">
-	<li>
-		<a> <i class="fa fa-users"></i>Daftar Peserta </a>
+	<li id="menu-teams">
+		<a href="{{route('index.admin')}}"> <i class="fa fa-users"></i>Daftar Tim </a>
 	</li>
-	<li>
-		<a> <i class="fa fa-book"></i>Daftar Paket </a>
+	<li id="menu-packets">
+		<a href="{{route('packet.admin')}}"> <i class="fa fa-book"></i>Daftar Paket </a>
 	</li>
-	<li>
+	<li id="menu-questions">
 		<a> <i class="fa fa-file-text"></i>Daftar Soal </a>
 	</li>
 </ul>
