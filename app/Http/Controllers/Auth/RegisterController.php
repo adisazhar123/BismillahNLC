@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Illuminate\Auth\Events\Registered;
 class RegisterController extends Controller
 {
     /*
@@ -27,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/peserta/login';
 
     /**
      * Create a new controller instance.
@@ -67,5 +68,17 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function register(Request $request){
+      $validator = $this->validator($request->all());
+      if($validator->passes()){
+        event(new Registered($user = $this->create($request->all())));
+        $new_user = User::find($user->id);
+        $new_user->role=2;
+        $new_user->save();
+        return "Success";
+      }
+      return "Error";
     }
 }
