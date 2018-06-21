@@ -1,52 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+	<!-- CSRF Token -->
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-		<!-- CSRF Token -->
-		<meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>NLC Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="{{asset('css/fontastic.css')}}">
+    <!-- Google fonts - Roboto -->
+    <link rel="stylesheet" href="{{asset('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700')}}">
+    <!-- jQuery Circle-->
+    <link rel="stylesheet" href="{{asset('css/grasp_mobile_progress_circle-1.0.0.min.css')}}">
+    <!-- Custom Scrollbar-->
+    <link rel="stylesheet" href="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{{asset('css/style.default.css')}}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+    <!-- Favicon-->
+	<link rel="icon" href="{{ asset('img/logo.png') }}">
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
 
-		<title>NLC Admin</title>
-		<link rel="icon" href="{{ asset('img/logo.png') }}">
+<body>
+    <nav class="side-navbar">
+        <div class="side-navbar-wrapper">
+            <div class="sidenav-header d-flex align-items-center justify-content-center">
+                <div class="sidenav-header-inner text-center">
+					<img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
+                    <h2 class="h5">NLC Superuser</h2>
+					<span>Schematics 2018</span>
+                </div>
+                <div class="sidenav-header-logo">
+                    <img class="brand-small" src="{{ asset('img/schematics.png') }}" style="height:unset">
+                </div>
+            </div>
+            <div class="main-menu">
+                @include('newadmin.menu')
+            </div>
+        </div>
+    </nav>
+    <div class="page">
+        <!-- navbar-->
+        <header class="header">
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <div class="navbar-holder d-flex align-items-center justify-content-between">
+                        <div class="navbar-header"><a id="toggle-btn" href="#" class="menu-btn"><i class="icon-bars"> </i></a>
+                            <a href="index.html" class="navbar-brand">
+                                <div class="brand-text d-none d-md-inline-block">NLC Administration</div>
+                            </a>
+                        </div>
+                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                            <!-- Log out-->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <section>
+            <div class="container-fluid">
+                @yield('main')
+            </div>
+        </section>
+        <footer class="main-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>Schematics ITS 2018</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- JavaScript files-->
+    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('vendor/popper.js/umd/popper.min.js')}}">
+    </script>
+    <script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/grasp_mobile_progress_circle-1.0.0.min.js')}}"></script>
+    <script src="{{asset('vendor/jquery.cookie/jquery.cookie.js')}}">
+    </script>
+    <script src="{{asset('vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="{{asset('vendor/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+    <!-- Main File-->
+    <script src="{{asset('js/front.js')}}"></script>
+</body>
 
-		<!-- Styles -->
-		<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-		<link href="{{ asset('fa/css/fontawesome-all.min.css') }}" rel="stylesheet">
-	</head>
-	<body style="font-family:Roboto, sans-serif">
-		<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-			<div class="container">
-				<a class="navbar-brand" href="/admin">
-					<img src="{{ asset('img/schematics.png') }}" height="56" style="margin-right:20px;">
-					NLC Admin
-				</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#user_menu" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="user_menu">
-					<ul class="nav navbar-nav">
-						<li class="nav-item active"><a class="nav-link" href="#">Daftar Peserta</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Daftar Paket</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Daftar Soal</a></li>
-					</ul>
-					<ul class="nav navbar-nav" style="margin-left:auto">
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								@yield('userstatus')
-							</a>
-							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="user_menu">
-								@yield('usermenu')
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<div class="container" style="margin-top:110px">
-			@yield('content')
-		</div>
-		<script src="{{ asset('js/app.js') }}"></script>
-	</body>
 </html>

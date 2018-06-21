@@ -3,34 +3,33 @@
 <head>
 	<!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-	
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>NLC Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
     <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
     <!-- Font Awesome CSS-->
-    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
     <!-- Fontastic Custom icon font-->
-    <link rel="stylesheet" href="css/fontastic.css">
+    <link rel="stylesheet" href="{{asset('css/fontastic.css')}}">
     <!-- Google fonts - Roboto -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" href="{{asset('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700')}}">
     <!-- jQuery Circle-->
-    <link rel="stylesheet" href="css/grasp_mobile_progress_circle-1.0.0.min.css">
+    <link rel="stylesheet" href="{{asset('css/grasp_mobile_progress_circle-1.0.0.min.css')}}">
     <!-- Custom Scrollbar-->
-    <link rel="stylesheet" href="vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="{{asset('css/style.default.css')}}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     <!-- Favicon-->
-	<link rel="icon" href="{{ asset('img/logo.png') }}">
-    <!-- Tweaks for older IEs-->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+	   <link rel="icon" href="{{ asset('img/logo.png') }}">
+
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
+     @yield('style')
 </head>
 
 <body>
@@ -47,7 +46,7 @@
                 </div>
             </div>
             <div class="main-menu">
-                @include('newadmin.menu')
+                @include('admin.menu')
             </div>
         </div>
     </nav>
@@ -88,18 +87,21 @@
         </footer>
     </div>
     <!-- JavaScript files-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper.js/umd/popper.min.js">
+    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('vendor/popper.js/umd/popper.min.js')}}">
     </script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/grasp_mobile_progress_circle-1.0.0.min.js"></script>
-    <script src="vendor/jquery.cookie/jquery.cookie.js">
+    <script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/grasp_mobile_progress_circle-1.0.0.min.js')}}"></script>
+    <script src="{{asset('vendor/jquery.cookie/jquery.cookie.js')}}">
     </script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src="vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="{{asset('vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="{{asset('vendor/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
     <!-- Main File-->
-    <script src="js/front.js"></script>
+    <script src="{{asset('js/front.js')}}"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+    @yield('script')
 </body>
 
 </html>
