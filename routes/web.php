@@ -36,3 +36,5 @@ Route::get('/admin/packets', 'AdminController@packetPage')->name('packet.admin')
 Route::get('/admin/get-packets', 'AdminController@getPackets')->name('get.packets.admin');
 Route::post('/admin/new-packet', 'AdminController@newPacket')->name('new.packet.admin');
 Route::delete('/admin/delete-packet', 'AdminController@deletePacket')->name('delete.packet.admin');
+Route::get('/admin/get-packet-info', 'AdminController@getPacketInfo')->name('get.packet.info.admin');
+Route::put('/admin/update-packet-answer', 'AdminController@updateAns')->name('update.packet.ans.admin');

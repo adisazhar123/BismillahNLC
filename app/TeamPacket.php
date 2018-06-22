@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TeamAnswer extends Model
+class TeamPacket extends Model
 {
-  protected $table = 'team_answer';
+  protected $table = 'team_packet';
   protected $primaryKey = 'id';
   public $timestamps = false;
 }

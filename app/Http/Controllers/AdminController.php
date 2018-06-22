@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Team;
 use App\Packet;
+use App\Question;
 
 class AdminController extends Controller
 {
@@ -26,22 +27,40 @@ class AdminController extends Controller
 
     //fungsi utk GET paket (ngisi datatable)
     public function getPackets(){
-      $packets = Packet::all();
+      $packets = Packet::select('id_packet','name','active_date','active')->get();
       return response()->json(['data'=>$packets]);
     }
 
     public function newPacket(Request $request){
-      $packet = new Packet;
-      $packet->name = $request->packet_name;
-      $packet->active_date = $request->active_date;
-      $packet->start_time = $request->start_time;
-      $packet->end_time = $request->end_time;
-      $packet->duration = $request->duration;
-      $packet->active = 0;
 
-      if ($packet->save()) return "ok";
-      return "false";
+       $packet = new Packet;
+       $packet->name = $request->packet_name;
+       $packet->active_date = $request->active_date;
+       $packet->start_time = $request->start_time;
+       $packet->end_time = $request->end_time;
+       $packet->duration = $request->duration;
+       $packet->active = 0;
 
+       $file = $request->file('file');
+       $contents = $file->openFile()->fread($file->getSize());
+       $packet->file = $contents;
+
+       $packet->save();
+       //init question & answers
+       for ($i=1; $i <= 90 ; $i++) {
+         $question = new Question;
+         $question->question_no = $i;
+         $question->id_packet = $packet->id_packet;
+         $question->save();
+       }
+
+       return "ok";
+
+    }
+
+    public function getPacketInfo(Request $request){
+      $questions = Question::where('id_packet', $request->id_packet)->get();
+      return response()->json($questions);
     }
 
     public function deletePacket(Request $request){
@@ -50,5 +69,14 @@ class AdminController extends Controller
       if ($packet->delete())
         return "ok";
       return "false";
+    }
+
+    public function updateAns(Request $request){
+      $question = Question::where('id_packet', $request->id_packet)
+                  ->where('question_no', $request->question_no)
+                  ->first();
+      $question->right_ans = $request->right_ans;
+      if ($question->save()) return "ok";
+      return "fail";
     }
 }
