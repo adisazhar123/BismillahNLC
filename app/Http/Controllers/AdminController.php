@@ -32,7 +32,6 @@ class AdminController extends Controller
     }
 
     public function newPacket(Request $request){
-
        $packet = new Packet;
        $packet->name = $request->packet_name;
        $packet->active_date = $request->active_date;
@@ -65,8 +64,8 @@ class AdminController extends Controller
 
     public function deletePacket(Request $request){
       $packet = Packet::find($request->id_packet);
-
-      if ($packet->delete())
+      $questions = Question::where('id_packet', $request->id_packet);
+      if ($packet->delete() && $questions->delete())
         return "ok";
       return "false";
     }
@@ -78,5 +77,42 @@ class AdminController extends Controller
       $question->right_ans = $request->right_ans;
       if ($question->save()) return "ok";
       return "fail";
+    }
+
+    public function changePacketStatus(Request $request){
+      $packet = Packet::find($request->id_packet);
+      if ($packet->active == 1)
+        $packet->active = 0;
+      else
+        $packet->active = 1;
+
+      if ($packet->save())
+        return "ok".$packet->active;
+      return "fail";
+    }
+
+    public function getPacketDetails(Request $request){
+      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration')->find($request->id_packet);
+      return response()->json($packet);
+    }
+
+    public function updatePacket(Request $request){
+      $packet = Packet::find($request->id_packet);
+      $packet->name = $request->packet_name;
+      $packet->active_date = $request->active_date;
+      $packet->start_time = $request->start_time;
+      $packet->end_time = $request->end_time;
+      $packet->duration = $request->duration;
+      $packet->active = 0;
+
+      if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $contents = $file->openFile()->fread($file->getSize());
+        $packet->file = $contents;
+      }
+       if ($packet->save()){
+         return "ok";
+       }
+       return "fail";
     }
 }

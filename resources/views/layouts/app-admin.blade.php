@@ -45,8 +45,8 @@
             <div class="sidenav-header d-flex align-items-center justify-content-center">
                 <div class="sidenav-header-inner text-center">
 					<img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
-                    <h2 class="h5">NLC Superuser</h2>
-					<span>Schematics 2018</span>
+                    <h2 class="h5">Adis Azhar</h2>
+					<span>Web Master</span>
                 </div>
                 <div class="sidenav-header-logo">
                     <img class="brand-small" src="{{ asset('img/schematics.png') }}" style="height:unset">

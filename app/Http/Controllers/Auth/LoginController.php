@@ -39,6 +39,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function showLoginForm(){
+      return view('login');
+    }
+
     protected function authenticated(\Illuminate\Http\Request $request, $user){
       if(Auth::check()){
         if (Auth::user()->role == 2){
