@@ -17,6 +17,7 @@ class CreateTeamTable extends Migration
             $table->increments('id_team');
             $table->text('name', 1024);
             $table->text('email', 1024);
+            $table->string('phone');
         });
     }
 

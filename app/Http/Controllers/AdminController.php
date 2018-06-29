@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Team;
 use App\Packet;
 use App\Question;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -40,20 +41,8 @@ class AdminController extends Controller
        $packet->duration = $request->duration;
        $packet->active = 0;
 
-       $file = $request->file('file');
-       $contents = $file->openFile()->fread($file->getSize());
-       $packet->file = $contents;
-
-       $packet->save();
-       //init question & answers
-       for ($i=1; $i <= 90 ; $i++) {
-         $question = new Question;
-         $question->question_no = $i;
-         $question->id_packet = $packet->id_packet;
-         $question->save();
-       }
-
-       return "ok";
+       if ($packet->save())
+        return "ok";
 
     }
 
@@ -65,7 +54,10 @@ class AdminController extends Controller
     public function deletePacket(Request $request){
       $packet = Packet::find($request->id_packet);
       $questions = Question::where('id_packet', $request->id_packet);
-      if ($packet->delete() && $questions->delete())
+      if($questions)
+        if ($questions->delete() && $packet->delete())
+        return "ok";
+      elseif ($packet->delete())
         return "ok";
       return "false";
     }
@@ -114,5 +106,156 @@ class AdminController extends Controller
          return "ok";
        }
        return "fail";
+    }
+
+
+    public function statisticsPage(){
+      return view('admin.statistics');
+    }
+
+    public function getPacketQuestions($id_packet){
+      $questions = Question::where('id_packet', $id_packet)->get()->toArray();
+
+      $data = array();
+      $no = 1;
+      $question;
+
+      for ($x=0; $x<count($questions); $x++) {
+        $question = $questions[$x]['question'];
+        $id_question = $questions[$x]['id_question'];
+        $question .= "<ol type='A'>";
+          for ($i=1; $i <=5 ; $i++) {
+            if ($i == $questions[$x]['right_ans']) {
+              $question .= "<strong><li>".$questions[$x]['option_'.$i]."</li></strong>";
+            }else{
+              $question .= "<li>".$questions[$x]['option_'.$i]."</li>";
+            }
+          }
+
+        "</ol>";
+        $row = array();
+        $button = "<button class='btn btn-info' id=edit question-id='$id_question'><i class='fa fa-pencil-square' aria-hidden=true></i></button><button class='btn btn-danger' id=delete question-id='$id_question'><i class='fa fa-trash' aria-hidden=true></i></button>";
+        $row[]= $no;
+        $row[] = $question;
+        $row[] = $button;
+        $data[] = $row;
+        $no++;
+      }
+
+      return response()->json(["data"=>$data]);
+    }
+
+    public function listSoal($id){
+      $packet_name = Packet::find($id)->name;
+      return view('admin.list-soal')->with('id_packet', $id)->with('packet_name', $packet_name);
+    }
+
+    public function getQuestionDetails(Request $request){
+      $question = Question::find($request->question_id);
+      return response()->json($question);
+    }
+
+    public function addNewQuestion(Request $request){
+      return $request->all();
+      $question = Question::create([
+        'id_packet' => $request->id_packet,
+        'option_1' => $request->option_1,
+        'option_2' => $request->option_2,
+        'option_3' => $request->option_3,
+        'option_4' => $request->option_4,
+        'option_5' => $request->option_5,
+        'question' => $request->question,
+        'right_ans' => $request->right_ans,
+        'related' => $request->related,
+        'description' => $request->description
+      ]);
+      return "ok";
+    }
+
+    public function updateQuestion(Request $request){
+      $question = Question::find($request->id_question);
+
+      $question->description = $request->description;
+      $question->question = $request->question;
+      $question->option_1 = $request->option_1;
+      $question->option_2 = $request->option_2;
+      $question->option_3 = $request->option_3;
+      $question->option_4 = $request->option_4;
+      $question->option_5 = $request->option_5;
+      $question->right_ans = $request->right_ans;
+      $question->related = $request->related;
+
+      if ($question->save())
+        return "ok";
+      return "fail";
+
+    }
+
+    public function deleteQuestion(Request $request){
+      $question = Question::find($request->id_question);
+      if ($question->delete()) return "ok";
+      return "fail";
+    }
+
+    public function newTeam(Request $request){
+      $user = User::create([
+        'name' => $request->team_name,
+        'email' => $request->team_email,
+        'password' => bcrypt($request->team_password),
+        'phone' => $request->team_phone,
+        'role' => 3
+      ]);
+
+      $team = new Team;
+      $team->id_team = $user->id;
+      $team->name = $request->team_name;
+      $team->email = $request->team_email;
+      $team->phone = $request->team_phone;
+
+      if ($team->save())
+        return "ok";
+      return "fail";
+    }
+
+    public function getTeamtoUpdate(Request $request){
+      $user = User::find($request->id_team);
+      $team = Team::find($request->id_team);
+
+      // $team->id_team = $user->id;
+      // $team->name = $request->team_name;
+      // $team->email = $request->team_email;
+      //
+      // $user->name = $request->team_name;
+      // $user->email = $request->team_email;
+      // $user->password = bcrypt($request->team_password);
+
+      return response()->json([$user, $team]);
+
+    }
+
+    public function updateTeam(Request $request){
+      $user = User::find($request->team_id);
+      $team = Team::find($request->team_id);
+
+      $team->id_team = $user->id;
+      $team->name = $request->team_name;
+      $team->email = $request->team_email;
+      $team->phone = $request->team_phone;
+
+      $user->name = $request->team_name;
+      $user->email = $request->team_email;
+      $user->password = bcrypt($request->team_password);
+
+      if ($user->save() && $team->save()) return "ok";
+      return "fail";
+    }
+
+    public function listPdfPage(){
+      return view('admin.generate-pdf');
+    }
+
+    public function getPacketsforPdf(){
+      $packets = Packet::whereHas('questions')->get();
+      return response()->json(['data'=>$packets]);
     }
 }

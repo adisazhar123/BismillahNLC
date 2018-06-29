@@ -41,3 +41,24 @@ Route::put('/admin/update-packet-answer', 'AdminController@updateAns')->name('up
 Route::put('/admin/toggle-packet', 'AdminController@changePacketStatus')->name('toggle.packet.admin');
 Route::get('/admin/get-packet-details', 'AdminController@getPacketDetails')->name('get.packet.details.admin');
 Route::post('/admin/update-packet', 'AdminController@updatePacket')->name('update.packet.admin');
+Route::get('/admin/coba', function(){
+  return view('admin.coba');
+});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    '\UniSharp\LaravelFilemanager\Lfm::routes()';
+});
+
+Route::get('/admin/statistics', 'AdminController@statisticsPage')->name('statistics.page.admin');
+Route::get('/admin/get-questions/{id_packet}', 'AdminController@getPacketQuestions')->name('get.questions.admin');
+Route::get('/admin/list-questions/{id}', 'AdminController@listSoal')->name('list.soal.page.admin');
+Route::get('/admin/get-question-details', 'AdminController@getQuestionDetails')->name('get.question.details.admin');
+Route::post('/admin/add-new-question', 'AdminController@addNewQuestion')->name('add.new.question.admin');
+Route::put('/admin/update-question', 'AdminController@updateQuestion')->name('update.question.admin');
+Route::delete('/admin/delete-question', 'AdminController@deleteQuestion')->name('delete.question.admin');
+Route::post('/admin/new-team', 'AdminController@newTeam')->name('new.team.admin');
+Route::get('/admin/get-team', 'AdminController@getTeamtoUpdate')->name('get.team.to.update');
+Route::put('/admin/update-team', 'AdminController@updateTeam')->name('update.team.admin');
+Route::get('/admin/list-pdf', 'AdminController@listPdfPage')->name('list.pdf.page.admin');
+Route::get('/admin/get-packets-for-pdf', 'AdminController@getPacketsforPdf')->name('get.packets.for.pdf.admin');
+Route::get('/pdf', 'PDFController@index');

@@ -16,9 +16,15 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id_question');
             $table->integer('id_packet');
-            $table->integer('question_no');
-            $table->text('question', 1024)->nullable();
-            $table->text('right_ans', 10)->nullable();
+            $table->text('question');
+            $table->text('option_1', 10);
+            $table->text('option_2', 10);
+            $table->text('option_3', 10);
+            $table->text('option_4', 10);
+            $table->text('option_5', 10);
+            $table->text('right_ans', 10);
+            $table->text('description')->nullable();
+            $table->integer('related');
         });
     }
 

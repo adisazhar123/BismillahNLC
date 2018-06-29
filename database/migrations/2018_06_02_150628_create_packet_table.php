@@ -16,7 +16,6 @@ class CreatePacketTable extends Migration
         Schema::create('packet', function (Blueprint $table) {
             $table->increments('id_packet');
             $table->text('name', 1024);
-            $table->binary('file');
             $table->date('active_date');
             $table->text('start_time', 20);
             $table->text('end_time', 20);

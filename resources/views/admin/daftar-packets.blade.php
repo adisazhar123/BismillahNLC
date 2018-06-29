@@ -16,7 +16,17 @@
 @section('main')
 
 <br>
-
+<div class="alert alert-info" role="alert">
+  <h4 class="alert-heading">Cara penggunaan</h4>
+  <ul>
+  	<li>Untuk menambahkan paket soal klik 'Tambah Soal'</li>
+		<li>Untuk mengganti pengaturan paket soal klik 'Edit'</li>
+		<li>Jika paket soal memiliki status 'aktif', maka paket tersebut tersedia untuk dikerjakan oleh peserta. Klik 'non-aktifkan' jika paket soal belum siap.</li>
+		<li>Untuk pengaturan soal pada paket, klik 'View'.</li>
+  </ul>
+  <hr>
+  <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
+</div>
 <div class="row">
 	<div class="col-lg-12">
 		<div class="card">
@@ -80,10 +90,7 @@
 						<input class="form-control" type="number" name="duration" value="" required min="0" id="duration">
 						<small>Dalam satuan menit</small>
 					</div>
-					<div class="form-group">
-						<label for="packet_file">File paket</label><br>
-						<input type="file" id="file" name="file" required>
-					</div>
+					
       </div>
       <div class="modal-footer">
 				<button type="submit" class="btn btn-primary">Submit</button>
@@ -136,6 +143,8 @@
 			var id_packet;
 			var formData;
 
+			var APP_URL = '{!! url('/') !!}';
+
 			table1 = $('#table_id').DataTable({
 			responsive: true,
 			ajax: "{{route('get.packets.admin')}}",
@@ -154,9 +163,9 @@
 					},
 					{render: function(data, type, row){
 						if(row.active == 1)
-							return "<button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Delete</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Edit</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><button packet-id="+row.id_packet+" class='btn btn-info' id=view>View</button>";
+							return "<button class='btn btn-success' disabled id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Delete</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Edit</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>View</button>";
 						else
-							return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Delete</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Edit</button><button packet-id="+row.id_packet+" class='btn btn-info' id=view>View</button>";
+						return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Delete</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Edit</button><button disabled class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>View</button>";
 
 					}
 				}
@@ -177,7 +186,7 @@
 			var method;
 			formData = new FormData($(this)[0]);
 			formData.append('id_packet', id_packet)
-			
+
 			if (action == "add"){
 				url = '{{route('new.packet.admin')}}';
 			}
@@ -299,59 +308,59 @@
 				}
 			}
 
-			$(document).on('click', '#view', function(){
-				id_packet = $(this).attr('packet-id')
-				//alert(id_packet)
-				var content1="", content2="", content3="";
-				var content_select1="", content_select2="", content_select3="";
-
-				$.ajax({
-					url: '{{route('get.packet.info.admin')}}',
-					data: {id_packet},
-					success: function(data){
-						for (var i = 0; i < 30; i++) {
-							content_select1 = checkSelected(data[i].right_ans);
-							content1 += "<div class='form-group row'>"+
-									"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
-									"<div class=col-sm-5>"+
-											"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
-													content_select1 +
-											"</select>"+
-									 "</div>"+
-							"</div>";
-
-						}
-						for (var i = 30; i < 60; i++) {
-							content_select2 = checkSelected(data[i].right_ans);
-							content2 += "<div class='form-group row'>"+
-									"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
-									"<div class=col-sm-5>"+
-											"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
-												content_select2 +
-											"</select>"+
-									 "</div>"+
-							"</div>";
-						}
-						for (var i = 60; i < 90; i++) {
-							content_select3 = checkSelected(data[i].right_ans);
-							content3 += "<div class='form-group row'>"+
-									"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
-									"<div class=col-sm-5>"+
-											"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
-													content_select3 +
-											"</select>"+
-									 "</div>"+
-							"</div>";
-						}
-
-					//	console.log(content1)
-						$(".content1").html(content1);
-						$(".content2").html(content2);
-						$(".content3").html(content3);
-						$(".modal.view_packet").modal('show')
-					}
-				})
-			})
+			// $(document).on('click', '#view', function(){
+			// 	id_packet = $(this).attr('packet-id')
+			// 	//alert(id_packet)
+			// 	var content1="", content2="", content3="";
+			// 	var content_select1="", content_select2="", content_select3="";
+      //
+			// 	$.ajax({
+			// 		url: '{{route('get.packet.info.admin')}}',
+			// 		data: {id_packet},
+			// 		success: function(data){
+			// 			for (var i = 0; i < 30; i++) {
+			// 				content_select1 = checkSelected(data[i].right_ans);
+			// 				content1 += "<div class='form-group row'>"+
+			// 						"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
+			// 						"<div class=col-sm-5>"+
+			// 								"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
+			// 										content_select1 +
+			// 								"</select>"+
+			// 						 "</div>"+
+			// 				"</div>";
+      //
+			// 			}
+			// 			for (var i = 30; i < 60; i++) {
+			// 				content_select2 = checkSelected(data[i].right_ans);
+			// 				content2 += "<div class='form-group row'>"+
+			// 						"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
+			// 						"<div class=col-sm-5>"+
+			// 								"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
+			// 									content_select2 +
+			// 								"</select>"+
+			// 						 "</div>"+
+			// 				"</div>";
+			// 			}
+			// 			for (var i = 60; i < 90; i++) {
+			// 				content_select3 = checkSelected(data[i].right_ans);
+			// 				content3 += "<div class='form-group row'>"+
+			// 						"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
+			// 						"<div class=col-sm-5>"+
+			// 								"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
+			// 										content_select3 +
+			// 								"</select>"+
+			// 						 "</div>"+
+			// 				"</div>";
+			// 			}
+      //
+			// 		//	console.log(content1)
+			// 			$(".content1").html(content1);
+			// 			$(".content2").html(content2);
+			// 			$(".content3").html(content3);
+			// 			$(".modal.view_packet").modal('show')
+			// 		}
+			// 	})
+			// })
 
 			$(document).on('change', 'select', function(){
 				$.ajaxSetup({

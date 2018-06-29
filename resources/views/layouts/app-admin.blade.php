@@ -37,6 +37,21 @@
 		 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
 
      @yield('style')
+
+		 <style media="screen">
+		 	.ans-list{
+  			list-style-type: none;
+			}
+			.card:hover{
+ 				box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+ 		    -webkit-transition:  box-shadow .2s ease-in;
+		  }
+			.disabled {
+		    pointer-events: none;
+		    opacity: 0.3;
+			}
+		 </style>
+
 </head>
 
 <body>
@@ -113,7 +128,12 @@
 
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
 
+
+
 	  @yield('script')
+
+		<script type="text/javascript" src='{{asset('js/tinymce/tinymce.min.js')}}'> </script>
+
 </body>
 
 </html>
