@@ -62,3 +62,4 @@ Route::put('/admin/update-team', 'AdminController@updateTeam')->name('update.tea
 Route::get('/admin/list-pdf', 'AdminController@listPdfPage')->name('list.pdf.page.admin');
 Route::get('/admin/get-packets-for-pdf', 'AdminController@getPacketsforPdf')->name('get.packets.for.pdf.admin');
 Route::get('/pdf', 'PDFController@index');
+Route::post('/admin/generate-packets', 'PDFController@generatePDF')->name('generate.packets.admin');

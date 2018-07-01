@@ -57,6 +57,7 @@
         <div class="modal-body">
   				<form action="#" id="packet_form">
   					{{ csrf_field() }}
+            <input type="hidden" name="id_packet" id="id_packet" value="">
   				  <div class="form-group">
   				    <label for="packet_count">Jumlah Paket PDF</label>
   						<input type="number" name="packet_count" value="" class="form-control" required id="packet_count" min="1" max="10">
@@ -101,7 +102,7 @@
 
     $(document).on('click', '#generate', function(){
       id_packet = $(this).attr('packet-id');
-
+      $("#id_packet").val(id_packet);
       $(".modal.generate_pdf").modal('show');
 
     })
@@ -111,8 +112,16 @@
       $(".row.my_page").addClass("disabled")
       e.preventDefault();
 
-
-
+      $.ajax({
+        url: '{{route('generate.packets.admin')}}',
+        method: "POST",
+        data: $(this).serialize(),
+        success: function(data){
+          console.log(data)
+          $(".loading_gif").html('')
+          $(".row.my_page").removeClass("disabled")
+        }
+      })
 
     });
 

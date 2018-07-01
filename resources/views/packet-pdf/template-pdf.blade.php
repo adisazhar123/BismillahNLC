@@ -14,6 +14,9 @@
 
   </head>
   <body>
+    <p>
+      <strong>Pilihlah 1 jawaban yang paling benar!</strong>
+    </p>
     <div class="content">
       <ol>
        @foreach ($questions as $question)
