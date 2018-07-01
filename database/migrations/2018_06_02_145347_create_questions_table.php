@@ -23,7 +23,7 @@ class CreateQuestionsTable extends Migration
             $table->text('option_4', 10);
             $table->text('option_5', 10);
             $table->text('right_ans', 10);
-            $table->text('description')->default('')->nullable();
+            $table->text('description')->nullable();
             $table->integer('related');
         });
     }

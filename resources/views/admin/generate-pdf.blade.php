@@ -18,7 +18,6 @@
   		<div class="card">
   			<div class="card-header">
   				<h4>Generate PDF paket soal</h4>
-  				<button style="float: right" type="button" name="button" class="btn btn-primary" id='add_question'></button>
 
   			</div>
   			<div class="card-body">
@@ -43,44 +42,45 @@
   			</div>
   		</div>
   	</div>
-  </div>
-
-  <div class="modal generate_pdf fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Generate PDF</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-  				<form action="#" id="packet_form">
-  					{{ csrf_field() }}
-            <input type="hidden" name="id_packet" id="id_packet" value="">
-  				  <div class="form-group">
-  				    <label for="packet_count">Jumlah Paket PDF</label>
-  						<input type="number" name="packet_count" value="" class="form-control" required id="packet_count" min="1" max="10">
-  				  </div>
-            <div class="">
+    <div class="modal generate_pdf fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Generate PDF</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="#" id="packet_form">
+              {{ csrf_field() }}
+              <input type="hidden" name="id_packet" id="id_packet" value="">
               <div class="form-group">
-                <label for="randomize">Acak Soal</label>
-                <select class="form-control" id="randomize" name="randomize" required>
-          				<option value='0'>Tidak</option>
-          				<option value='1'>Iya</option>
-          			</select>
+                <label for="packet_count">Jumlah Paket PDF</label>
+                <input type="number" name="packet_count" value="" class="form-control" required id="packet_count" min="1" max="10">
               </div>
-            </div>
+              <div class="">
+                <div class="form-group">
+                  <label for="randomize">Acak Soal</label>
+                  <select class="form-control" id="randomize" name="randomize" required>
+                    <option value='0'>Tidak</option>
+                    <option value='1'>Iya</option>
+                  </select>
+                </div>
+              </div>
 
-        </div>
-        <div class="modal-footer">
-  				<button type="submit" class="btn btn-primary">Submit</button>
-  			</form>
-  			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+
 
 @endsection
 
@@ -117,12 +117,12 @@
         method: "POST",
         data: $(this).serialize(),
         success: function(data){
-          console.log(data)
           $(".loading_gif").html('')
           $(".row.my_page").removeClass("disabled")
+          $(".modal.generate_pdf").modal('hide');
+          alertify.success("PDF berhasil dibuat")
         }
       })
-
     });
 
 

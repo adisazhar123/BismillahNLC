@@ -119,9 +119,9 @@ class AdminController extends Controller
       $data = array();
       $no = 1;
       $question;
-      $description='';
 
       for ($x=0; $x<count($questions); $x++) {
+        $description='';
         if (isset ($questions[$x]['description']) && !empty($questions[$x]['description']))
           $description = $questions[$x]['description'];
         $question = $description.$questions[$x]['question'];
@@ -164,6 +164,10 @@ class AdminController extends Controller
       // DOMPDF gabisa membacanya jadi tak replace dengan asset()
 
       //Ini utk ngereplace path math formula Wiris karena DOMPDF gabisa mbaca
+
+      if (empty($request->description))
+        $request->description = '';
+
       $data_question = array();
       $data_option1 = array();
       $data_option2 = array();
@@ -329,6 +333,8 @@ class AdminController extends Controller
     public function updateQuestion(Request $request){
       $new_question = Question::find($request->id_question);
 
+      if (empty($request->description))
+        $request->description = '';
 
       // dilakukan str_replace karena Unisharp Laravelfilemanager menyimpan sourcenya menggunakan URL relative, sedangkan
       // DOMPDF gabisa membacanya jadi tak replace dengan asset()
@@ -438,6 +444,8 @@ class AdminController extends Controller
       $question = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $question);
       $question = str_replace('/bismillahNLC/public/storage', asset('storage'), $question);
       $question = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $question);
+      $question = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public', url('/'), $question);
+
 
       //utk PHP artisan serve
       $question = str_replace('/laravel-filemanager/app/public', asset('storage'), $question);
@@ -446,6 +454,7 @@ class AdminController extends Controller
       $option1 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option1);
       $option1 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option1);
       $option1 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option1);
+      $option1 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public',  url('/'), $option1);
 
       //utk PHP artisan serve
       $option1 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option1);
@@ -453,6 +462,7 @@ class AdminController extends Controller
       $option2 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option2);
       $option2 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option2);
       $option2 = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $option2);
+      $option2 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public', url('/'), $option2);
 
       //utk PHP artisan serve
       $option2 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option2);
@@ -460,6 +470,7 @@ class AdminController extends Controller
       $option3 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option3);
       $option3 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option3);
       $option3 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option3);
+      $option3 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public',  url('/'), $option3);
 
       //utk PHP artisan serve
       $option3 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option3);
@@ -467,6 +478,7 @@ class AdminController extends Controller
       $option4 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option4);
       $option4 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option4);
       $option4 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option4);
+      $option4 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public',  url('/'), $option4);
 
       //utk PHP artisan serve
       $option4 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option4);
@@ -474,12 +486,16 @@ class AdminController extends Controller
       $option5 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option5);
       $option5 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option5);
       $option5 = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $option5);
+      $option5 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public', url('/'), $option5);
+
       //utk PHP artisan serve
       $option5 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option5);
 
       $description = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $description);
       $description = str_replace('/bismillahNLC/public/storage', asset('storage'), $description);
       $description = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $description);
+      $description = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public', url('/'), $description);
+
       //utk PHP artisan serve
       $description = str_replace('/laravel-filemanager/app/public', asset('storage'), $description);
 

@@ -132,7 +132,8 @@
 
 	  @yield('script')
 
-		<script type="text/javascript" src='{{asset('js/tinymce/tinymce.min.js')}}'> </script>
+		<script type="text/javascript" src='{{asset('js/tinymce/tinymce.js')}}'> </script>
+		<script type="text/javascript" src='{{asset('js/tinymce/jquery.tinymce.min.js')}}'> </script>
 
 </body>
 

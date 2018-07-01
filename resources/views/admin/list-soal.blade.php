@@ -194,7 +194,7 @@
 				url: '{{route('get.question.details.admin')}}',
 				data: {question_id},
 				success: function(data){
-					if (data.description != null) tinyMCE.get('description').setContent(data.description);
+					tinyMCE.get('description').setContent('');
 					tinyMCE.get('question').setContent(data.question);
 					tinyMCE.get('option_1').setContent(data.option_1);
 					tinyMCE.get('option_2').setContent(data.option_2);
@@ -202,6 +202,12 @@
 					tinyMCE.get('option_4').setContent(data.option_4);
 					tinyMCE.get('option_5').setContent(data.option_5);
 
+					if (data.related == 1) {
+						if (data.description != null) tinyMCE.get('description').setContent(data.description);
+						$("#field_description").css('display', 'block')
+					}else{
+						$("#field_description").css('display', 'none')
+					}
 					$("#related").val(data.related);
 
 					for (var i = 1; i <= 5; i++) {
