@@ -142,15 +142,19 @@
 						"advlist autolink lists link image charmap preview hr anchor pagebreak",
 						"searchreplace wordcount visualblocks visualchars fullscreen",
 						"media nonbreaking save table contextmenu directionality",
-						"paste textcolor imagetools"
+						"paste textcolor imagetools tiny_mce_wiris"
 					],
-					toolbar: "fontselect |  fontsizeselect | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image ",
+					image_dimensions: true,
+					toolbar: "undo redo | bold italic | bullist numlist | image tiny_mce_wiris_formulaEditor",
 					relative_urls: false,
 					file_browser_callback : function(field_name, url, type, win) {
 						var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
 						var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
 
-						var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+						// NOTE:
+						// Kalau tidak pake XAMPP hilangkan bismillahNLC/public/
+						// var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+						var cmsURL = editor_config.path_absolute + 'bismillahNLC/public/laravel-filemanager?field_name=' + field_name;
 						if (type == 'image') {
 							cmsURL = cmsURL + "&type=Images";
 						} else {
@@ -167,8 +171,8 @@
 						});
 					}
 					};
-					tinyMCE.init(editor_config);
 
+			tinyMCE.init(editor_config);
 
 		$("#related").change(function(){
 			if ($(this).val() == "1")
@@ -208,6 +212,9 @@
 
 
 					$(".modal.question").modal('show')
+				},
+				error: function(){
+					alert("Server error")
 				}
 			})
 

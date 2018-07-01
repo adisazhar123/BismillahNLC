@@ -16,7 +16,7 @@ return [
 
     // The url to this package. Change it if necessary.
     'url_prefix' => 'laravel-filemanager',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Multi-User Mode
@@ -43,10 +43,10 @@ return [
 
     // Which folder to store files in project, fill in 'public', 'resources', 'storage' and so on.
     // You should create routes to serve images if it is not set to public.
-    'base_directory' => 'public',
+    'base_directory' => 'storage',
 
-    'images_folder_name' => 'photos_soal',
-    'files_folder_name'  => 'files_soal',
+    'images_folder_name' => 'app/public/photos_soal',
+    'files_folder_name'  => 'app/public/files_soal',
 
     'shared_folder_name' => 'shares',
     'thumb_folder_name'  => 'thumbs',

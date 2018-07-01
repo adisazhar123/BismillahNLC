@@ -64,7 +64,7 @@
             <div class="">
               <div class="form-group">
                 <label for="randomize">Acak Soal</label>
-                <select class="form-control" id="randomize" name="randomize">
+                <select class="form-control" id="randomize" name="randomize" required>
           				<option value='0'>Tidak</option>
           				<option value='1'>Iya</option>
           			</select>
@@ -111,7 +111,7 @@
       $(".row.my_page").addClass("disabled")
       e.preventDefault();
 
-      
+
 
 
     });

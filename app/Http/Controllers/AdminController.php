@@ -119,9 +119,12 @@ class AdminController extends Controller
       $data = array();
       $no = 1;
       $question;
+      $description='';
 
       for ($x=0; $x<count($questions); $x++) {
-        $question = $questions[$x]['question'];
+        if (isset ($questions[$x]['description']) && !empty($questions[$x]['description']))
+          $description = $questions[$x]['description'];
+        $question = $description.$questions[$x]['question'];
         $id_question = $questions[$x]['id_question'];
         $question .= "<ol type='A'>";
           for ($i=1; $i <=5 ; $i++) {
@@ -156,36 +159,342 @@ class AdminController extends Controller
     }
 
     public function addNewQuestion(Request $request){
-      return $request->all();
+
+      // dilakukan str_replace karena Unisharp Laravelfilemanager menyimpan sourcenya menggunakan URL relative, sedangkan
+      // DOMPDF gabisa membacanya jadi tak replace dengan asset()
+
+      //Ini utk ngereplace path math formula Wiris karena DOMPDF gabisa mbaca
+      $data_question = array();
+      $data_option1 = array();
+      $data_option2 = array();
+      $data_option3 = array();
+      $data_option4 = array();
+      $data_option5 = array();
+      $data_description = array();
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->question, $data_question);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_1, $data_option1);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_2, $data_option2);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_3, $data_option3);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_4, $data_option4);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_5, $data_option5);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->description, $data_description);
+
+
+      //Ini utk ndapetin nama file formulanya
+
+
+      // $keep_option1 =  substr_replace($data_option1[0], '/', 2, 0);
+      // $keep_option1 = substr_replace($keep_option1, '/', 5, 0);
+      //
+      // $keep_option2 =  substr_replace($data_option2[0], '/', 2, 0);
+      // $keep_option2 = substr_replace($keep_option2, '/', 5, 0);
+      //
+      // $keep_option3 =  substr_replace($data_option3[0], '/', 2, 0);
+      // $keep_option3 = substr_replace($keep_option3, '/', 5, 0);
+      //
+      // $keep_option4 =  substr_replace($data_option4[0], '/', 2, 0);
+      // $keep_option4 = substr_replace($keep_option4, '/', 5, 0);
+      //
+      // $keep_option5 =  substr_replace($data_option5[0], '/', 2, 0);
+      // $keep_option5 = substr_replace($keep_option5, '/', 5, 0);
+      //
+      // $keep_description =  substr_replace($data_description[0], '/', 2, 0);
+      // $keep_description = substr_replace($keep_description, '/', 5, 0);
+
+      $question = $request->question;
+      $option1 = $request->option_1;
+      $option2 = $request->option_2;
+      $option3 = $request->option_3;
+      $option4 = $request->option_4;
+      $option5 = $request->option_5;
+      $description = $request->description;
+
+      //Filter Math formulas
+      if (isset($data_question[0]) && !empty($data_question[0])){
+        $keep_question =  substr_replace($data_question[0], '/', 2, 0);
+        $keep_question = substr_replace($keep_question, '/', 5, 0);
+
+        //Utk di XAMPP
+        $question = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0], asset('storage/cache/'.$keep_question.'.png'), $request->question);
+        //utk di php artisan serve
+        $question = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0], asset('storage/cache/'.$keep_question.'.png'), $question);
+      }
+      if (isset($data_option1[0]) && !empty($data_option1[0])){
+        $keep_option1 =  substr_replace($data_option1[0], '/', 2, 0);
+        $keep_option1 = substr_replace($keep_option1, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option1 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0], asset('storage/cache/'.$keep_option1.'.png'), $request->option_1);
+        //utk di php artisan serve
+        $option1 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0], asset('storage/cache/'.$keep_option1.'.png'), $option1);
+      }
+
+      if (isset($data_option2[0]) && !empty($data_option2[0])){
+         $keep_option2 =  substr_replace($data_option2[0], '/', 2, 0);
+         $keep_option2 = substr_replace($keep_option2, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option2 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option2[0], asset('storage/cache/'.$keep_option2.'.png'), $request->option_2);
+        //utk di php artisan serve
+        $option2 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option2[0], asset('storage/cache/'.$keep_option2.'.png'), $option2);
+      }
+
+      if (isset($data_option3[0]) && !empty($data_option3[0])){
+        $keep_option3 =  substr_replace($data_option3[0], '/', 2, 0);
+        $keep_option3 = substr_replace($keep_option3, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option3 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option3[0], asset('storage/cache/'.$keep_option3.'.png'), $request->option_3);
+        //utk di php artisan serve
+        $option3 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option3[0], asset('storage/cache/'.$keep_option3.'.png'), $option3);
+      }
+
+      if (isset($data_option4[0]) && !empty($data_option4[0])){
+        $keep_option4 =  substr_replace($data_option4[0], '/', 2, 0);
+        $keep_option4 = substr_replace($keep_option4, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option4 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option4[0], asset('storage/cache/'.$keep_option4.'.png'), $request->option_4);
+        //utk di php artisan serve
+        $option4 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option4[0], asset('storage/cache/'.$keep_option4.'.png'), $option4);
+      }
+
+      if (isset($data_option5[0]) && !empty($data_option5[0])){
+        $keep_option5 =  substr_replace($data_option5[0], '/', 2, 0);
+        $keep_option5 = substr_replace($keep_option5, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option5 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option5[0], asset('storage/cache/'.$keep_option5.'.png'), $request->option_5);
+        //utk di php artisan serve
+        $option5 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option5[0], asset('storage/cache/'.$keep_option5.'.png'), $option5);
+      }
+
+      if (isset($data_description[0]) && !empty($data_description[0])){
+        $keep_description =  substr_replace($data_description[0], '/', 2, 0);
+        $keep_description = substr_replace($keep_description, '/', 5, 0);
+
+        //Utk di XAMPP
+        $description = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_description[0], asset('storage/cache/'.$keep_description.'.png'), $request->description);
+        //utk di php artisan serve
+        $description = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_description[0], asset('storage/cache/'.$keep_description.'.png'), $description);
+      }
+
+
+
+      //Filter image unisharp
+      //utk di XAMPP
+      $question = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $question);
+      //utk PHP artisan serve
+      $question = str_replace('/laravel-filemanager/app/public', asset('storage'), $question);
+
+      $option1 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option1);
+      //utk PHP artisan serve
+      $option1 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option1);
+
+      $option2 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option2);
+      //utk PHP artisan serve
+      $option2 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option2);
+
+      $option3 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option3);
+      //utk PHP artisan serve
+      $option3 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option3);
+
+      $option4 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option4);
+      //utk PHP artisan serve
+      $option4 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option4);
+
+      $option5 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option5);
+      //utk PHP artisan serve
+      $option5 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option5);
+
+      $description = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $description);
+      //utk PHP artisan serve
+      $description = str_replace('/laravel-filemanager/app/public', asset('storage'), $description);
+
       $question = Question::create([
         'id_packet' => $request->id_packet,
-        'option_1' => $request->option_1,
-        'option_2' => $request->option_2,
-        'option_3' => $request->option_3,
-        'option_4' => $request->option_4,
-        'option_5' => $request->option_5,
-        'question' => $request->question,
+        'option_1' => str_replace('/laravel-filemanager/app/public', asset('storage'), $option1),
+        'option_2' => str_replace('/laravel-filemanager/app/public', asset('storage'), $option2),
+        'option_3' => str_replace('/laravel-filemanager/app/public', asset('storage'), $option3),
+        'option_4' => str_replace('/laravel-filemanager/app/public', asset('storage'), $option4),
+        'option_5' => str_replace('/laravel-filemanager/app/public', asset('storage'), $option5),
+        'question' => str_replace('/laravel-filemanager/app/public', asset('storage'), $question),
         'right_ans' => $request->right_ans,
         'related' => $request->related,
-        'description' => $request->description
+        'description' => str_replace('/laravel-filemanager/app/public', asset('storage'), $description)
       ]);
       return "ok";
     }
 
     public function updateQuestion(Request $request){
-      $question = Question::find($request->id_question);
+      $new_question = Question::find($request->id_question);
 
-      $question->description = $request->description;
-      $question->question = $request->question;
-      $question->option_1 = $request->option_1;
-      $question->option_2 = $request->option_2;
-      $question->option_3 = $request->option_3;
-      $question->option_4 = $request->option_4;
-      $question->option_5 = $request->option_5;
-      $question->right_ans = $request->right_ans;
-      $question->related = $request->related;
 
-      if ($question->save())
+      // dilakukan str_replace karena Unisharp Laravelfilemanager menyimpan sourcenya menggunakan URL relative, sedangkan
+      // DOMPDF gabisa membacanya jadi tak replace dengan asset()
+
+      //Ini utk ngereplace path math formula Wiris karena DOMPDF gabisa mbaca
+      $data_question = array();
+      $data_option1 = array();
+      $data_option2 = array();
+      $data_option3 = array();
+      $data_option4 = array();
+      $data_option5 = array();
+      $data_description = array();
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->question, $data_question);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_1, $data_option1);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_2, $data_option2);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_3, $data_option3);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_4, $data_option4);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_5, $data_option5);
+      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->description, $data_description);
+
+
+
+      $question = $request->question;
+      $option1 = $request->option_1;
+      $option2 = $request->option_2;
+      $option3 = $request->option_3;
+      $option4 = $request->option_4;
+      $option5 = $request->option_5;
+      $description = $request->description;
+
+
+      //Filter Math formulas
+      if (isset($data_question[0]) && !empty($data_question[0])){
+        $keep_question =  substr_replace($data_question[0], '/', 2, 0);
+        $keep_question = substr_replace($keep_question, '/', 5, 0);
+
+        //Utk di XAMPP
+        $question = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0], asset('storage/cache/'.$keep_question.'.png'), $request->question);
+        //utk di php artisan serve
+        $question = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0], asset('storage/cache/'.$keep_question.'.png'), $question);
+      }
+      if (isset($data_option1[0]) && !empty($data_option1[0])){
+        $keep_option1 =  substr_replace($data_option1[0], '/', 2, 0);
+        $keep_option1 = substr_replace($keep_option1, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option1 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0], asset('storage/cache/'.$keep_option1.'.png'), $request->option_1);
+        //utk di php artisan serve
+        $option1 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0], asset('storage/cache/'.$keep_option1.'.png'), $option1);
+      }
+
+      if (isset($data_option2[0]) && !empty($data_option2[0])){
+         $keep_option2 =  substr_replace($data_option2[0], '/', 2, 0);
+         $keep_option2 = substr_replace($keep_option2, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option2 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option2[0], asset('storage/cache/'.$keep_option2.'.png'), $request->option_2);
+        //utk di php artisan serve
+        $option2 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option2[0], asset('storage/cache/'.$keep_option2.'.png'), $option2);
+      }
+
+      if (isset($data_option3[0]) && !empty($data_option3[0])){
+        $keep_option3 =  substr_replace($data_option3[0], '/', 2, 0);
+        $keep_option3 = substr_replace($keep_option3, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option3 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option3[0], asset('storage/cache/'.$keep_option3.'.png'), $request->option_3);
+        //utk di php artisan serve
+        $option3 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option3[0], asset('storage/cache/'.$keep_option3.'.png'), $option3);
+      }
+
+      if (isset($data_option4[0]) && !empty($data_option4[0])){
+        $keep_option4 =  substr_replace($data_option4[0], '/', 2, 0);
+        $keep_option4 = substr_replace($keep_option4, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option4 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option4[0], asset('storage/cache/'.$keep_option4.'.png'), $request->option_4);
+        //utk di php artisan serve
+        $option4 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option4[0], asset('storage/cache/'.$keep_option4.'.png'), $option4);
+      }
+
+      if (isset($data_option5[0]) && !empty($data_option5[0])){
+        $keep_option5 =  substr_replace($data_option5[0], '/', 2, 0);
+        $keep_option5 = substr_replace($keep_option5, '/', 5, 0);
+
+        //Utk di XAMPP
+        $option5 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option5[0], asset('storage/cache/'.$keep_option5.'.png'), $request->option_5);
+        //utk di php artisan serve
+        $option5 = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option5[0], asset('storage/cache/'.$keep_option5.'.png'), $option5);
+      }
+
+      if (isset($data_description[0]) && !empty($data_description[0])){
+        $keep_description =  substr_replace($data_description[0], '/', 2, 0);
+        $keep_description = substr_replace($keep_description, '/', 5, 0);
+
+        //Utk di XAMPP
+        $description = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_description[0], asset('storage/cache/'.$keep_description.'.png'), $request->description);
+        //utk di php artisan serve
+        $description = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_description[0], asset('storage/cache/'.$keep_description.'.png'), $description);
+      }
+
+
+
+
+      //Filter image unisharp
+      //utk di XAMPP
+      $question = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $question);
+      $question = str_replace('/bismillahNLC/public/storage', asset('storage'), $question);
+      $question = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $question);
+
+      //utk PHP artisan serve
+      $question = str_replace('/laravel-filemanager/app/public', asset('storage'), $question);
+
+
+      $option1 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option1);
+      $option1 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option1);
+      $option1 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option1);
+
+      //utk PHP artisan serve
+      $option1 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option1);
+
+      $option2 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option2);
+      $option2 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option2);
+      $option2 = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $option2);
+
+      //utk PHP artisan serve
+      $option2 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option2);
+
+      $option3 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option3);
+      $option3 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option3);
+      $option3 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option3);
+
+      //utk PHP artisan serve
+      $option3 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option3);
+
+      $option4 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option4);
+      $option4 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option4);
+      $option4 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option4);
+
+      //utk PHP artisan serve
+      $option4 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option4);
+
+      $option5 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option5);
+      $option5 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option5);
+      $option5 = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $option5);
+      //utk PHP artisan serve
+      $option5 = str_replace('/laravel-filemanager/app/public', asset('storage'), $option5);
+
+      $description = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $description);
+      $description = str_replace('/bismillahNLC/public/storage', asset('storage'), $description);
+      $description = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $description);
+      //utk PHP artisan serve
+      $description = str_replace('/laravel-filemanager/app/public', asset('storage'), $description);
+
+
+      $new_question->description = $description;
+      $new_question->question = $question;
+      $new_question->option_1 = $option1;
+      $new_question->option_2 = $option2;
+      $new_question->option_3 = $option3;
+      $new_question->option_4 = $option4;
+      $new_question->option_5 = $option5;
+      $new_question->right_ans = $request->right_ans;
+      $new_question->related = $request->related;
+
+      if ($new_question->save())
         return "ok";
       return "fail";
 
