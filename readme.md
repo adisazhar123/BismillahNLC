@@ -1,4 +1,4 @@
-##Cara setup
+## Cara setup
 1. Run **composer install**
 2. Run **php artisan key:generate**
 3. Pada file **default-configuration.ini** di path **BismillahNLC\public\js\tinymce\plugins\tiny_mce_wiris\integration\lib\**
