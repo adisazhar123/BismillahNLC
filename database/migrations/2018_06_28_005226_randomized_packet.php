@@ -13,12 +13,13 @@ class RandomizedPacket extends Migration
      */
     public function up()
     {
-      Schema::create('randomized_packet', function (Blueprint $table) {
+      Schema::create('generated_packet', function (Blueprint $table) {
         $table->increments('id');
         $table->integer('id_packet');
         $table->text('packet_type');
-        $table->text('randomized_questions');
+        $table->text('questions_order');
         $table->text('packet_file_directory');
+        $table->integer('shuffle');
       });
     }
 

@@ -122,6 +122,9 @@
 @endsection
 
 @section('script')
+
+	<script type="text/javascript" src='{{asset('js/tinymce/tinymce.js')}}'> </script>
+	<script type="text/javascript" src='{{asset('js/tinymce/jquery.tinymce.min.js')}}'> </script>
 	<script type="text/javascript">
 		$(document).ready( function () {
 			var action, url, method;
@@ -130,6 +133,7 @@
 
 			table1 = $('#table_id').DataTable({
 			responsive: true,
+			stateSave: true,
 			ajax: "{{route('get.questions.admin', $id_packet)}}"
 		});
 
@@ -144,8 +148,9 @@
 						"media nonbreaking save table contextmenu directionality",
 						"paste textcolor imagetools tiny_mce_wiris"
 					],
+					paste_data_images: true,
 					image_dimensions: true,
-					toolbar: "undo redo | bold italic | bullist numlist | image tiny_mce_wiris_formulaEditor",
+					toolbar: "undo redo | bold italic | bullist numlist | image tiny_mce_wiris_formulaEditor paste",
 					relative_urls: false,
 					file_browser_callback : function(field_name, url, type, win) {
 						var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
@@ -262,7 +267,7 @@
 						else
 							alertify.error('Pembaharuan soal gagal!');
 					}
-					table1.ajax.reload()
+					table1.ajax.reload(null, false)
 					$(".modal.question").modal('hide');
 				},
 				error: function(){
@@ -288,7 +293,7 @@
 						alertify.success('Penghapusan soal berhasil!');
 					else
 						alertify.error('Penghapusan soal gagal!');
-					table1.ajax.reload()
+					table1.ajax.reload(null, false)
 				},
 				error: function(){
 					alertify.error('Server error!');

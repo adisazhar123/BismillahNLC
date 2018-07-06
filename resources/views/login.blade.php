@@ -577,8 +577,6 @@
 								</div>
 								@endif
 							</div>
-
-
 							<button type="submit" class="lowin-btn login-btn" id="login_btn">
 								Masuk
 						</button>

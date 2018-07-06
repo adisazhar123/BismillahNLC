@@ -11,4 +11,7 @@
 			<li><a href="{{route('list.pdf.page.admin')}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Generate PDF</a></li>
 		</ul>
 	</li>
+	<li id="menu-score">
+		<a href="{{route('scoreboard.page.admin')}}"><i class="fa fa-list-ol" aria-hidden="true"></i>Daftar Skor </a>
+	</li>
 </ul>

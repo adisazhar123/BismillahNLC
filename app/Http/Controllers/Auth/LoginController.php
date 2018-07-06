@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 use Auth;
+use Session;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -45,7 +46,8 @@ class LoginController extends Controller
 
     protected function authenticated(\Illuminate\Http\Request $request, $user){
       if(Auth::check()){
-        if (Auth::user()->role == 2){
+        User::find(Auth::id())->update(['session_token' => Session::getId()]);
+        if (Auth::user()->role == 3){
           return redirect()->route('peserta.home');
         }else{
           return "Admin";
@@ -53,11 +55,11 @@ class LoginController extends Controller
       }
     }
 
-    public function logout(Request $request){
-      $user = User::find(Auth::user()->id);
-      $user->is_online=0;
-      $user->save();
-      Auth::logout();
-      return redirect('/');
-    }
+    // public function logout(Request $request){
+    //   // $user = User::find(Auth::user()->id);
+    //   // $user->is_online=0;
+    //   // $user->save();
+    //   // Auth::logout();
+    //   // return redirect('/');
+    // }
 }

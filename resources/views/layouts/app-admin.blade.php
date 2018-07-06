@@ -128,12 +128,7 @@
 
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
 
-
-
-	  @yield('script')
-
-		<script type="text/javascript" src='{{asset('js/tinymce/tinymce.js')}}'> </script>
-		<script type="text/javascript" src='{{asset('js/tinymce/jquery.tinymce.min.js')}}'> </script>
+		@yield('script')
 
 </body>
 

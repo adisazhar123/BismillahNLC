@@ -7,7 +7,8 @@ use App\Team;
 use App\Packet;
 use App\Question;
 use App\User;
-
+use App\GeneratedPacket;
+use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
     //halaman index
@@ -119,6 +120,8 @@ class AdminController extends Controller
       $data = array();
       $no = 1;
       $question;
+      $ans;
+
 
       for ($x=0; $x<count($questions); $x++) {
         $description='';
@@ -126,12 +129,21 @@ class AdminController extends Controller
           $description = $questions[$x]['description'];
         $question = $description.$questions[$x]['question'];
         $id_question = $questions[$x]['id_question'];
-        $question .= "<ol type='A'>";
+        //$question .= "<ol type='A'>";
+
+        $ans = "<ol type='A'>";
+        $ans = str_replace('</p>', '', str_replace('<p>', '', $ans));
+        $question .= $ans;
+
           for ($i=1; $i <=5 ; $i++) {
             if ($i == $questions[$x]['right_ans']) {
-              $question .= "<strong><li>".$questions[$x]['option_'.$i]."</li></strong>";
+              $ans = "<strong><li>".$questions[$x]['option_'.$i]."</li></strong>";
+              $ans = str_replace('</p>', '', str_replace('<p>', '', $ans));
+              $question .= $ans;
             }else{
-              $question .= "<li>".$questions[$x]['option_'.$i]."</li>";
+              $ans = "<li>".$questions[$x]['option_'.$i]."</li>";
+              $ans = str_replace('</p>', '', str_replace('<p>', '', $ans));
+              $question .= $ans;
             }
           }
 
@@ -555,7 +567,6 @@ class AdminController extends Controller
       // $user->password = bcrypt($request->team_password);
 
       return response()->json([$user, $team]);
-
     }
 
     public function updateTeam(Request $request){
@@ -582,5 +593,25 @@ class AdminController extends Controller
     public function getPacketsforPdf(){
       $packets = Packet::whereHas('questions')->get();
       return response()->json(['data'=>$packets]);
+    }
+
+    public function scoreBoardPage(){
+      return view('admin.daftar-skor');
+    }
+
+    public function listPdf($id){
+      $pdfs = GeneratedPacket::where('id_packet', $id)->paginate(12);
+      return view('admin.list-pdf')->with('pdfs', $pdfs);
+    }
+
+    public function deletePdf(Request $request){
+      $pdf = GeneratedPacket::find($request->id);
+      $pdf->delete();
+      return redirect()->back()->with('status', 'Penghapusan PDF berhasil!');
+    }
+
+    public function viewPdf($id){
+      $pdf = GeneratedPacket::find($id);
+      return response()->file(storage_path()."/app/".$pdf->packet_file_directory);
     }
 }

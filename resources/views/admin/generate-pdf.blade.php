@@ -8,6 +8,11 @@
   #loading{
     margin-top: -100px;
   }
+
+  table .btn{
+    margin-right: 3px;
+    margin-bottom: 3px;
+  }
 </style>
 @endsection
 
@@ -15,6 +20,16 @@
   <br>
   <div class="row my_page">
   	<div class="col-lg-12">
+      <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">Cara penggunaan</h4>
+        <ul>
+          <li>Untuk membuat PDF silahkan klik <i>generate</i>. Lalu pilih kebutuhan selanjutnya. Pembuatan PDF <strong>maksimal 10</strong> per
+            <i>generate</i>.</li>
+          <li>Untuk melihat kumpulan PDF per paket, klik <i>view</i>.</li>
+        </ul>
+        <hr>
+        <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
+      </div>
   		<div class="card">
   			<div class="card-header">
   				<h4>Generate PDF paket soal</h4>
@@ -89,12 +104,13 @@
   $(document).ready(function(){
     table1 = $('#table_id').DataTable({
     responsive: true,
+    stateSave: true,
     ajax: "{{route('get.packets.for.pdf.admin')}}",
     columns:[
         {data: "id_packet"},
         {data: "name"},
         {render: function(data, type, row){
-          return "<button class='btn btn-info' id=generate packet-id="+row.id_packet+">Generate</button>";
+          return "<button class='btn btn-primary' id=generate packet-id="+row.id_packet+">Generate</button><a class='btn btn-info' href='{{url('admin/list-pdf')}}/"+row.id_packet+"'>Info</a>";
         }
       }
     ]

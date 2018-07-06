@@ -82,6 +82,7 @@
 			var method, action, url;
 			table1 = $('#table_id').DataTable({
 			responsive: true,
+			stateSave: true,
 			ajax: "{{route('get.teams.admin')}}",
 			columns:[
 					{data: "id_team"},
@@ -148,7 +149,7 @@
 						else
 							alertify.error('Tim gagal diperbaruhi!');
 					}
-					table1.ajax.reload();
+					table1.ajax.reload(null, false);
 					$(".modal.team").modal('hide')
 
 				},

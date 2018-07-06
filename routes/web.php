@@ -14,16 +14,23 @@
 
 Auth::routes();
 //Role: Peserta
+// TODO:
+//Ditambahin middleware peserta_only dan single_session
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'PesertaController@showLogin')->name('login.home');
-Route::get('/ujian', 'PesertaController@showExam')->name('team.exam');
-Route::get('/petunjuk-ujian', 'PesertaController@showPetunjuk')->name('peserta.petunjuk');
-Route::get('/peserta/home', 'PesertaController@home')->name('peserta.home');
-Route::get('/peserta/welcome-screen', 'PesertaController@showWelcome')->name('peserta.welcome');
-/*Will change to method PUT once connected to DB*/
-Route::post('/peserta/submit-answer', 'PesertaController@submitAns')->name('peserta.submit.ans');
-Route::post('/peserta/submit-answer-status', 'PesertaController@submitAnsStat')->name('peserta.submit.ans.stat');
-Route::get('/peserta/get-questions', 'PesertaController@getQuestions')->name('peserta.get.questions');
+
+
+Route::middleware(['single_session', 'participant_only'])->group(function(){
+  Route::get('/ujian', 'PesertaController@showExam')->name('team.exam');
+  Route::get('/petunjuk-ujian', 'PesertaController@showPetunjuk')->name('peserta.petunjuk');
+  Route::get('/peserta/home', 'PesertaController@home')->name('peserta.home');
+  Route::get('/peserta/welcome-screen', 'PesertaController@showWelcome')->name('peserta.welcome');
+  Route::put('/peserta/submit-answer', 'PesertaController@submitAns')->name('peserta.submit.ans');
+  Route::put('/peserta/submit-answer-status', 'PesertaController@submitAnsStat')->name('peserta.submit.ans.stat');
+  Route::get('/peserta/get-questions', 'PesertaController@getQuestions')->name('peserta.get.questions');
+  Route::put('/peserta/reset-answer', 'PesertaController@resetAns')->name('peserta.reset.ans');
+  Route::get('/peserta/download-packet', 'PesertaController@downloadPacket')->name('peserta.download.packet');
+});
 
 //---------------------------------------------------------------------//
 
@@ -59,7 +66,11 @@ Route::delete('/admin/delete-question', 'AdminController@deleteQuestion')->name(
 Route::post('/admin/new-team', 'AdminController@newTeam')->name('new.team.admin');
 Route::get('/admin/get-team', 'AdminController@getTeamtoUpdate')->name('get.team.to.update');
 Route::put('/admin/update-team', 'AdminController@updateTeam')->name('update.team.admin');
-Route::get('/admin/list-pdf', 'AdminController@listPdfPage')->name('list.pdf.page.admin');
+Route::get('/admin/generate-pdf', 'AdminController@listPdfPage')->name('list.pdf.page.admin');
 Route::get('/admin/get-packets-for-pdf', 'AdminController@getPacketsforPdf')->name('get.packets.for.pdf.admin');
 Route::get('/pdf', 'PDFController@index');
 Route::post('/admin/generate-packets', 'PDFController@generatePDF')->name('generate.packets.admin');
+Route::get('/admin/scoreboard', 'AdminController@scoreBoardPage')->name('scoreboard.page.admin');
+Route::get('/admin/list-pdf/{id}', 'AdminController@listPdf')->name('list.pdf.admin');
+Route::delete('/admin/delete-pdf', 'AdminController@deletePdf')->name('delete.pdf.admin');
+Route::get('/admin/view-pdf/{id}', 'AdminController@viewPdf')->name('view.pdf.admin');

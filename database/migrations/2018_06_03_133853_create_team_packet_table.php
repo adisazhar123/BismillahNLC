@@ -16,9 +16,11 @@ class CreateTeamPacketTable extends Migration
         Schema::create('team_packet', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_packet');
+            $table->integer('id_generated_packet');
             $table->integer('id_team');
             $table->integer('status')->default(0);
             $table->integer('has_started')->default(0);
+            $table->integer('has_finished')->default(0);
             $table->text('time_remaining')->nullable();
             $table->text('team_ans')->nullable();
             $table->text('ans_stats')->nullable();

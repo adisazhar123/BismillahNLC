@@ -19,10 +19,11 @@
 <div class="alert alert-info" role="alert">
   <h4 class="alert-heading">Cara penggunaan</h4>
   <ul>
-  	<li>Untuk menambahkan paket soal klik 'Tambah Soal'</li>
-		<li>Untuk mengganti pengaturan paket soal klik 'Edit'</li>
-		<li>Jika paket soal memiliki status 'aktif', maka paket tersebut tersedia untuk dikerjakan oleh peserta. Klik 'non-aktifkan' jika paket soal belum siap.</li>
-		<li>Untuk pengaturan soal pada paket, klik 'View'.</li>
+  	<li>Untuk menambahkan paket klik 'Tambah Soal'.</li>
+		<li>Untuk mengganti pengaturan paket klik 'Ubah'.</li>
+		<li>Untuk menghapus paket klik 'Hapus'.</li>
+		<li>Jika paket memiliki status 'aktif', maka paket tersebut tersedia untuk dikerjakan oleh peserta. Klik 'non-aktifkan' jika paket belum siap.</li>
+		<li>Untuk pengaturan soal pada paket, klik 'Info'.</li>
   </ul>
   <hr>
   <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
@@ -90,7 +91,7 @@
 						<input class="form-control" type="number" name="duration" value="" required min="0" id="duration">
 						<small>Dalam satuan menit</small>
 					</div>
-					
+
       </div>
       <div class="modal-footer">
 				<button type="submit" class="btn btn-primary">Submit</button>
@@ -147,6 +148,7 @@
 
 			table1 = $('#table_id').DataTable({
 			responsive: true,
+			stateSave: true,
 			ajax: "{{route('get.packets.admin')}}",
 			columns:[
 					{data: "id_packet"},
@@ -163,9 +165,9 @@
 					},
 					{render: function(data, type, row){
 						if(row.active == 1)
-							return "<button class='btn btn-success' disabled id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Delete</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Edit</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>View</button>";
+							return "<button class='btn btn-success' disabled id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
 						else
-						return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Delete</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Edit</button><button disabled class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>View</button>";
+						return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button disabled class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
 
 					}
 				}
@@ -223,7 +225,7 @@
 					}
 					$('#packet_form')[0].reset();
 					$(".modal.add_packet").modal('hide');
-					table1.ajax.reload()
+					table1.ajax.reload(null, false)
 				},
 				error: function(){
 					alertify.error('Server error!');
@@ -252,7 +254,7 @@
 						alertify.error('Penghapusan paket gagal!');
 
 					}
-					table1.ajax.reload()
+					table1.ajax.reload(null, false)
 
 				},
 				error: function(){
@@ -405,7 +407,7 @@
 						}else{
 							alertify.error('Gagal!');
 						}
-						table1.ajax.reload();
+						table1.ajax.reload(null, false);
 					},
 					error: function(){
 						alertify.error('Server error!');
