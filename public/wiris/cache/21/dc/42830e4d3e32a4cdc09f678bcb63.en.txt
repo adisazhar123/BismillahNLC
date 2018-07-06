@@ -1,0 +1,1 @@
+fraction numerator d f g over denominator d f g end fraction
