@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" href="img/fav.png">
+	<meta name="author" content="CodePixar">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta charset="UTF-8">
+	<title>Selamat Datang | NLC Online 2018</title>
+	<link rel="stylesheet" href="css/linearicons.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/main.css">
+
+
+	<style media="screen">
+		html,
+		body {
+			height: 100%;
+			width: 100%;
+			overflow-x: hidden;
+			background-image: linear-gradient(#282828, #000);
+		}
+
+		.welcome-banner {
+			height: 100%;
+			justify-content: center;
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 140px;
+		}
+
+		#mascot {
+			width: 250px;
+			opacity: 0.8;
+		}
+
+		.login {
+			margin-top: 0px;
+			text-align: center;
+			justify-content: center;
+			opacity: 0.8;
+			pointer-events: auto;
+		}
+
+		.parent-login:hover img,
+		.parent-login:hover .login {
+			animation: shake 5.8s;
+			animation-iteration-count: infinite;
+			opacity: 1 !important;
+			cursor: pointer;
+		}
+
+		.logo img {
+			height: 50px;
+			opacity: 0.8;
+		}
+
+		.logo:hover img {
+			opacity: 1;
+		}
+
+		@keyframes shake {
+			0% {
+				transform: translate(1px, 1px) rotate(0deg);
+			}
+			10% {
+				transform: translate(-1px, -2px) rotate(-1deg);
+			}
+			20% {
+				transform: translate(-3px, 0px) rotate(1deg);
+			}
+			30% {
+				transform: translate(3px, 2px) rotate(0deg);
+			}
+			40% {
+				transform: translate(1px, -1px) rotate(1deg);
+			}
+			50% {
+				transform: translate(-1px, 2px) rotate(-1deg);
+			}
+			60% {
+				transform: translate(-3px, 1px) rotate(0deg);
+			}
+			70% {
+				transform: translate(3px, 1px) rotate(-1deg);
+			}
+			80% {
+				transform: translate(-1px, -1px) rotate(1deg);
+			}
+			90% {
+				transform: translate(1px, 2px) rotate(0deg);
+			}
+			100% {
+				transform: translate(1px, -2px) rotate(-1deg);
+			}
+		}
+
+		@keyframes shake2 {
+			0% {
+				transform: scale(1.2) rotate(0deg);
+			}
+			10% {
+				transform: scale(1.0) rotate(-0.1deg);
+			}
+			20% {
+				transform: scale(1.2) rotate(0.1deg);
+			}
+			30% {
+				transform: scale(1.0) rotate(0deg);
+			}
+			40% {
+				transform: scale(1.2) rotate(0.1deg);
+			}
+			50% {
+				transform: scale(1.0) rotate(-0.1deg);
+			}
+			60% {
+				transform: scale(1.2) rotate(0deg);
+			}
+			70% {
+				transform: scale(1.0) rotate(-0.1deg);
+			}
+			80% {
+				transform: scale(1.2) rotate(0.1deg);
+			}
+			90% {
+				transform: scale(1.0) rotate(0deg);
+			}
+			100% {
+				transform: scale(1.2) rotate(-0.1deg);
+			}
+		}
+
+		.title {
+
+			font-size: 50px;
+			font-weight: bold;
+			background: url(img/bg_nlc.jpg);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+
+		.mesh {
+			background-image: url(img/mesh_schem.png);
+			opacity: 0.3;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: 240px -480px;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 900px;
+			height: 480px;
+			animation: shake2 13s;
+			animation-iteration-count: infinite;
+		}
+
+		header {
+			pointer-events: auto;
+		}
+
+		@media only screen and (max-width: 500px) {
+		    .title{
+		        font-size: 48px;
+		    }
+		}
+
+	</style>
+</head>
+
+<body>
+	<div class="oz-body-wrap">
+		<header class="default-header">
+			<div class="container-fluid">
+				<div class="header-wrap">
+					<div class="header-top d-flex justify-content-between align-items-center">
+						<div class="logo">
+							<a href="index.html"><img src="img/logo_schem.png" alt=""></a>
+						</div>
+						<div class="main-menubar d-flex align-items-center">
+							<nav class="hide">
+								<a href="index.html">Home</a>
+								<a href="generic.html">Generic</a>
+								<a href="elements.html">Elements</a>
+							</nav>
+							<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+	</div>
+
+	<div class="row">
+		<div class="container">
+			<div class="welcome-banner">
+				<h1 class="text-uppercase text-white title">National Logic Competition <br> Online 2018</h1>
+				<div class="parent-login">
+					<img src="img/mascot_nlc.png" alt="asd" id="mascot">
+					<div class="login">
+						<a href="#" class="genric-btn primary circle arrow" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="mesh">
+	</div>
+
+	<script src="js/vendor/jquery-2.2.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+	<script src="js/vendor/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+
+</body>
+
+</html>

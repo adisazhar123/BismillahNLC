@@ -16,12 +16,12 @@
               {{-- melanjutkan ujian yang udh di-assign, mungkin pernaj logout/ close browser --}}
               <p><strong>Anda sudah memulai ujian. Lanjutkan ujian sekarang.<strong></p>
               <button type="button" class="btn btn-nlc show-tes" name="button">Lanjutkan ujian</button>
+            @elseif ($exam == 3)
+              <p>Mohon untuk menunggu sebentar. Ujian belum mulai.</p>
             @else
               {{-- gak ada ujian --}}
               <p>Tidak ada ujian untuk hari ini.</p>
             @endif
-
-
           </div>
         </div>
       </div>

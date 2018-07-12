@@ -102,7 +102,7 @@
 			method = "POST";
 			url = '{{route('new.team.admin')}}';
 			action = "new";
-			$(".modal.title").html("Tambah tim")
+			$(".modal-title").html("Tambah tim")
 			$(".modal.team").modal('show')
 		});
 
@@ -118,7 +118,7 @@
 				url: '{{route('get.team.to.update')}}',
 				data: {id_team},
 				success: function(data){
-					console.log(data[0].password)
+					$(".modal-title").text("Lihat Tim");
 					$("#team_name").val(data[0].name);
 					$("#team_email").val(data[0].email)
 					$("#team_password").val(data[0].password)

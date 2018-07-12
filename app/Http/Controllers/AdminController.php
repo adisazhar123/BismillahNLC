@@ -196,26 +196,6 @@ class AdminController extends Controller
       preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->description, $data_description);
 
 
-      //Ini utk ndapetin nama file formulanya
-
-
-      // $keep_option1 =  substr_replace($data_option1[0], '/', 2, 0);
-      // $keep_option1 = substr_replace($keep_option1, '/', 5, 0);
-      //
-      // $keep_option2 =  substr_replace($data_option2[0], '/', 2, 0);
-      // $keep_option2 = substr_replace($keep_option2, '/', 5, 0);
-      //
-      // $keep_option3 =  substr_replace($data_option3[0], '/', 2, 0);
-      // $keep_option3 = substr_replace($keep_option3, '/', 5, 0);
-      //
-      // $keep_option4 =  substr_replace($data_option4[0], '/', 2, 0);
-      // $keep_option4 = substr_replace($keep_option4, '/', 5, 0);
-      //
-      // $keep_option5 =  substr_replace($data_option5[0], '/', 2, 0);
-      // $keep_option5 = substr_replace($keep_option5, '/', 5, 0);
-      //
-      // $keep_description =  substr_replace($data_description[0], '/', 2, 0);
-      // $keep_description = substr_replace($keep_description, '/', 5, 0);
 
       $question = $request->question;
       $option1 = $request->option_1;
@@ -557,14 +537,6 @@ class AdminController extends Controller
     public function getTeamtoUpdate(Request $request){
       $user = User::find($request->id_team);
       $team = Team::find($request->id_team);
-
-      // $team->id_team = $user->id;
-      // $team->name = $request->team_name;
-      // $team->email = $request->team_email;
-      //
-      // $user->name = $request->team_name;
-      // $user->email = $request->team_email;
-      // $user->password = bcrypt($request->team_password);
 
       return response()->json([$user, $team]);
     }

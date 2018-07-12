@@ -44,13 +44,13 @@ class LoginController extends Controller
       return view('login');
     }
 
-    protected function authenticated(\Illuminate\Http\Request $request, $user){
+    protected function authenticated(Request $request, $user){
       if(Auth::check()){
         User::find(Auth::id())->update(['session_token' => Session::getId()]);
         if (Auth::user()->role == 3){
-          return redirect()->route('peserta.home');
+          return response()->json(['intended_url'=>'/peserta/home']);
         }else{
-          return "Admin";
+          return response()->json(['intended_url'=>'/admin']);
         }
       }
     }

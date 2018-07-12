@@ -5,13 +5,18 @@
   .packet-info{
     color: red;
   }
+
+  .mesh {
+    background-image: url('../img/mesh_schem.png') !important;
+  }
+
+
+
+
 </style>
 @endsection
 
 @section('content')
-  @section('navbar')
-    @include('inc.navbar-peserta')
-  @endsection
   <div class="main-content">
 
   </div>
@@ -26,6 +31,9 @@ $(document).ready(function(){
 
   $(document).on('click', '.show-tes', function(){
     $(".main-content").hide().load('{{route('team.exam')}}', function(response, status, xhr){
+      if (typeof response.intended_url !== 'undefined') {
+        window.location= '{{route('index')}}';
+      }
       if (status != "error") {
         if ($("#deadline").val() != null && $("#time_now")) {
           startTimer();
@@ -36,6 +44,9 @@ $(document).ready(function(){
 
   $(document).on('click', '.show-petunjuk', function(){
     $(".main-content").hide().load('{{route('peserta.petunjuk')}}', function(response, status, xhr){
+      if (typeof response.intended_url !== 'undefined') {
+        window.location= '{{route('index')}}';
+      }
     }).fadeIn(1000);
   });
 
@@ -73,7 +84,9 @@ $(document).on('click',".form-check-input", function(){
     method: 'put',
     data: {value, q_index, id_team_packet},
     success: function(data){
-      console.log(data)
+      if (typeof data.intended_url !== 'undefined') {
+        window.location= '{{route('index')}}';
+      }
     }
   })
 
@@ -95,7 +108,9 @@ $(document).on("click", ".question_no", function(){
       method: 'put',
       data: {q_index, id_team_packet},
       success: function(data){
-        console.log(data)
+        if (typeof data.intended_url !== 'undefined') {
+          window.location= '{{route('index')}}';
+        }
       }
     })
   }
@@ -114,7 +129,9 @@ $(document).on("click", ".fa-refresh", function(){
     method: "PUT",
     data: {q_index, id_team_packet},
     success: function(data){
-      console.log(data)
+      if (typeof data.intended_url !== 'undefined') {
+        window.location= '{{route('index')}}';
+       }
     }
 
   })
@@ -159,6 +176,7 @@ function startTimer(){
       + minutes + ":" + seconds + "";
 
       if (distance < 0) {
+        document.getElementById("clock").innerHTML = "Waktu Habis!";
           clearInterval(x);
           $(".exam-answers").addClass("disabled");
       }

@@ -61,7 +61,7 @@ class PesertaController extends Controller
           echo "Time now ";
           return view('peserta.ujian')->with('answers', explode(",", $team_packet->team_ans))
           ->with('answers_stats', explode(",", $team_packet->ans_stats))->with('ans_index', $ans_label_index)
-          ->with('id_team_packet', $team_packet->id)->with('packet', $team_packet->packet_file_directory)
+          ->with('id_team_packet', $team_packet->id)
           ->with('packet_info', $has_time)->with('time_now', $time_now);
 
           // return "Melanjutkan ujian (1)";
@@ -103,8 +103,10 @@ class PesertaController extends Controller
         //Cek kalo uda memenuhi start_time paket ujian
         if (strtotime($packet['start_time']) <= strtotime($time_now) && strtotime($time_now) <= strtotime($packet['end_time'])) {
           //Mulai ujian bro
-          return "Memulai ujian (2)";
-          //return view
+          $has_time = Packet::find($team_packet->id_packet);
+          return view('peserta.ujian')->with('id_team_packet', $team_packet->id)
+          ->with('packet_info', $has_time)->with('time_now', $time_now)->with('ans_index', $ans_label_index);
+
         }else if (strtotime($time_now) <= strtotime($packet['start_time'])){
           //Tunggu sebentar ya bro. harap bersabar!
           return "Mohon bersabar. Ujian akan mulai pukul... (2)";
@@ -134,7 +136,9 @@ class PesertaController extends Controller
       $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet')->get();
 
       //variable utk nyimpen flag ada ujian gak. 0 = ga ada, 1 = ada, 2 = ada dan udah diassign (peserta pernah close browser atau logout)
+      //3 = udah diassign tapi start_time belum mulai
       $exam=1;
+
 
       if ($packets_today->isEmpty()) {
         //Gak ada ujian hari ini
@@ -150,8 +154,19 @@ class PesertaController extends Controller
         //Utk mencari paket ujian yang udah diassign tapi belum diselesaikan oleh tim pada hari ini
         $team_packet = TeamPacket::whereIn('id_packet', $packets_today_arr)->where('id_team', Auth::user()->id)
                       ->where('has_finished', 0)->first();
-        if ($team_packet)
+
+        //belum dpt assign packet
+        if (!$team_packet) {
+          return view('peserta.welcome-peserta')->with('exam', $exam);
+
+        }
+
+        $assigned_packet = Packet::find($team_packet->id_packet);
+
+        if ($team_packet && strtotime($assigned_packet->start_time) < strtotime($date_today->toTimeString()))
           $exam = 2;
+        else if ($team_packet && strtotime($assigned_packet->start_time) > strtotime($date_today->toTimeString()))
+          $exam = 3;
       }
       return view('peserta.welcome-peserta')->with('exam', $exam);
     }

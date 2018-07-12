@@ -130,54 +130,52 @@
 			var action, url, method;
 			var table1;
 
-
 			table1 = $('#table_id').DataTable({
-			responsive: true,
-			stateSave: true,
-			ajax: "{{route('get.questions.admin', $id_packet)}}"
-		});
+				responsive: true,
+				stateSave: true,
+				ajax: "{{route('get.questions.admin', $id_packet)}}"
+			});
 
+			var editor_config = {
+			path_absolute : "/",
+			selector: "textarea",
+			height: "60",
+			plugins: [
+				"advlist autolink lists link image charmap preview hr anchor pagebreak",
+				"searchreplace wordcount visualblocks visualchars fullscreen",
+				"media nonbreaking save table contextmenu directionality",
+				"paste textcolor imagetools tiny_mce_wiris"
+			],
+			paste_data_images: true,
+			image_dimensions: true,
+			toolbar: "undo redo | bold italic | bullist numlist | image tiny_mce_wiris_formulaEditor paste",
+			relative_urls: false,
+			file_browser_callback : function(field_name, url, type, win) {
+				var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+				var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
 
-					var editor_config = {
-					path_absolute : "/",
-					selector: "textarea",
-					height: "40",
-					plugins: [
-						"advlist autolink lists link image charmap preview hr anchor pagebreak",
-						"searchreplace wordcount visualblocks visualchars fullscreen",
-						"media nonbreaking save table contextmenu directionality",
-						"paste textcolor imagetools tiny_mce_wiris"
-					],
-					paste_data_images: true,
-					image_dimensions: true,
-					toolbar: "undo redo | bold italic | bullist numlist | image tiny_mce_wiris_formulaEditor paste",
-					relative_urls: false,
-					file_browser_callback : function(field_name, url, type, win) {
-						var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-						var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+				// NOTE:
+				// Kalau tidak pake XAMPP hilangkan bismillahNLC/public/
+				var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+				// var cmsURL = editor_config.path_absolute + 'bismillahNLC/public/laravel-filemanager?field_name=' + field_name;
+				if (type == 'image') {
+					cmsURL = cmsURL + "&type=Images";
+				} else {
+					cmsURL = cmsURL + "&type=Files";
+				}
 
-						// NOTE:
-						// Kalau tidak pake XAMPP hilangkan bismillahNLC/public/
-						// var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-						var cmsURL = editor_config.path_absolute + 'bismillahNLC/public/laravel-filemanager?field_name=' + field_name;
-						if (type == 'image') {
-							cmsURL = cmsURL + "&type=Images";
-						} else {
-							cmsURL = cmsURL + "&type=Files";
-						}
+				tinyMCE.activeEditor.windowManager.open({
+					file : cmsURL,
+					title : 'NLC Online 2018',
+					width : x * 0.8,
+					height : y * 0.8,
+					resizable : "yes",
+					close_previous : "no"
+				});
+			}
+		};
 
-						tinyMCE.activeEditor.windowManager.open({
-							file : cmsURL,
-							title : 'NLC Online 2018',
-							width : x * 0.8,
-							height : y * 0.8,
-							resizable : "yes",
-							close_previous : "no"
-						});
-					}
-					};
-
-			tinyMCE.init(editor_config);
+		tinyMCE.init(editor_config);
 
 		$("#related").change(function(){
 			if ($(this).val() == "1")
@@ -221,7 +219,6 @@
 						}
 					}
 
-
 					$(".modal.question").modal('show')
 				},
 				error: function(){
@@ -237,7 +234,6 @@
 			method = "POST";
 			url = '{{route('add.new.question.admin')}}';
 
-
 			tinyMCE.get('question').setContent("");
 			tinyMCE.get('question').setContent("");
 			tinyMCE.get('option_1').setContent("");
@@ -245,8 +241,8 @@
 			tinyMCE.get('option_3').setContent("");
 			tinyMCE.get('option_4').setContent("");
 			tinyMCE.get('option_5').setContent("");
-			$(".modal.question").modal('show')
-		})
+			$(".modal.question").modal('show');
+		});
 
 		$(document).on('submit', 'form', function(e){
 			 tinyMCE.triggerSave();
@@ -273,8 +269,8 @@
 				error: function(){
 					alertify.error('Server error!');
 				}
-			})
-		})
+			});
+		});
 
 		$(document).on('click', '#delete', function(){
 			id_question = $(this).attr('question-id');
@@ -293,7 +289,7 @@
 						alertify.success('Penghapusan soal berhasil!');
 					else
 						alertify.error('Penghapusan soal gagal!');
-					table1.ajax.reload(null, false)
+					table1.ajax.reload(null, false);
 				},
 				error: function(){
 					alertify.error('Server error!');
