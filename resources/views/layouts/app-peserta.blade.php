@@ -11,7 +11,7 @@
 
   	<link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
-
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
   	<link rel="stylesheet" href="{{asset('css/linearicons.css')}}">
   	<link rel="stylesheet" href="{{asset('css/peserta.css')}}">
   	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
@@ -25,6 +25,7 @@
       width: 100%;
       overflow-x: hidden;
       background-image: linear-gradient(#282828, #000);
+      font-family: 'Noto Sans', sans-serif !important;
     }
 
     .mesh {
@@ -117,7 +118,7 @@
           <div class="header-wrap">
             <div class="header-top d-flex justify-content-between align-items-center">
               <div class="logo">
-                <a href="index.html"><img src="{{asset('img/logo_schem.png')}}" alt=""></a>
+                <a href="{{url('/')}}"><img src="{{asset('img/logo_schem.png')}}" alt=""></a>
               </div>
               <div class="main-menubar d-flex align-items-center">
                 <nav class="hide">

@@ -9,16 +9,11 @@
   .mesh {
     background-image: url('../img/mesh_schem.png') !important;
   }
-
-
-
-
 </style>
 @endsection
 
 @section('content')
   <div class="main-content">
-
   </div>
 @endsection
 
@@ -133,9 +128,37 @@ $(document).on("click", ".fa-refresh", function(){
         window.location= '{{route('index')}}';
        }
     }
+  });
+});
 
+$(document).on('click', '#submit_exam', function(){
+  $(".finish_exam").modal('show');
+});
+
+$(document).on('click', '#confirm_finish', function(){
+  var id_team_packet = $("#id_team_packet").val();
+  $.ajax({
+    method: "PUT",
+    data: {id_team_packet},
+    url: '{{route('peserta.submit.exam')}}',
+    success: function(data){
+      if (data == "ok") {
+        $(".finish_exam").modal('hide');
+        alertify.success("Ujian berhasil diselesaikan! Terima kasih sudah berpartisipasi di NLC Online 2018 :)");
+        window.setTimeout(function(){
+          window.location = "{{url('/')}}";
+        }, 2000);
+
+      }else {
+        alertify.error("Gagal menyelesaikan ujian!");
+      }
+    },
+    error: function(){
+
+    }
   })
-})
+});
+
 </script>
 
 <script type="text/javascript">

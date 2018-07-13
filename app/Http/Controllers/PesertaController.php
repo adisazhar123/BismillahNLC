@@ -236,4 +236,13 @@ class PesertaController extends Controller
       $packet_path = TeamPacket::find(Session::get('team_packet_id'))->packet_file_directory;
       return response()->file(storage_path()."/app/".$packet_path);
     }
+
+    public function submitExam(Request $request){
+      $team_packet = TeamPacket::find($request->id_team_packet);
+      $team_packet->has_finished = 1;
+      if ($team_packet->save()) {
+        return "ok";
+      }
+      return "fail";
+    }
 }

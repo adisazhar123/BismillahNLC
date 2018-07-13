@@ -27,6 +27,7 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::get('/peserta/get-questions', 'PesertaController@getQuestions')->name('peserta.get.questions');
   Route::put('/peserta/reset-answer', 'PesertaController@resetAns')->name('peserta.reset.ans');
   Route::get('/peserta/download-packet', 'PesertaController@downloadPacket')->name('peserta.download.packet');
+  Route::put('/peserta/finish-exam', 'PesertaController@submitExam')->name('peserta.submit.exam');
 });
 
 

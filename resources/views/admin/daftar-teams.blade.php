@@ -90,8 +90,7 @@
 					{data: "email"},
 					{render: function(data, type, row){
 						return "<button class='btn btn-info' id=view team-id="+row.id_team+">View</button>";
-					}
-
+						}
 					}
 			]
 		});

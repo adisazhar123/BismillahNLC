@@ -3,14 +3,12 @@
       <div class="card packet-info">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4">
-              <h3>Jumlah pertanyaan yg terjawab: </h3>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
               <h3 id="clock">Sisa Waktu: </h3>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-5">
               <a href="{{route('peserta.download.packet')}}" target="_blank" class="btn btn-primary" type="button" name="button">Unduh Paket Soal</a>
+              <button class='btn btn-success' type="button" name="submit_exam" id="submit_exam">Selesai</button>
             </div>
           </div>
         </div>
@@ -166,7 +164,28 @@
           </div>
         </div>
       @endif
-
-
   </div>
+  <div class="container">
+    <div class="finish_exam modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-warning">
+              <h3><strong>Anda yakin akan menyelesaikan ujian ini? Jika sudah diselesaikan, tidak bisa mengikutinya lagi!<strong></h3>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="confirm_finish">Iya</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
   <br>

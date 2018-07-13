@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use View;
 use Illuminate\Http\Request;
 use App\Team;
 use App\Packet;
 use App\Question;
+use Carbon\Carbon;
 use App\User;
 use App\GeneratedPacket;
 use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
+    protected $server_time;
+
+    public function __construct(){
+      $this->server_time = Carbon::now('Asia/Jakarta')->toDateTimeString();
+      View::share('server_time', $this->server_time);
+    }
+
     //halaman index
     public function index(){
       return view('admin.daftar-teams');

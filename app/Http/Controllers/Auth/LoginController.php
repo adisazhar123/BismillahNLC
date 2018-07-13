@@ -54,12 +54,4 @@ class LoginController extends Controller
         }
       }
     }
-
-    // public function logout(Request $request){
-    //   // $user = User::find(Auth::user()->id);
-    //   // $user->is_online=0;
-    //   // $user->save();
-    //   // Auth::logout();
-    //   // return redirect('/');
-    // }
 }
