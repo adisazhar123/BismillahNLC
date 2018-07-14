@@ -26,9 +26,10 @@
 					<table id="table_id" class="table table-striped table-hover">
 					    <thead>
 					        <tr>
-											<th>#</th>
-					            <th>Soal</th>
-											<th>Action</th>
+											<th>#ID Tim</th>
+					            <th>Nama Tim</th>
+											<th>Nama Paket</th>
+											<th>Skor</th>
 					        </tr>
 					    </thead>
 					    <tbody>
@@ -47,5 +48,23 @@
 @endsection
 
 @section('script')
+<script type="text/javascript">
+	$(document).ready(function(){
 
+		var table1;
+		table1 = $('#table_id').DataTable({
+		responsive: true,
+		stateSave: true,
+		ajax: "{{route('get.team.scores.admin')}}",
+		columns:[
+				{data: "id_team"},
+				{data: "teams.name"},
+				{data: "packets.name"},
+				{data: "final_score"},
+			]
+		});
+
+
+	});
+</script>
 @endsection

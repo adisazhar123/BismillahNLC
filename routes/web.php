@@ -63,6 +63,12 @@ Route::middleware(['admin_only'])->group(function(){
   Route::delete('/admin/delete-pdf', 'AdminController@deletePdf')->name('delete.pdf.admin');
   Route::get('/admin/view-pdf/{id}', 'AdminController@viewPdf')->name('view.pdf.admin');
 });
+// TODO:
+Route::put('/admin/generate-score', 'AdminController@generateScore')->name('generate.score.admin');
+Route::get('/admin/get-team-scores', 'AdminController@getTeamScores')->name('get.team.scores.admin');
+Route::get('/admin/generate-score-page', 'AdminController@generateScorePage')->name('generate.score.page.admin');
+Route::get('/admin/get-packets-to-score', 'AdminController@getPacketstoScore')->name('get.packets.to.score.admin');
+
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     '\UniSharp\LaravelFilemanager\Lfm::routes()';

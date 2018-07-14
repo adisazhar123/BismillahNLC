@@ -2,35 +2,23 @@
 
 @section('style')
 <style media="screen">
-.pdf {
-  background: url('https://www.shareicon.net/data/256x256/2016/08/13/808584_document_512x512.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: right;
-  text-align: center;
-  border-radius: 3px;
-  transition: 200ms ease-in-out;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  background-color: rgba(0,0,0,0);
-  overflow-y: hidden ! important;
-  overflow-x: hidden ! important;
-}
+  .pdf {
+    text-align: center;
+    border-radius: 3px;
+    transition: 200ms ease-in-out;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0);
+    overflow-y: hidden ! important;
+    overflow-x: hidden ! important;
+  }
 
-.pdf:hover {
-	margin-bottom: -10px;
-	box-shadow: 0 0 5px rgba(0,0,0,0.7);
-}
-.pdf h6 {
-	color: black;
-	padding: 32px;
-	margin-top: 210px;
-	text-align: center;
-  margin-bottom: -30px;
-}
+  .pdf:hover {
+  	box-shadow: 0 0 5px rgba(0,0,0,0.7);
+  }
 
-.fa:hover{
-  cursor: pointer;
-}
+  .fa:hover{
+    cursor: pointer;
+  }
 
 </style>
 @endsection
@@ -39,7 +27,18 @@
   <br>
   <div class="row">
     <div class="col-lg-12">
-      @if (!$pdfs->total())
+      @if ($search_empty == 1)
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Keterangan</h4>
+          <ul>
+            <li>
+              Tidak ada <i>generated</i> PDF untuk dengan <i>keyword</i> {{Input::get('keywords')}}.
+            </li>
+          </ul>
+          <hr>
+          <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
+        </div>
+      @elseif (!$pdfs->total())
         <div class="alert alert-danger" role="alert">
           <h4 class="alert-heading">Keterangan</h4>
           <ul>
@@ -65,34 +64,26 @@
         </div>
 
       @endif
-    </div>
 
 
-  </div>
-  <div class="row">
-    @foreach ($pdfs as $pdf)
-      <div class="col-sm-6 col-md-4 col-lg-2">
-        <div class="card pdf">
-          <div class="card-body">
-            <h6>{{$pdf->packet_type}}</h6>
-            <div class="row">
-              <div class="col-6">
-                <a href="{{route('view.pdf.admin', $pdf->id)}}" target="_blank" data-title="Lihat PDF">
-                  <i class="fa fa-download fa-lg download" aria-hidden="true" pdf-id={{$pdf->id}}></i>
-                </a>
-              </div>
-              <div class="col-6">
-                <a href="#" style="color: red">
-                  <i class="fa fa-trash-o fa-lg delete" aria-hidden="true" pdf-id={{$pdf->id}}></i>
-                </a>
-              </div>
-            </div>
+
+      <form action="{{url('/admin/list-pdf', 1)}}" id="search_pdf">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon1" name="keywords">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Search</button>
           </div>
         </div>
-      </div>
-    @endforeach
+      </form>
+
+    </div>
   </div>
-  {{ $pdfs->links('vendor.pagination.bootstrap-4') }}
+
+  @if ($pdfs->total())
+    <section class="pdfs">
+      @include('admin.partial-list-pdf')
+    </section>
+  @endif
 
   <form action="{{route('delete.pdf.admin')}}" method="post">
     <input type="hidden" name="_method" value="DELETE">
@@ -114,6 +105,27 @@
   @if (session('status'))
     alertify.success('{{session('status')}}')
   @endif
+
+  $('body').on('click', '.pagination a', function(e) {
+    e.preventDefault();
+
+    $('#load a').css('color', '#dfecf6');
+    //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+
+    var url = $(this).attr('href');
+    getPdfs(url);
+    window.history.pushState("", "", url);
+  });
+
+  function getPdfs(url) {
+      $.ajax({
+          url : url
+      }).done(function (data) {
+          $('.pdfs').html(data);
+      }).fail(function () {
+          alert('Articles could not be loaded.');
+      });
+  }
 
 
 </script>

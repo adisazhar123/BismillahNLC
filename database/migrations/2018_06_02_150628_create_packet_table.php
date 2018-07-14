@@ -14,11 +14,11 @@ class CreatePacketTable extends Migration
     public function up()
     {
         Schema::create('packet', function (Blueprint $table) {
-            $table->increments('id_packet');
+            $table->integer('id_packet', true);
             $table->text('name', 1024);
             $table->date('active_date');
-            $table->text('start_time', 20);
-            $table->text('end_time', 20);
+            $table->text('start_time', 20)->nullable();
+            $table->text('end_time', 20)->nullable();
             $table->integer('duration');
             $table->integer('active');
         });

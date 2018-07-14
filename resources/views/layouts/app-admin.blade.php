@@ -50,7 +50,7 @@
 								<img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
                 <h2 class="h5">Adis Azhar</h2>
 								<span>Web Master</span><br>
-								<span id="server_time">syncing...</span>
+								<span id="server_time"></span>
                 </div>
                 <div class="sidenav-header-logo">
                   <img class="brand-small" src="{{ asset('img/schematics.png') }}" style="height:unset">

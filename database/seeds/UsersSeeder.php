@@ -21,5 +21,11 @@ class UsersSeeder extends Seeder
            'role' => rand(1,2)
        ]);
     }
+    DB::table('users')->insert([
+         'name' => 'adis',
+         'email' => 'admin@gmail.com',
+         'password' => bcrypt('secret'),
+         'role' => 1
+     ]);
   }
 }

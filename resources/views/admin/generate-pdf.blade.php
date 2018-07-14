@@ -6,7 +6,7 @@
     text-align: center;
   }
   #loading{
-    margin-top: -100px;
+    margin-top: -180px;
   }
 
   table .btn{
@@ -137,6 +137,12 @@
           $(".row.my_page").removeClass("disabled")
           $(".modal.generate_pdf").modal('hide');
           alertify.success("PDF berhasil dibuat")
+        },
+        error: function(){
+          $(".loading_gif").html('')
+          $(".row.my_page").removeClass("disabled")
+
+          alertify.error("Server error!")
         }
       })
     });

@@ -262,6 +262,7 @@
       url: '{{ route('login') }}',
       data: data,
       success: function(data){
+        $(".modal").modal('hide');
         alertify.success("Login berhasil :)");
         window.setTimeout(function(){
           window.location = "{{url('/')}}"+data.intended_url;

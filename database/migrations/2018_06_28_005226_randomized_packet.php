@@ -14,7 +14,7 @@ class RandomizedPacket extends Migration
     public function up()
     {
       Schema::create('generated_packet', function (Blueprint $table) {
-        $table->increments('id');
+        $table->integer('id', true);
         $table->integer('id_packet');
         $table->text('packet_type');
         $table->text('questions_order');

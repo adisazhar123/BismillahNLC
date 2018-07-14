@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use View;
 use Illuminate\Http\Request;
 use App\Team;
+use App\TeamPacket;
 use App\Packet;
 use App\Question;
 use Carbon\Carbon;
 use App\User;
 use App\GeneratedPacket;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
@@ -580,19 +582,111 @@ class AdminController extends Controller
       return view('admin.daftar-skor');
     }
 
-    public function listPdf($id){
-      $pdfs = GeneratedPacket::where('id_packet', $id)->paginate(12);
-      return view('admin.list-pdf')->with('pdfs', $pdfs);
+    public function listPdf(Request $request, $id){
+
+      $search_empty = 0;
+
+      if (!empty($request->keywords)) {
+        $pdfs = GeneratedPacket::where('id_packet', $id)
+                ->where('packet_type', 'like', '%'.$request->keywords.'%')->orderBy('packet_type', 'asc')->paginate(12);
+        if (!$pdfs->total()) {
+          $search_empty = 1;
+        }
+      }
+
+      else $pdfs = GeneratedPacket::where('id_packet', $id)->orderBy('packet_type', 'asc')->paginate(12);
+
+      if ($request->ajax()) {
+        return view('admin.partial-list-pdf', ['pdfs' => $pdfs, 'search_empty'=> $search_empty])->render();
+      }
+
+      return view('admin.list-pdf')->with('pdfs', $pdfs)->with('search_empty', $search_empty);
     }
 
     public function deletePdf(Request $request){
       $pdf = GeneratedPacket::find($request->id);
       $pdf->delete();
+      unlink(storage_path('app/'.$pdf->packet_file_directory));
       return redirect()->back()->with('status', 'Penghapusan PDF berhasil!');
     }
 
     public function viewPdf($id){
       $pdf = GeneratedPacket::find($id);
       return response()->file(storage_path()."/app/".$pdf->packet_file_directory);
+    }
+
+    public function generateScore(Request $request){
+      $team_packets = TeamPacket::where('id_packet', $request->id_packet)
+                      ->where('final_score', null)->limit(10)->get();
+
+      foreach ($team_packets as $tp) {
+        $generated_packet = GeneratedPacket::find($tp->id_generated_packet);
+
+        $team_ans = explode(',', $tp->team_ans);
+        $questions_order = explode(',', $generated_packet->questions_order);
+
+        $final_score = 0;
+
+        for ($i=0; $i < 90 ; $i++) {
+          $q = Question::find($questions_order[$i]);
+          if ($q->right_ans == $team_ans[$i]) {
+            $final_score+=4;
+          }elseif ($team_ans[$i] == 0){
+
+          }else {
+            $final_score-=1;
+          }
+        }
+
+        $final_team_packet = TeamPacket::find($tp->id);
+        $final_team_packet->final_score = $final_score;
+        $final_team_packet->save();
+      }
+
+      return "ok";
+    }
+
+    public function getTeamScores(){
+      $team_scores = TeamPacket::with(['teams', 'packets'])->where('final_score', '!=', null)->get();
+      return response()->json(['data'=>$team_scores]);
+    }
+
+    public function generateScorePage(){
+      return view('admin.generate-skor');
+    }
+
+    public function getPacketstoScore(){
+      $packet_info = DB::table('packet')->select(DB::raw('count(team_packet.id) as number_of_scored_teams, packet.name, packet.id_packet'))
+                  ->groupBy('id_packet')
+                  ->orderBy('id_packet', 'asc')
+                  ->where('final_score', '!=', null)
+                  ->rightJoin('team_packet', 'packet.id_packet','=','team_packet.id_packet')
+                  ->get();
+
+      $no_of_teams_per_packet = DB::table('packet')->select(DB::raw('count(team_packet.id) as total_teams_per_packet, packet.name, packet.id_packet'))
+                  ->groupBy('id_packet')
+                  ->orderBy('id_packet', 'asc')
+                  ->join('team_packet', 'packet.id_packet','=','team_packet.id_packet')
+                  ->get();
+
+      $data = array();
+      $row = array();
+
+      $idx = 0;
+
+      foreach ($no_of_teams_per_packet as $n) {
+        $row['total_teams_per_packet'] = $n->total_teams_per_packet;
+        $row['packet_name'] = $n->name;
+        $row['id_packet'] = $n->id_packet;
+        if (isset($packet_info[$idx])) {
+          $row['number_of_scored_teams'] = $packet_info[$idx]->number_of_scored_teams;
+        }else {
+          $row['number_of_scored_teams'] = 0;
+        }
+        $idx++;
+        $data[] = $row;
+      }
+
+      return response()->json(['data'=>$data]);
     }
 }

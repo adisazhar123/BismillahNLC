@@ -9,6 +9,8 @@
   .mesh {
     background-image: url('../img/mesh_schem.png') !important;
   }
+
+
 </style>
 @endsection
 

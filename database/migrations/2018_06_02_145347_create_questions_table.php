@@ -13,8 +13,8 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
-            $table->increments('id_question');
+        Schema::create('question', function (Blueprint $table) {
+            $table->integer('id_question', true);
             $table->integer('id_packet');
             $table->longText('question');
             $table->longText('option_1', 10);

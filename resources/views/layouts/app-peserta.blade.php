@@ -77,10 +77,6 @@
         transform: scale(1.3);
       }
 
-      .form-check-label{
-        margin-left: -6px;
-      }
-
       .question_no{
         margin-right: 5px;
         text-align: center;
