@@ -9,4 +9,11 @@ class TeamPacket extends Model
   protected $table = 'team_packet';
   protected $primaryKey = 'id';
   public $timestamps = false;
+
+  public function packets(){
+    return $this->belongsTo('App\Packet', 'id_packet', 'id_packet');
+  }
+  public function teams(){
+    return $this->belongsTo('App\Team', 'id_team', 'id_team');
+  }
 }

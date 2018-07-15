@@ -3,14 +3,12 @@
       <div class="card packet-info">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4">
-              <h3>Jumlah pertanyaan yg terjawab: </h3>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
               <h3 id="clock">Sisa Waktu: </h3>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-5">
               <a href="{{route('peserta.download.packet')}}" target="_blank" class="btn btn-primary" type="button" name="button">Unduh Paket Soal</a>
+              <button class='btn btn-success' type="button" name="submit_exam" id="submit_exam">Selesai</button>
             </div>
           </div>
         </div>
@@ -29,11 +27,11 @@
                 @for ($i=1; $i <= 30; $i++)
                   <div class="row q_no_{{$i}}">
                     @if ($answers_stats[$i-1] == 'green')
-                      <h5 class="question_no" id="q_no_{{$i}}" style="background-color: #98fb98"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}" style="background-color: #98fb98"><strong>{{$i}} </strong></h6>
                     @elseif($answers_stats[$i-1] == 'orange')
-                      <h5 class="question_no" id="q_no_{{$i}}" style="background-color: #ffc966"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}" style="background-color: #ffc966"><strong>{{$i}} </strong></h6>
                     @else
-                      <h5 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
                     @endif
                     @for ($j=1; $j<=5; $j++)
                       <div class="form-check">
@@ -56,11 +54,11 @@
                 @for ($i=31; $i <= 60; $i++)
                   <div class="row q_no_{{$i}}">
                     @if ($answers_stats[$i-1] == 'green')
-                      <h5 class="question_no" id="q_no_{{$i}}" style="background-color: #98fb98"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}" style="background-color: #98fb98"><strong>{{$i}} </strong></h6>
                     @elseif($answers_stats[$i-1] == 'orange')
-                      <h5 class="question_no" id="q_no_{{$i}}" style="background-color: #ffc966"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}" style="background-color: #ffc966"><strong>{{$i}} </strong></h6>
                     @else
-                      <h5 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
                     @endif
                     @for ($j=1; $j<=5; $j++)
                       <div class="form-check">
@@ -83,11 +81,11 @@
                 @for ($i=61; $i <= 90; $i++)
                   <div class="row q_no_{{$i}}">
                     @if ($answers_stats[$i-1] == 'green')
-                      <h5 class="question_no" id="q_no_{{$i}}" style="background-color: #98fb98"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}" style="background-color: #98fb98"><strong>{{$i}} </strong></h6>
                     @elseif($answers_stats[$i-1] == 'orange')
-                      <h5 class="question_no" id="q_no_{{$i}}" style="background-color: #ffc966"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}" style="background-color: #ffc966"><strong>{{$i}} </strong></h6>
                     @else
-                      <h5 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h5>
+                      <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
                     @endif
                     @for ($j=1; $j<=5; $j++)
                       <div class="form-check">
@@ -117,39 +115,15 @@
               <div class="col-md-4">
                 @for ($i=1; $i <= 30; $i++)
                   <div class="row q_no_{{$i}}">
-                    <h5 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h5>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadios{{$i.'1'}}" value="1">
-                      <label class="form-check-label" for="exampleRadios{{$i.'1'}}">
-                        A
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadios{{$i.'2'}}" value="2">
-                      <label class="form-check-label" for="exampleRadios{{$i.'2'}}">
-                        B
-                      </label>
-                    </div>
-
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadios{{$i.'3'}}" value="3">
-                      <label class="form-check-label" for="exampleRadios{{$i.'3'}}">
-                        C
-                      </label>
-                    </div>
-
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadios{{$i.'4'}}" value="4">
-                      <label class="form-check-label" for="exampleRadios{{$i.'4'}}">
-                        D
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadios{{$i.'5'}}" value="5">
-                      <label class="form-check-label" for="exampleRadios{{$i.'5'}}">
-                        E
-                      </label>
-                    </div>
+                    <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
+                    @for ($j=1; $j<=5; $j++)
+                      <div class="form-check">
+                          <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadios{{$i.$j}}" value="{{$j}}">
+                        <label class="form-check-label" for="exampleRadios{{$i.$j}}">
+                          {{$ans_index[$j-1]}}
+                        </label>
+                      </div>
+                    @endfor
                     <i name="no_{{$i}}" class="fa fa-refresh" aria-hidden="true" class="reset" data-toggle="tooltip" data-placement="top" title="Reset jawaban"></i>
                   </div>
                 @endfor
@@ -157,39 +131,15 @@
               <div class="col-md-4">
                 @for ($i=31; $i <= 60; $i++)
                   <div class="row q_no_{{$i}}">
-                    <h5 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h5>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiosa{{$i}}" value="A">
-                      <label class="form-check-label" for="exampleRadiosa{{$i}}">
-                        A
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiosb{{$i}}" value="B">
-                      <label class="form-check-label" for="exampleRadiosb{{$i}}">
-                        B
-                      </label>
-                    </div>
-
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiosc{{$i}}" value="C">
-                      <label class="form-check-label" for="exampleRadiosc{{$i}}">
-                        C
-                      </label>
-                    </div>
-
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiosd{{$i}}" value="D">
-                      <label class="form-check-label" for="exampleRadiosd{{$i}}">
-                        D
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiose{{$i}}" value="E">
-                      <label class="form-check-label" for="exampleRadiose{{$i}}">
-                        E
-                      </label>
-                    </div>
+                    <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
+                    @for ($j=1; $j<=5; $j++)
+                      <div class="form-check">
+                          <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadios{{$i.$j}}" value="{{$j}}">
+                        <label class="form-check-label" for="exampleRadios{{$i.$j}}">
+                          {{$ans_index[$j-1]}}
+                        </label>
+                      </div>
+                    @endfor
                     <i name="no_{{$i}}" class="fa fa-refresh" aria-hidden="true" class="reset" data-toggle="tooltip" data-placement="top" title="Reset jawaban"></i>
                   </div>
                 @endfor
@@ -197,39 +147,15 @@
               <div class="col-md-4">
                 @for ($i=61; $i <= 90; $i++)
                   <div class="row q_no_{{$i}}">
-                    <h5 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h5>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiosa{{$i}}" value="A">
-                      <label class="form-check-label" for="exampleRadiosa{{$i}}">
-                        A
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiosb{{$i}}" value="B">
-                      <label class="form-check-label" for="exampleRadiosb{{$i}}">
-                        B
-                      </label>
-                    </div>
-
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiosc{{$i}}" value="C">
-                      <label class="form-check-label" for="exampleRadiosc{{$i}}">
-                        C
-                      </label>
-                    </div>
-
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiosd{{$i}}" value="D">
-                      <label class="form-check-label" for="exampleRadiosd{{$i}}">
-                        D
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadiose{{$i}}" value="E">
-                      <label class="form-check-label" for="exampleRadiose{{$i}}">
-                        E
-                      </label>
-                    </div>
+                    <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
+                    @for ($j=1; $j<=5; $j++)
+                      <div class="form-check">
+                          <input class="form-check-input" type="radio" name="no_{{$i}}" id="exampleRadios{{$i.$j}}" value="{{$j}}">
+                        <label class="form-check-label" for="exampleRadios{{$i.$j}}">
+                          {{$ans_index[$j-1]}}
+                        </label>
+                      </div>
+                    @endfor
                     <i name="no_{{$i}}" class="fa fa-refresh" aria-hidden="true" class="reset" data-toggle="tooltip" data-placement="top" title="Reset jawaban"></i>
                   </div>
                 @endfor
@@ -238,7 +164,28 @@
           </div>
         </div>
       @endif
-
-
   </div>
+  <div class="container">
+    <div class="finish_exam modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-warning">
+              <h3><strong>Anda yakin akan menyelesaikan ujian ini? Jika sudah diselesaikan, tidak bisa mengikutinya lagi!<strong></h3>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="confirm_finish">Iya</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
   <br>

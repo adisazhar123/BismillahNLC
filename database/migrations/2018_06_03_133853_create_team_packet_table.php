@@ -14,7 +14,7 @@ class CreateTeamPacketTable extends Migration
     public function up()
     {
         Schema::create('team_packet', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('id', true);
             $table->integer('id_packet');
             $table->integer('id_generated_packet');
             $table->integer('id_team');

@@ -1,44 +1,32 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-	<!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>NLC Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="all,follow">
-    <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
-    <!-- Font Awesome CSS-->
-    <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
-    <!-- Fontastic Custom icon font-->
-    <link rel="stylesheet" href="{{asset('css/fontastic.css')}}">
-    <!-- Google fonts - Roboto -->
-    <link rel="stylesheet" href="{{asset('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700')}}">
-    <!-- jQuery Circle-->
-    <link rel="stylesheet" href="{{asset('css/grasp_mobile_progress_circle-1.0.0.min.css')}}">
-    <!-- Custom Scrollbar-->
-    <link rel="stylesheet" href="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
-    <!-- theme stylesheet-->
-    <link rel="stylesheet" href="{{asset('css/style.default.css')}}" id="theme-stylesheet">
-    <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="{{asset('css/custom.css')}}">
-    <!-- Favicon-->
-	   <link rel="icon" href="{{ asset('img/logo.png') }}">
-
-     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
-		 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.dataTables.min.css">
-
-		 <!-- CSS -->
-		 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
-		 <!-- Default theme -->
-		 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>NLC Admin</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="all,follow">
+	<link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
+	<link rel="stylesheet" href="{{asset('css/fontastic.css')}}">
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+	<link rel="stylesheet" href="{{asset('css/grasp_mobile_progress_circle-1.0.0.min.css')}}">
+	<link rel="stylesheet" href="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
+	<link rel="stylesheet" href="{{asset('css/style.default.css')}}" id="theme-stylesheet">
+	<link rel="stylesheet" href="{{asset('css/custom.css')}}">
+	<link rel="icon" href="{{ asset('img/logo.png') }}">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.dataTables.min.css">
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
 
      @yield('style')
 
 		 <style media="screen">
+		 	body {
+			  font-family: 'Noto Sans', sans-serif !important;
+			}
 		 	.ans-list{
   			list-style-type: none;
 			}
@@ -59,12 +47,13 @@
         <div class="side-navbar-wrapper">
             <div class="sidenav-header d-flex align-items-center justify-content-center">
                 <div class="sidenav-header-inner text-center">
-					<img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
-                    <h2 class="h5">Adis Azhar</h2>
-					<span>Web Master</span>
+								<img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
+                <h2 class="h5">Adis Azhar</h2>
+								<span>Web Master</span><br>
+								<span id="server_time"></span>
                 </div>
                 <div class="sidenav-header-logo">
-                    <img class="brand-small" src="{{ asset('img/schematics.png') }}" style="height:unset">
+                  <img class="brand-small" src="{{ asset('img/schematics.png') }}" style="height:unset">
                 </div>
             </div>
             <div class="main-menu">
@@ -72,8 +61,8 @@
             </div>
         </div>
     </nav>
+
     <div class="page">
-        <!-- navbar-->
         <header class="header">
             <nav class="navbar">
                 <div class="container-fluid">
@@ -129,6 +118,32 @@
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
 
 		@yield('script')
+
+		<script type="text/javascript">
+		var time = new Date('{{$server_time}}');
+
+
+		time3 = time.getTime();
+
+		function clock() {
+			time3 = new Date(time3);
+
+			var hours = time3.getHours(),
+			minutes = time3.getMinutes(),
+			seconds = time3.getSeconds();
+
+			$("#server_time").text(countTime(hours) + ":" + countTime(minutes) + ":" + countTime(seconds));
+			time3 = time3.getTime() + 1000;
+
+			function countTime(now) {
+				if (now < 10) {
+					now = '0' + now;
+				}
+				return now;
+			}
+		}
+			setInterval(clock, 1000);
+		</script>
 
 </body>
 

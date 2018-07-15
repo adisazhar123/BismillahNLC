@@ -5,15 +5,17 @@
   .packet-info{
     color: red;
   }
+
+  .mesh {
+    background-image: url('../img/mesh_schem.png') !important;
+  }
+
+
 </style>
 @endsection
 
 @section('content')
-  @section('navbar')
-    @include('inc.navbar-peserta')
-  @endsection
   <div class="main-content">
-
   </div>
 @endsection
 
@@ -26,6 +28,9 @@ $(document).ready(function(){
 
   $(document).on('click', '.show-tes', function(){
     $(".main-content").hide().load('{{route('team.exam')}}', function(response, status, xhr){
+      if (typeof response.intended_url !== 'undefined') {
+        window.location= '{{route('index')}}';
+      }
       if (status != "error") {
         if ($("#deadline").val() != null && $("#time_now")) {
           startTimer();
@@ -36,6 +41,9 @@ $(document).ready(function(){
 
   $(document).on('click', '.show-petunjuk', function(){
     $(".main-content").hide().load('{{route('peserta.petunjuk')}}', function(response, status, xhr){
+      if (typeof response.intended_url !== 'undefined') {
+        window.location= '{{route('index')}}';
+      }
     }).fadeIn(1000);
   });
 
@@ -73,7 +81,9 @@ $(document).on('click',".form-check-input", function(){
     method: 'put',
     data: {value, q_index, id_team_packet},
     success: function(data){
-      console.log(data)
+      if (typeof data.intended_url !== 'undefined') {
+        window.location= '{{route('index')}}';
+      }
     }
   })
 
@@ -95,7 +105,9 @@ $(document).on("click", ".question_no", function(){
       method: 'put',
       data: {q_index, id_team_packet},
       success: function(data){
-        console.log(data)
+        if (typeof data.intended_url !== 'undefined') {
+          window.location= '{{route('index')}}';
+        }
       }
     })
   }
@@ -114,11 +126,41 @@ $(document).on("click", ".fa-refresh", function(){
     method: "PUT",
     data: {q_index, id_team_packet},
     success: function(data){
-      console.log(data)
+      if (typeof data.intended_url !== 'undefined') {
+        window.location= '{{route('index')}}';
+       }
     }
+  });
+});
 
+$(document).on('click', '#submit_exam', function(){
+  $(".finish_exam").modal('show');
+});
+
+$(document).on('click', '#confirm_finish', function(){
+  var id_team_packet = $("#id_team_packet").val();
+  $.ajax({
+    method: "PUT",
+    data: {id_team_packet},
+    url: '{{route('peserta.submit.exam')}}',
+    success: function(data){
+      if (data == "ok") {
+        $(".finish_exam").modal('hide');
+        alertify.success("Ujian berhasil diselesaikan! Terima kasih sudah berpartisipasi di NLC Online 2018 :)");
+        window.setTimeout(function(){
+          window.location = "{{url('/')}}";
+        }, 2000);
+
+      }else {
+        alertify.error("Gagal menyelesaikan ujian!");
+      }
+    },
+    error: function(){
+
+    }
   })
-})
+});
+
 </script>
 
 <script type="text/javascript">
@@ -159,6 +201,7 @@ function startTimer(){
       + minutes + ":" + seconds + "";
 
       if (distance < 0) {
+        document.getElementById("clock").innerHTML = "Waktu Habis!";
           clearInterval(x);
           $(".exam-answers").addClass("disabled");
       }
