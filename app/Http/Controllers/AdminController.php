@@ -689,4 +689,17 @@ class AdminController extends Controller
 
       return response()->json(['data'=>$data]);
     }
+	
+	public function downloadcsv(){
+		return "will download now";
+	}
+	
+	public function uploadcsv(Request $r){
+		if($r->hasFile('csv')){
+			$r = $r->file('csv'); //This is the uploaded file
+			return "ok";
+		}else{
+			return "fail";
+		}
+	}
 }

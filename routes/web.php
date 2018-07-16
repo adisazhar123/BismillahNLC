@@ -52,6 +52,8 @@ Route::middleware(['admin_only'])->group(function(){
   Route::put('/admin/update-question', 'AdminController@updateQuestion')->name('update.question.admin');
   Route::delete('/admin/delete-question', 'AdminController@deleteQuestion')->name('delete.question.admin');
   Route::post('/admin/new-team', 'AdminController@newTeam')->name('new.team.admin');
+  Route::post('/admin/upload-csv', 'AdminController@uploadcsv')->name('upload.team.csv');
+  Route::get('/admin/download-csv', 'AdminController@downloadcsv')->name('download.team.csv');
   Route::get('/admin/get-team', 'AdminController@getTeamtoUpdate')->name('get.team.to.update');
   Route::put('/admin/update-team', 'AdminController@updateTeam')->name('update.team.admin');
   Route::get('/admin/generate-pdf', 'AdminController@listPdfPage')->name('list.pdf.page.admin');
