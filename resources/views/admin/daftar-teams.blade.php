@@ -84,11 +84,11 @@
       </div>
       <div class="modal-body">
 		<p>Download template CSV disini:</p>
-		<a target="_blank" href="{{route('download.team.csv')}}"><button class="btn btn-default" type="button">Download</button><br><br></a>
+		<a target="_blank" href="{{route('download.team.csv')}}"><button class="btn btn-info" type="button">Download</button><br><br></a>
 		<p>Upload CSV disini:</p>
 		<form method="post" action="{{route('upload.team.csv')}}" enctype='multipart/form-data'>
 			{{ csrf_field() }}
-			<input type="file" name="csv" accept=".csv" required>
+			<input type="file" name="xlsx" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
       </div>

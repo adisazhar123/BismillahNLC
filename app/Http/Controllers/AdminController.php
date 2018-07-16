@@ -13,6 +13,8 @@ use App\User;
 use App\GeneratedPacket;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+
 class AdminController extends Controller
 {
     protected $server_time;
@@ -691,12 +693,26 @@ class AdminController extends Controller
     }
 	
 	public function downloadcsv(){
-		return "will download now";
+		
+		Excel::create('Template CSV Tim', function($excel){
+
+			// Set the spreadsheet title, creator, and description
+			$excel->setTitle('Template CSV Tim');
+
+			// Build the spreadsheet, passing in the payments array
+			$excel->sheet('Tim', function($sheet){
+				$sheet->fromArray(['id', 'customer','email','total','created_at'], null, 'A1', false, false);
+			});
+			$excel->sheet('User', function($sheet){
+				$sheet->fromArray(['id', 'customer','email','total','created_at'], null, 'A1', false, false);
+			});
+
+		})->download('xlsx');
 	}
 	
 	public function uploadcsv(Request $r){
-		if($r->hasFile('csv')){
-			$r = $r->file('csv'); //This is the uploaded file
+		if($r->hasFile('xlsx')){
+			$r = $r->file('xlsx'); //This is the uploaded file
 			return "ok";
 		}else{
 			return "fail";
