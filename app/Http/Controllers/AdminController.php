@@ -65,13 +65,16 @@ class AdminController extends Controller
 
     public function deletePacket(Request $request){
       $packet = Packet::find($request->id_packet);
-      $questions = Question::where('id_packet', $request->id_packet);
-      if($questions)
-        if ($questions->delete() && $packet->delete())
+      // $questions = Question::where('id_packet', $request->id_packet);
+      // if($questions)
+      //   if ($questions->delete() && $packet->delete())
+      //   return "ok";
+      // elseif ($packet->delete())
+      //   return "ok";
+      // return "false";
+      if ($packet->delete()) {
         return "ok";
-      elseif ($packet->delete())
-        return "ok";
-      return "false";
+      }
     }
 
     public function updateAns(Request $request){
