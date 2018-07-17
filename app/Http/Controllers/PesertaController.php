@@ -25,10 +25,12 @@ class PesertaController extends Controller
 
       //Utk menyimpan id_packet ujian hari ini
       $packets_today_arr = array();
+      $packets_today_type = array();
+
       //Set timezone
       $date_today = Carbon::now('Asia/Jakarta');
       //select id_packet yg aktif hari ini
-      $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet')->get();
+      $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet', 'type')->get();
 
       if ($packets_today->isEmpty()) {
         //Gak ada ujian hari ini
@@ -40,6 +42,7 @@ class PesertaController extends Controller
       //id_packet disimpan di array
       foreach ($packets_today as $p) {
         $packets_today_arr[] = $p->id_packet;
+        $packets_today_type[] = $p->type;
       }
 
       //Utk mencari paket ujian yang udah diassign tapi belum diselesaikan oleh tim pada hari ini
@@ -55,10 +58,10 @@ class PesertaController extends Controller
         //Cek masih ada waktu gak
         if (strtotime($time_now) >= strtotime($has_time['start_time']) && strtotime($time_now) <= strtotime($has_time['end_time'])) {
           //Melanjutkan ujian
-          echo "Kurang segini waktunya dalam detik: ";
-          echo strtotime($has_time['end_time'])-strtotime($time_now);
-          echo "<br>";
-          echo "Time now ";
+          // echo "Kurang segini waktunya dalam detik: ";
+          // echo strtotime($has_time['end_time'])-strtotime($time_now);
+          // echo "<br>";
+          // echo "Time now ";
           return view('peserta.ujian')->with('answers', explode(",", $team_packet->team_ans))
           ->with('answers_stats', explode(",", $team_packet->ans_stats))->with('ans_index', $ans_label_index)
           ->with('id_team_packet', $team_packet->id)
@@ -68,14 +71,22 @@ class PesertaController extends Controller
         }
         else if (strtotime($time_now) <= strtotime($has_time['start_time'])) {
           //Waktu belum mulai. sabar sek
-          return "Mohon bersabar. Ujian akan mulai pukul... (1)";
+          //return "Mohon bersabar. Ujian akan mulai pukul". $has_time['start_time'];
+          return view('peserta.ujian')->with('start_time', $has_time['start_time']);
         }else {
           //Waktu sudah habis
           //has_finished = 1
-          return "Tidak ada ujian hari ini atau waktu anda sudah habis! (1)";
+          //return "Tidak ada ujian hari ini atau waktu anda sudah habis! (1)";
+          return view('peserta.ujian')->with('finished', 1)->with('id_team_packet', $team_packet->id)
+            ->with('packet_info', $has_time)->with('time_now', $time_now);;
+
         }
 
-      }else{ //Kalo belum dapat paket
+      }
+
+      // NOTE: Uncomment here if you want to use assign-randomly
+
+      /*else{ //Kalo belum dapat paket
         //Mendapatkan paket scr random utk diassign ke tim
         $packet = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->inRandomOrder()->first();
         $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
@@ -115,7 +126,7 @@ class PesertaController extends Controller
           return "Tidak ada ujian hari ini atau waktu anda sudah habis! (2) ";
         }
       }
-      return view('peserta.ujian');
+      return view('peserta.ujian');*/
     }
 
     public function showPetunjuk(){
@@ -130,13 +141,15 @@ class PesertaController extends Controller
       //Cek ada ujian gak hari ini
       //Utk menyimpan id_packet ujian hari ini
       $packets_today_arr = array();
+      $packets_today_type = array();
       //Set timezone
       $date_today = Carbon::now('Asia/Jakarta');
       //select id_packet yg aktif hari ini
-      $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet')->get();
+      $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet', 'type')->get();
 
-      //variable utk nyimpen flag ada ujian gak. 0 = ga ada, 1 = ada, 2 = ada dan udah diassign (peserta pernah close browser atau logout)
+      //variable utk nyimpen flag ada ujian gak. 0 = ga ada, 1 = ada tapi belum diassign, 2 = ada dan udah diassign (peserta pernah close browser atau logout)
       //3 = udah diassign tapi start_time belum mulai
+
       $exam=1;
 
 
@@ -145,10 +158,10 @@ class PesertaController extends Controller
         $exam=0;
       }else {
         //Ada ujian hari ini
-
         //id_packet disimpan di array
         foreach ($packets_today as $p) {
           $packets_today_arr[] = $p->id_packet;
+          $packets_today_type[] = $p->type;
         }
 
         //Utk mencari paket ujian yang udah diassign tapi belum diselesaikan oleh tim pada hari ini
@@ -168,7 +181,7 @@ class PesertaController extends Controller
         else if ($team_packet && strtotime($assigned_packet->start_time) > strtotime($date_today->toTimeString()))
           $exam = 3;
       }
-      return view('peserta.welcome-peserta')->with('exam', $exam);
+      return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time);
     }
 
     //Untuk submit jawaban, dijadikan array terus convert ke string utk store di DB

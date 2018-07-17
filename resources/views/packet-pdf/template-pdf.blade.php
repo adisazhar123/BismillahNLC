@@ -23,16 +23,18 @@
               z-index:  -1000;
               opacity: 0.3;
           }
-          @page {
+          /* @page {
               margin: 0cm 0cm;
-          }
+          } */
+
     </style>
 
   </head>
   <body>
-    <div id="watermark">
+    {{-- <div id="watermark">
       <img src="http://www.color-hex.com/palettes/7808.png" alt="" height="100%" width="100%">
-    </div>
+    </div> --}}
+    <p>Paket soal: {{$identifier}}</p>
     <p>
       <strong>Pilihlah 1 jawaban yang paling benar!</strong>
     </p>
@@ -47,7 +49,7 @@
               <ol type="A">
                 @for ($i=1; $i <= 5; $i++)
                   <li>
-                    {!! str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i])) !!}
+                    {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                   </li>
                 @endfor
               </ol>

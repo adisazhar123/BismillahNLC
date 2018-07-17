@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
            'name' => $faker->name,
            'email' => $faker->email,
            'password' => bcrypt('secret'),
-           'role' => rand(1,2)
+           'role' => rand(1,3)
        ]);
     }
     DB::table('users')->insert([
@@ -27,5 +27,6 @@ class UsersSeeder extends Seeder
          'password' => bcrypt('secret'),
          'role' => 1
      ]);
+
   }
 }

@@ -32,7 +32,7 @@
           <h4 class="alert-heading">Keterangan</h4>
           <ul>
             <li>
-              Tidak ada <i>generated</i> PDF untuk dengan <i>keyword</i> {{Input::get('keywords')}}.
+              Tidak ada <i>generated</i> PDF dengan <i>keyword</i> {{Input::get('keywords')}}.
             </li>
           </ul>
           <hr>

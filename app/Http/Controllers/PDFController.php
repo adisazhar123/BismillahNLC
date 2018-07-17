@@ -43,7 +43,7 @@ class PDFController extends Controller
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
 
         if ($request->randomize === '0') { //Utk paket yang gak acak soal
-          $pdf->loadView('packet-pdf.template-pdf', array('questions' => $questions));
+          $pdf->loadView('packet-pdf.template-pdf', array('questions' => $questions, 'identifier' => $packet->name));
           $nama_file = "public/paket_soal/".str_random(5).".pdf";
           Storage::put($nama_file, $pdf->output());
           unset($pdf);
@@ -94,7 +94,7 @@ class PDFController extends Controller
           }
 
           $nama_file = "public/paket_soal/".str_random(5).".pdf";
-          $pdf->loadView('packet-pdf.template-pdf-random', array('related' => $related, 'non_related'=>$non_related));
+          $pdf->loadView('packet-pdf.template-pdf-random', array('related' => $related, 'non_related'=>$non_related, 'identifier' => $packet->name));
           Storage::put($nama_file, $pdf->output());
           unset($pdf);
 

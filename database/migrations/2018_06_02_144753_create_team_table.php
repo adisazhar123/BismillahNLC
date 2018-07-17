@@ -18,6 +18,7 @@ class CreateTeamTable extends Migration
             $table->text('name', 1024);
             $table->text('email', 1024);
             $table->string('phone')->nullable();
+            $table->string('type')->default('online')->nullable();
         });
     }
 
