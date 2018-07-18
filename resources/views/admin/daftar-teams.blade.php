@@ -57,7 +57,7 @@
 			  </div>
 			  <div class="form-group">
 				<label for="team_password">Password</label>
-				<input type="password" class="form-control" id="team_password" placeholder="Password" name="team_password" required>
+				<input type="password" class="form-control" id="team_password" placeholder="Password" name="team_password" >
 			  </div>
 				<div class="form-group">
 					<label for="team_phone">No HP</label>
@@ -128,6 +128,8 @@
 		});
 
 		$(document).on('click', '#view', function(){
+			$("#newuser form")[0].reset();
+
 			id_team = $(this).attr('team-id')
 			$("#newuser #team_id").val(id_team)
 			method = "PUT";
@@ -145,7 +147,7 @@
 					$(".modal-title").text("Lihat Tim");
 					$("#newuser #team_name").val(data[1].name);
 					$("#newuser #team_email").val(data[1].email)
-					$("#newuser #team_password").val(data[0].password)
+					// $("#newuser #team_password").val(data[0].password)
 					$("#newuser #team_phone").val(data[1].phone)
 				}
 			});

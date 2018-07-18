@@ -550,8 +550,8 @@ class AdminController extends Controller
     }
 
     public function getTeamtoUpdate(Request $request){
-      $user = User::where('role_id', $request->id_team)->first();
-      $team = Team::find($request->id_team);
+      $user = User::where('role_id', $request->id_team)->select('name','email')->first();
+      $team = Team::select('id_team','name','email','phone')->find($request->id_team);
 
       return response()->json([$user, $team]);
     }
@@ -566,7 +566,11 @@ class AdminController extends Controller
 
       $user->name = $request->team_name;
       $user->email = $request->team_email;
-      $user->password = bcrypt($request->team_password);
+
+      if ($request->team_password!='') {
+        $user->password = bcrypt($request->team_password);
+      }
+
 
       if ($user->save() && $team->save()) return "ok";
       return "fail";
@@ -932,7 +936,9 @@ class AdminController extends Controller
       $user = User::find($request->user_id);
       $user->name = $request->user_name;
       $user->email = $request->user_email;
-      $user->password = bcrypt($request->user_password);
+      if ($request->user_password!='') {
+        $user->password = bcrypt($request->user_password);
+      }
       if ($user->save()) {
         return redirect()->back()->with('message', 'Info berhasil diperbaharui');
       }
