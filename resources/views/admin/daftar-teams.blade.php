@@ -88,7 +88,7 @@
 		<p>Upload CSV disini:</p>
 		<form method="post" action="{{route('upload.team.csv')}}" enctype='multipart/form-data'>
 			{{ csrf_field() }}
-			<input type="file" name="xlsx" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+			<input type="file" name="csv" accept=".csv" required>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
       </div>
@@ -140,9 +140,9 @@
 				data: {id_team},
 				success: function(data){
 					$(".modal-title").text("Lihat Tim");
-					$("#newuser #team_name").val(data[0].name);
-					$("#newuser #team_email").val(data[0].email)
-					$("#newuser #team_password").val(data[0].password)
+					$("#newuser #team_name").val(data[1].name);
+					$("#newuser #team_email").val(data[1].email)
+					$("#newuser #team_password").val(data[1].password)
 					$("#newuser #team_phone").val(data[1].phone)
 				}
 			})

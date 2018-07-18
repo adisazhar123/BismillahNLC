@@ -701,21 +701,30 @@ class AdminController extends Controller
 
 			// Build the spreadsheet, passing in the payments array
 			$excel->sheet('Tim', function($sheet){
-				$sheet->fromArray(['id', 'customer','email','total','created_at'], null, 'A1', false, false);
-			});
-			$excel->sheet('User', function($sheet){
-				$sheet->fromArray(['id', 'customer','email','total','created_at'], null, 'A1', false, false);
+				$sheet->fromArray(['id','name','email','phone'], null, 'A1', false, false);
 			});
 
-		})->download('xlsx');
+		})->download('csv');
 	}
 	
 	public function uploadcsv(Request $r){
-		if($r->hasFile('xlsx')){
-			$r = $r->file('xlsx'); //This is the uploaded file
-			return "ok";
-		}else{
-			return "fail";
+		if($r->hasFile('csv')){
+			$r = $r->file('csv'); //This is the uploaded file
+			Excel::filter('chunk')->load($r->path())->chunk(250, function($results){
+				//Huge data can be overtime
+				set_time_limit(0); //Prevent time limit
+				foreach($results as $row){
+					//Start adding the user
+					DB::table('team')->insert([
+						'id_team' => $row->get("id_team"),
+						'name' => $row->get("name"),
+						'email' => $row->get("email"),
+						'phone' => $row->get("phone")
+					]);
+				}
+				set_time_limit(30); //Restore time limit
+			});
 		}
+		return redirect()->route("index.admin");
 	}
 }
