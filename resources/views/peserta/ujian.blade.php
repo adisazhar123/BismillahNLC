@@ -1,5 +1,6 @@
 
   <div class="container">
+    @if (!isset($finished))
       <div class="card packet-info">
         <div class="card-body">
           <div class="row">
@@ -13,11 +14,7 @@
           </div>
         </div>
       </div>
-
-      <input type="hidden" name="id_team_packet" id="id_team_packet" value="{{$id_team_packet}}">
-      <input type="hidden" name="deadline" id="deadline" value="{{$packet_info->active_date." ".$packet_info->end_time}}">
-      <input type="hidden" name="time_now" id="time_now" value="{{$packet_info->active_date." ".$time_now}}">
-
+    @endif
 
       @if (isset($answers))
         <div class="card exam-answers">
@@ -107,6 +104,11 @@
             </div>
           </div>
         </div>
+      @elseif (isset($finished))
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Info</h4>
+          Waktu pengerjaan anda sudah habis!
+        </div>
       @else
         <div class="card exam-answers">
           <div class="card-body">
@@ -187,5 +189,9 @@
       </div>
     </div>
 </div>
+
+<input type="hidden" name="id_team_packet" id="id_team_packet" value="{{$id_team_packet}}">
+<input type="hidden" name="deadline" id="deadline" value="{{$packet_info->active_date." ".$packet_info->end_time}}">
+<input type="hidden" name="time_now" id="time_now" value="{{$packet_info->active_date." ".$time_now}}">
 
   <br>

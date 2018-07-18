@@ -54,6 +54,7 @@ class AdminController extends Controller
        $packet->end_time = $request->end_time;
        $packet->duration = $request->duration;
        $packet->active = 0;
+       $packet->type = $request->type;
 
        if ($packet->save())
         return "ok";
@@ -67,13 +68,16 @@ class AdminController extends Controller
 
     public function deletePacket(Request $request){
       $packet = Packet::find($request->id_packet);
-      $questions = Question::where('id_packet', $request->id_packet);
-      if($questions)
-        if ($questions->delete() && $packet->delete())
+      // $questions = Question::where('id_packet', $request->id_packet);
+      // if($questions)
+      //   if ($questions->delete() && $packet->delete())
+      //   return "ok";
+      // elseif ($packet->delete())
+      //   return "ok";
+      // return "false";
+      if ($packet->delete()) {
         return "ok";
-      elseif ($packet->delete())
-        return "ok";
-      return "false";
+      }
     }
 
     public function updateAns(Request $request){
@@ -98,7 +102,7 @@ class AdminController extends Controller
     }
 
     public function getPacketDetails(Request $request){
-      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration')->find($request->id_packet);
+      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration', 'type')->find($request->id_packet);
       return response()->json($packet);
     }
 
@@ -109,7 +113,7 @@ class AdminController extends Controller
       $packet->start_time = $request->start_time;
       $packet->end_time = $request->end_time;
       $packet->duration = $request->duration;
-      $packet->active = 0;
+      $packet->type = $request->type;
 
       if ($request->hasFile('file')) {
         $file = $request->file('file');
@@ -134,7 +138,6 @@ class AdminController extends Controller
       $no = 1;
       $question;
       $ans;
-
 
       for ($x=0; $x<count($questions); $x++) {
         $description='';
@@ -691,9 +694,9 @@ class AdminController extends Controller
 
       return response()->json(['data'=>$data]);
     }
-	
+
 	public function downloadcsv(){
-		
+
 		Excel::create('Template CSV Tim', function($excel){
 
 			// Set the spreadsheet title, creator, and description
@@ -706,7 +709,7 @@ class AdminController extends Controller
 
 		})->download('csv');
 	}
-	
+
 	public function uploadcsv(Request $r){
 		if($r->hasFile('csv')){
 			$r = $r->file('csv'); //This is the uploaded file
@@ -727,4 +730,56 @@ class AdminController extends Controller
 		}
 		return redirect()->route("index.admin");
 	}
-}
+
+  public function assignTeamPage(){
+    return view('admin.assign-teams');
+  }
+
+  public function getPacketsforAssign(){
+    $packets = Packet::whereHas('questions')->get();
+    return response()->json(["data"=>$packets]);
+  }
+
+  public function getTeamstoAssign(Request $request){
+    $teams = Team::with(['teamPackets' => function($q) use ($request){
+      $q->where('id_packet', $request->id_packet);
+    }])->get();
+    return response()->json(['data' => $teams]);
+  }
+
+  public function getTeamstoAssignPage(Request $request){
+    return view('admin.teams-to-assign');
+  }
+
+  public function assignTeamtoPacket(Request $request){
+    $team_ans='';
+    $ans_stats='';
+
+    $packet = Packet::find($request->id_packet);
+    $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
+    $team_packet = new TeamPacket;
+    $team_packet->id_packet = $packet['id_packet'];
+    $team_packet->id_generated_packet = $assigned_packet['id'];
+    $team_packet->id_team = $request->id_team;
+    $team_packet->packet_file_directory = $assigned_packet['packet_file_directory'];
+    $team_packet->has_finished = 0;
+
+    //init jawaban tim
+    for ($i=1; $i <=90 ; $i++) {
+      $team_ans.= '0,';
+      $ans_stats.='0,';
+    }
+
+    $team_packet->team_ans = $team_ans;
+    $team_packet->ans_stats = $ans_stats;
+
+    if ($team_packet->save())
+      return "ok";
+    }
+
+    public function unassignTeam(Request $request){
+      $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $request->id_team)
+                    ->first()->delete();
+                    return "ok";
+    }
+  }

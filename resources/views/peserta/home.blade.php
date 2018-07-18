@@ -204,6 +204,8 @@ function startTimer(){
         document.getElementById("clock").innerHTML = "Waktu Habis!";
           clearInterval(x);
           $(".exam-answers").addClass("disabled");
+          $(".card.packet-info").addClass("disabled");
+          $("#confirm_finish").trigger('click');
       }
   }, 1000);
 

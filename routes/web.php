@@ -64,6 +64,13 @@ Route::middleware(['admin_only'])->group(function(){
   Route::get('/admin/list-pdf/{id}', 'AdminController@listPdf')->name('list.pdf.admin');
   Route::delete('/admin/delete-pdf', 'AdminController@deletePdf')->name('delete.pdf.admin');
   Route::get('/admin/view-pdf/{id}', 'AdminController@viewPdf')->name('view.pdf.admin');
+  Route::get('/admin/assign-teams-page', 'AdminController@assignTeamPage')->name('assign.team');
+  Route::get('/admin/get-packets-for-assign', 'AdminController@getPacketsforAssign')->name('get.packets.for.assign');
+  Route::get('/admin/get-teams-to-assign', 'AdminController@getTeamstoAssign')->name('get.teams.to.assign');
+  Route::get('/admin/get-teams-to-assign-page', 'AdminController@getTeamstoAssignPage');
+  Route::put('/admin/assign-team-to-packet', 'AdminController@assignTeamtoPacket')->name('assign.team.to.packet');
+  Route::delete('/admin/unassign-team', 'AdminController@unassignTeam')->name('unassign.team');
+
 });
 // TODO:
 Route::put('/admin/generate-score', 'AdminController@generateScore')->name('generate.score.admin');

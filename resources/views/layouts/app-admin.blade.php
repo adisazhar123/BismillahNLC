@@ -20,6 +20,7 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.dataTables.min.css">
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
+	<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css">
 
      @yield('style')
 
@@ -48,7 +49,7 @@
             <div class="sidenav-header d-flex align-items-center justify-content-center">
                 <div class="sidenav-header-inner text-center">
 								<img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
-                <h2 class="h5">Adis Azhar</h2>
+                <h2 class="h5">{{Auth::user()->name}}</h2>
 								<span>Web Master</span><br>
 								<span id="server_time"></span>
                 </div>
@@ -75,7 +76,8 @@
                         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
                             <!-- Log out-->
                             <li class="nav-item">
-                                <a href="#" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a>
+                                <a href="{{ route('logout') }}"
+																	 onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -97,6 +99,12 @@
             </div>
         </footer>
     </div>
+
+		<form id="logout-form" action="{{ route('logout') }}" method="POST"
+					style="display: none;">
+				{{ csrf_field() }}
+		</form>
+		
     <!-- JavaScript files-->
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('vendor/popper.js/umd/popper.min.js')}}">
@@ -116,7 +124,7 @@
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.js"></script>
 
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
-
+		<script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
 		@yield('script')
 
 		<script type="text/javascript">

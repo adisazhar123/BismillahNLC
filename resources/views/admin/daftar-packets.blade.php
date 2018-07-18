@@ -91,6 +91,14 @@
 						<input class="form-control" type="number" name="duration" value="" required min="0" id="duration">
 						<small>Dalam satuan menit</small>
 					</div>
+					<div class="form-group">
+						<label for="type">Tipe peserta</label>
+						<select class="form-control" id="type" name="type">
+							<option value='offline' id="select_option_1">Offline</option>
+							<option value='online' id="select_option_2">Online</option>
+							<option value='offline & online' id="select_option_3">Offline & online</option>
+						</select>
+					</div>
 
       </div>
       <div class="modal-footer">
@@ -102,7 +110,7 @@
   </div>
 </div>
 
-<div class="modal view_packet fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+{{-- <div class="modal view_packet fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 			<div class="modal-header">
@@ -133,7 +141,7 @@
 
     </div>
   </div>
-</div>
+</div> --}}
 @endsection
 
 @section('script')
@@ -149,6 +157,9 @@
 			table1 = $('#table_id').DataTable({
 			responsive: true,
 			stateSave: true,
+			select: {
+				style: 'multi'
+			},
 			ajax: "{{route('get.packets.admin')}}",
 			columns:[
 					{data: "id_packet"},
@@ -168,7 +179,6 @@
 							return "<button class='btn btn-success' disabled id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
 						else
 						return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button disabled class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
-
 					}
 				}
 			]
@@ -200,7 +210,6 @@
 							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					}
 			});
-			console.log(formData)
 
 			$.ajax({
 				url: url,
@@ -364,29 +373,29 @@
 			// 	})
 			// })
 
-			$(document).on('change', 'select', function(){
-				$.ajaxSetup({
-						headers: {
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-						}
-				});
-
-				var right_ans = $(this).val();
-				var question_no = $(this).attr('id').slice(3);
-
-				$.ajax({
-					url: '{{route('update.packet.ans.admin')}}',
-					data: {right_ans, question_no, id_packet},
-					method: "PUT",
-					success: function(data){
-						console.log(data)
-					},
-					error: function(data){
-						alert("server error")
-					}
-				})
-
-			})
+			// $(document).on('change', 'select', function(){
+			// 	$.ajaxSetup({
+			// 			headers: {
+			// 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			// 			}
+			// 	});
+			//
+			// 	var right_ans = $(this).val();
+			// 	var question_no = $(this).attr('id').slice(3);
+			//
+			// 	$.ajax({
+			// 		url: '{{route('update.packet.ans.admin')}}',
+			// 		data: {right_ans, question_no, id_packet},
+			// 		method: "PUT",
+			// 		success: function(data){
+			// 			console.log(data)
+			// 		},
+			// 		error: function(data){
+			// 			alert("server error")
+			// 		}
+			// 	})
+			//
+			// })
 
 			$(document).on('click', '#toggle', function(){
 				id_packet = $(this).attr('packet-id')
@@ -422,16 +431,18 @@
 					url: '{{route('get.packet.details.admin')}}',
 					data: {id_packet},
 					success: function(data){
-						$("#name").val(data.name)
-						$("#date").val(data.active_date)
-						$("#start_time").val(data.start_time)
-						$("#end_time").val(data.end_time)
-						$("#duration").val(data.duration)
+						$("#name").val(data.name);
+						$("#date").val(data.active_date);
+						$("#start_time").val(data.start_time);
+						$("#end_time").val(data.end_time);
+						$("#duration").val(data.duration);
+						$("#type").val(data.type);
 					}
-				})
-				$(".modal.add_packet .modal-title").text('Edit paket')
-				$(".modal.add_packet").modal('show')
-			})
+				});
+				$(".modal.add_packet .modal-title").text('Edit paket');
+				$(".modal.add_packet").modal('show');
+			});
+
 
 	});
 
