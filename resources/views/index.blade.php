@@ -231,7 +231,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12 offset-lg-0">
                             <button type="submit" class="genric-btn primary circle" id="login_btn">
-                                Go
+                              Go
                             </button>
                           </div>
                     </div>
@@ -256,7 +256,8 @@
   $("form").submit(function(e){
     e.preventDefault();
     data = $(this).serialize();
-
+    $("#login_btn").html('<i class="fa fa-spinner fa-spin"></i>');
+    $("#login_btn").prop('disabled', true);
     $.ajax({
       method: "POST",
       url: '{{ route('login') }}',
@@ -267,10 +268,13 @@
         window.setTimeout(function(){
           window.location = "{{url('/')}}"+data.intended_url;
         }, 1500);
+        $("#login_btn").html("Go");
+        $("#login_btn").prop('disabled', false);
       },
       error: function(data){
         alertify.error("Akun tidak dikenal :(");
-        console.log("Error");
+        $("#login_btn").html("Go");
+        $("#login_btn").prop('disabled', false);
       }
     });
 

@@ -119,7 +119,6 @@
               <div class="main-menubar d-flex align-items-center">
                 <nav class="hide">
                   <a href="index.html"><strong>Home</strong></a>
-                  <a href="generic.html">Generic</a>
                   @if (!Auth::guest())
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">

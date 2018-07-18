@@ -69,8 +69,13 @@ Route::middleware(['admin_only'])->group(function(){
   Route::get('/admin/get-teams-to-assign', 'AdminController@getTeamstoAssign')->name('get.teams.to.assign');
   Route::get('/admin/get-teams-to-assign-page', 'AdminController@getTeamstoAssignPage');
   Route::put('/admin/assign-team-to-packet', 'AdminController@assignTeamtoPacket')->name('assign.team.to.packet');
-  Route::delete('/admin/unassign-team', 'AdminController@unassignTeam')->name('unassign.team');
-
+  Route::put('/admin/unassign-team', 'AdminController@unassignTeam')->name('unassign.team');
+  Route::put('/admin/assign-online-teams', 'AdminController@assignAllOnline')->name('assign.online.teams');
+  Route::put('/admin/assign-offline-teams', 'AdminController@assignAllOffline')->name('assign.offline.teams');
+  Route::put('/admin/unassign-all-teams', 'AdminController@unassignAll')->name('unassign.teams');
+  Route::post('/admin/duplicate-packet', 'AdminController@duplicatePacket')->name('duplicate.packet');
+  Route::get('/admin/settings', 'AdminController@settingsPage');
+  Route::put('/admin/update-user-info', 'AdminController@updateUser');
 });
 // TODO:
 Route::put('/admin/generate-score', 'AdminController@generateScore')->name('generate.score.admin');

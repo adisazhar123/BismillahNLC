@@ -17,4 +17,7 @@
 			<li><a href="{{route('list.pdf.page.admin')}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Generate PDF</a></li>
 		</ul>
 	</li>
+	<li id="menu-settings">
+		<a href="{{url('/admin/settings')}}"> <i class="fa fa-wrench"></i>Pengaturan </a>
+	</li>
 </ul>

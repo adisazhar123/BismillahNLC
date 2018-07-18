@@ -73,7 +73,7 @@
   </div>
 </div>
 
-<div class="modal team fade" tabindex="-1" role="dialog" id="import">
+<div class="modal fade" tabindex="-1" role="dialog" id="import">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -88,7 +88,7 @@
 		<p>Upload CSV disini:</p>
 		<form method="post" action="{{route('upload.team.csv')}}" enctype='multipart/form-data'>
 			{{ csrf_field() }}
-			<input type="file" name="csv" accept=".csv" required>
+			<input type="file" name="csv" accept=".csv" required id="import_file">
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
       </div>
@@ -111,7 +111,7 @@
 					{data: "name"},
 					{data: "email"},
 					{render: function(data, type, row){
-						return "<button class='btn btn-info' id=view team-id="+row.id_team+">View</button>";
+						return "<button class='btn btn-warning' id=view team-id="+row.id_team+">Ubah</button>";
 						}
 					}
 			]
@@ -133,7 +133,10 @@
 			method = "PUT";
 			url = '{{route('update.team.admin')}}';
 			action = "update";
-			$("#newuser .modal-title").html("Edit tim");
+			$(".team.modal-title").html("Edit tim");
+
+			$(".team").modal('show')
+
 
 			$.ajax({
 				url: '{{route('get.team.to.update')}}',
@@ -142,13 +145,12 @@
 					$(".modal-title").text("Lihat Tim");
 					$("#newuser #team_name").val(data[1].name);
 					$("#newuser #team_email").val(data[1].email)
-					$("#newuser #team_password").val(data[1].password)
+					$("#newuser #team_password").val(data[0].password)
 					$("#newuser #team_phone").val(data[1].phone)
 				}
-			})
+			});
 
-			$("#newuser.modal.team").modal('show')
-		})
+		});
 
 		$("#newuser form").submit(function(e){
 			e.preventDefault();
@@ -171,7 +173,7 @@
 							alertify.error('Tim gagal diperbaruhi!');
 					}
 					table1.ajax.reload(null, false);
-					$("#newuser .modal.team").modal('hide')
+					$(".modal.team").modal('hide')
 
 				},
 				error: function(){
@@ -180,9 +182,27 @@
 			})
 		})
 
+	@if(session()->has('message'))
+		alertify.success('{{session()->get('message')}}');
+	@endif
 
+	function checkFile(sender) {
+    var validExts = new Array(".csv");
+    var fileExt = sender.value;
+    fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+    if (validExts.indexOf(fileExt) < 0) {
+      alert("Invalid file selected, valid files are of " +
+               validExts.toString() + " types.");
+      return false;
+    }
+    else return true;
+	}
 
+	$("#import_file").change(function(){
+		checkFile(this);
 	});
+
+});
 
 
 	</script>

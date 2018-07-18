@@ -10,6 +10,11 @@
 		.view_packet label{
 			margin-top: 9px;
 		}
+
+		#loading{
+			margin-top: -600px;
+			margin-left: 700px;
+		}
 	</style>
 @endsection
 
@@ -28,7 +33,7 @@
   <hr>
   <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
 </div>
-<div class="row">
+<div class="row my_page">
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
@@ -52,6 +57,9 @@
 
 					    </tbody>
 					</table>
+				</div>
+				<div class="loading_gif">
+
 				</div>
 			</div>
 		</div>
@@ -110,38 +118,8 @@
   </div>
 </div>
 
-{{-- <div class="modal view_packet fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Info paket</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<h3>Kunji jawaban paket</h3>
-				<div class="row col-md-12">
-
-					<div class="col-md-4 content1">
 
 
-
-					</div>
-					<div class="col-md-4 content2">
-
-
-					</div>
-					<div class="col-md-4 content3">
-
-
-					</div>
-				</div>
-			</div>
-
-    </div>
-  </div>
-</div> --}}
 @endsection
 
 @section('script')
@@ -152,14 +130,17 @@
 			var id_packet;
 			var formData;
 
+			$.ajaxSetup({
+					headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+			});
+
 			var APP_URL = '{!! url('/') !!}';
 
 			table1 = $('#table_id').DataTable({
 			responsive: true,
 			stateSave: true,
-			select: {
-				style: 'multi'
-			},
 			ajax: "{{route('get.packets.admin')}}",
 			columns:[
 					{data: "id_packet"},
@@ -176,9 +157,9 @@
 					},
 					{render: function(data, type, row){
 						if(row.active == 1)
-							return "<button class='btn btn-success' disabled id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
+							return "<button class='btn btn-success' disabled id=toggle packet-id="+row.id_packet+">Aktifkan</button><button type=button name=button id=duplicate class='btn btn-default' packet-id="+row.id_packet+">Duplikat</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
 						else
-						return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button disabled class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
+						return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button type=button name=button id=duplicate class='btn btn-default' packet-id="+row.id_packet+">Duplikat</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button disabled class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
 					}
 				}
 			]
@@ -205,11 +186,7 @@
 			else{
 				 url = '{{route('update.packet.admin')}}';
 			}
-			$.ajaxSetup({
-					headers: {
-							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					}
-			});
+
 
 			$.ajax({
 				url: url,
@@ -273,130 +250,6 @@
 		})
 
 
-			function checkSelected(answer){
-				if (answer == 'A'){
-					return "<option value=></option>"+
-					"<option value=A selected>A</option>"+
-					"<option value=B>B</option>"+
-					"<option value=C>C</option>"+
-					"<option value=D>D</option>"+
-					"<option value=E>E</option>";
-				}else if(answer == 'B'){
-					return "<option value=></option>"+
-					"<option value=A>A</option>"+
-					"<option value=B selected>B</option>"+
-					"<option value=C>C</option>"+
-					"<option value=D>D</option>"+
-					"<option value=E>E</option>";
-				}else if(answer == 'C'){
-					return "<option value=></option>"+
-					"<option value=A>A</option>"+
-					"<option value=B>B</option>"+
-					"<option value=C selected>C</option>"+
-					"<option value=D>D</option>"+
-					"<option value=E>E</option>";
-				}else if(answer == 'D'){
-					return "<option value=></option>"+
-					"<option value=A>A</option>"+
-					"<option value=B>B</option>"+
-					"<option value=C>C</option>"+
-					"<option value=D selected>D</option>"+
-					"<option value=E>E</option>";
-				}else if (answer == 'E'){
-					return "<option value=></option>"+
-					"<option value=A>A</option>"+
-					"<option value=B>B</option>"+
-					"<option value=C>C</option>"+
-					"<option value=D>D</option>"+
-					"<option value=E selected>E</option>";
-				}else{
-					return "<option selected></option>"+
-					"<option value=A>A</option>"+
-					"<option value=B>B</option>"+
-					"<option value=C>C</option>"+
-					"<option value=D>D</option>"+
-					"<option value=E>E</option>";
-				}
-			}
-
-			// $(document).on('click', '#view', function(){
-			// 	id_packet = $(this).attr('packet-id')
-			// 	//alert(id_packet)
-			// 	var content1="", content2="", content3="";
-			// 	var content_select1="", content_select2="", content_select3="";
-      //
-			// 	$.ajax({
-			// 		url: '{{route('get.packet.info.admin')}}',
-			// 		data: {id_packet},
-			// 		success: function(data){
-			// 			for (var i = 0; i < 30; i++) {
-			// 				content_select1 = checkSelected(data[i].right_ans);
-			// 				content1 += "<div class='form-group row'>"+
-			// 						"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
-			// 						"<div class=col-sm-5>"+
-			// 								"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
-			// 										content_select1 +
-			// 								"</select>"+
-			// 						 "</div>"+
-			// 				"</div>";
-      //
-			// 			}
-			// 			for (var i = 30; i < 60; i++) {
-			// 				content_select2 = checkSelected(data[i].right_ans);
-			// 				content2 += "<div class='form-group row'>"+
-			// 						"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
-			// 						"<div class=col-sm-5>"+
-			// 								"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
-			// 									content_select2 +
-			// 								"</select>"+
-			// 						 "</div>"+
-			// 				"</div>";
-			// 			}
-			// 			for (var i = 60; i < 90; i++) {
-			// 				content_select3 = checkSelected(data[i].right_ans);
-			// 				content3 += "<div class='form-group row'>"+
-			// 						"<label for=no_"+data[i].question_no+ " class='col-sm-1 control-label'>"+data[i].question_no+"</label>"+
-			// 						"<div class=col-sm-5>"+
-			// 								"<select class=form-control name=no_"+data[i].question_no+ " id=no_"+data[i].question_no+">"+
-			// 										content_select3 +
-			// 								"</select>"+
-			// 						 "</div>"+
-			// 				"</div>";
-			// 			}
-      //
-			// 		//	console.log(content1)
-			// 			$(".content1").html(content1);
-			// 			$(".content2").html(content2);
-			// 			$(".content3").html(content3);
-			// 			$(".modal.view_packet").modal('show')
-			// 		}
-			// 	})
-			// })
-
-			// $(document).on('change', 'select', function(){
-			// 	$.ajaxSetup({
-			// 			headers: {
-			// 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			// 			}
-			// 	});
-			//
-			// 	var right_ans = $(this).val();
-			// 	var question_no = $(this).attr('id').slice(3);
-			//
-			// 	$.ajax({
-			// 		url: '{{route('update.packet.ans.admin')}}',
-			// 		data: {right_ans, question_no, id_packet},
-			// 		method: "PUT",
-			// 		success: function(data){
-			// 			console.log(data)
-			// 		},
-			// 		error: function(data){
-			// 			alert("server error")
-			// 		}
-			// 	})
-			//
-			// })
-
 			$(document).on('click', '#toggle', function(){
 				id_packet = $(this).attr('packet-id')
 				$.ajaxSetup({
@@ -441,6 +294,36 @@
 				});
 				$(".modal.add_packet .modal-title").text('Edit paket');
 				$(".modal.add_packet").modal('show');
+			});
+
+
+			$(document).on('click', '#duplicate', function(){
+				id_packet = $(this).attr('packet-id');
+
+				$(".loading_gif").html('<img src="{{asset('img/loading.gif')}}" alt="Loading" width="100px" id="loading">');
+				$(".row.my_page").addClass("disabled");
+
+				$.ajax({
+					url: '{{route('duplicate.packet')}}',
+					method: "POST",
+					data: {id_packet},
+					success: function(data){
+						if (data=="ok") {
+							alertify.success("Paket berhasil diduplikasi!");
+						}else {
+							alertify.error("Paket gagal diduplikasi!");
+
+						}
+						$(".loading_gif").html('')
+						$(".row.my_page").removeClass("disabled")
+						table1.ajax.reload();
+					},
+					error: function(){
+						alertify.error("Server error!");
+						$(".loading_gif").html('')
+						$(".row.my_page").removeClass("disabled")
+					}
+				})
 			});
 
 

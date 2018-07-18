@@ -14,6 +14,7 @@ use App\GeneratedPacket;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -135,7 +136,6 @@ class AdminController extends Controller
       $questions = Question::where('id_packet', $id_packet)->get()->toArray();
 
       $data = array();
-      $no = 1;
       $question;
       $ans;
 
@@ -166,11 +166,10 @@ class AdminController extends Controller
         "</ol>";
         $row = array();
         $button = "<button class='btn btn-info' id=edit question-id='$id_question'><i class='fa fa-pencil-square' aria-hidden=true></i></button><button class='btn btn-danger' id=delete question-id='$id_question'><i class='fa fa-trash' aria-hidden=true></i></button>";
-        $row[]= $no;
+        $row[]= $questions[$x]['id_question'];
         $row[] = $question;
         $row[] = $button;
         $data[] = $row;
-        $no++;
       }
 
       return response()->json(["data"=>$data]);
@@ -551,17 +550,16 @@ class AdminController extends Controller
     }
 
     public function getTeamtoUpdate(Request $request){
-      $user = User::find($request->id_team);
+      $user = User::where('role_id', $request->id_team)->first();
       $team = Team::find($request->id_team);
 
       return response()->json([$user, $team]);
     }
 
     public function updateTeam(Request $request){
-      $user = User::find($request->team_id);
+      $user = User::where('role_id', $request->team_id)->first();
       $team = Team::find($request->team_id);
 
-      $team->id_team = $user->id;
       $team->name = $request->team_name;
       $team->email = $request->team_email;
       $team->phone = $request->team_phone;
@@ -718,17 +716,26 @@ class AdminController extends Controller
 				set_time_limit(0); //Prevent time limit
 				foreach($results as $row){
 					//Start adding the user
-					DB::table('team')->insert([
-						'id_team' => $row->get("id_team"),
-						'name' => $row->get("name"),
-						'email' => $row->get("email"),
-						'phone' => $row->get("phone")
-					]);
+            $id = DB::table('team')->insertGetId([
+              // 'id_team' => $row->get("id_team"),
+              'name' => $row->get("name"),
+              'email' => $row->get("email"),
+              'phone' => $row->get("phone"),
+              'type' => $row->get('type')
+            ]);
+
+            $user = new User;
+            $user->name = $row->get('name');
+            $user->email = $row->get('email');
+            $user->password = bcrypt($row->get('email')."_".$row->get('type'));
+            $user->role = 3;
+            $user->role_id = $id;
+            $user->save();
 				}
 				set_time_limit(30); //Restore time limit
 			});
 		}
-		return redirect()->route("index.admin");
+		return redirect()->route("index.admin")->with('message', 'Import tim berhasil!');
 	}
 
   public function assignTeamPage(){
@@ -757,12 +764,26 @@ class AdminController extends Controller
 
     $packet = Packet::find($request->id_packet);
     $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
+
+
+    //cek kalo udah pernah diassign
+    $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $request->id_team)
+                  ->first();
+
+    if ($team_packet) {
+      $team_packet->status = 1;
+      if ($team_packet->save())
+        return "ok";
+      }
+
+    //kalo gak bikin baru
     $team_packet = new TeamPacket;
     $team_packet->id_packet = $packet['id_packet'];
     $team_packet->id_generated_packet = $assigned_packet['id'];
     $team_packet->id_team = $request->id_team;
     $team_packet->packet_file_directory = $assigned_packet['packet_file_directory'];
     $team_packet->has_finished = 0;
+    $team_packet->status = 1;
 
     //init jawaban tim
     for ($i=1; $i <=90 ; $i++) {
@@ -777,9 +798,144 @@ class AdminController extends Controller
       return "ok";
     }
 
+    public function assignAllOnline(Request $request){
+      $teams = Team::where('type', 'Online')->get();
+
+      $team_ans='';
+      $ans_stats='';
+
+      for ($i=1; $i <=90 ; $i++) {
+        $team_ans.= '0,';
+        $ans_stats.='0,';
+      }
+
+      for ($i=0; $i < $teams->count(); $i++) {
+        $packet = Packet::find($request->id_packet);
+        $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
+
+        $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $teams[$i]->id_team)
+                      ->first();
+
+        if ($team_packet) {
+          $team_packet->status = 1;
+          $team_packet->save();
+        }else {
+          $team_packet = new TeamPacket;
+          $team_packet->id_packet = $packet['id_packet'];
+          $team_packet->id_generated_packet = $assigned_packet['id'];
+          $team_packet->id_team = $teams[$i]->id_team;
+          $team_packet->packet_file_directory = $assigned_packet['packet_file_directory'];
+          $team_packet->has_finished = 0;
+          $team_packet->status = 1;
+
+          $team_packet->team_ans = $team_ans;
+          $team_packet->ans_stats = $ans_stats;
+          $team_packet->save();
+        }
+
+      }
+      return "ok";
+    }
+
+    public function assignAllOffline(Request $request){
+      $teams = Team::where('type', 'Offline')->get();
+
+      $team_ans='';
+      $ans_stats='';
+
+      for ($i=1; $i <=90 ; $i++) {
+        $team_ans.= '0,';
+        $ans_stats.='0,';
+      }
+
+      for ($i=0; $i < $teams->count(); $i++) {
+        $packet = Packet::find($request->id_packet);
+        $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
+
+        $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $teams[$i]->id_team)
+                      ->first();
+
+        if ($team_packet) {
+          $team_packet->status = 1;
+          $team_packet->save();
+        }else {
+          $team_packet = new TeamPacket;
+          $team_packet->id_packet = $packet['id_packet'];
+          $team_packet->id_generated_packet = $assigned_packet['id'];
+          $team_packet->id_team = $teams[$i]->id_team;
+          $team_packet->packet_file_directory = $assigned_packet['packet_file_directory'];
+          $team_packet->has_finished = 0;
+          $team_packet->status = 1;
+
+          $team_packet->team_ans = $team_ans;
+          $team_packet->ans_stats = $ans_stats;
+          $team_packet->save();
+        }
+
+      }
+      return "ok";
+    }
+
     public function unassignTeam(Request $request){
       $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $request->id_team)
-                    ->first()->delete();
-                    return "ok";
+                    ->first();
+      $team_packet->status = 0;
+
+      if ($team_packet->save()) {
+        return "ok";
+      }
+    }
+
+    public function unassignAll(Request $request){
+      $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('status', 1)
+                    ->update(['status' => 0]);
+      return "ok";
+    }
+
+    public function duplicatePacket(Request $request){
+      $old_packet = Packet::find($request->id_packet);
+      $old_questions = Question::where('id_packet', $request->id_packet)->get();
+
+      $new_packet = new Packet;
+
+      $new_packet->name = $old_packet->name."_".uniqid();
+      $new_packet->active_date = $old_packet->active_date;
+      $new_packet->start_time = $old_packet->start_time;
+      $new_packet->end_time = $old_packet->end_time;
+      $new_packet->duration = $old_packet->duration;
+      $new_packet->active = 0;
+
+      $new_packet->save();
+
+      for ($i=0; $i < $old_questions->count(); $i++) {
+        $new_question = new Question;
+        $new_question->id_packet = $new_packet->id_packet;
+        $new_question->question = $old_questions[$i]->question;
+        $new_question->option_1 = $old_questions[$i]->option_1;
+        $new_question->option_2 = $old_questions[$i]->option_2;
+        $new_question->option_3 = $old_questions[$i]->option_3;
+        $new_question->option_4 = $old_questions[$i]->option_4;
+        $new_question->option_5 = $old_questions[$i]->option_5;
+        $new_question->right_ans = $old_questions[$i]->right_ans;
+        $new_question->description = $old_questions[$i]->description;
+        $new_question->related = $old_questions[$i]->related;
+        $new_question->save();
+      }
+      return "ok";
+    }
+
+    public function settingsPage(){
+      $user = Auth::user();
+      return view('admin.settings', ['user'=>$user]);
+    }
+    public function updateUser(Request $request){
+      $user = User::find($request->user_id);
+      $user->name = $request->user_name;
+      $user->email = $request->user_email;
+      $user->password = bcrypt($request->user_password);
+      if ($user->save()) {
+        return redirect()->back()->with('message', 'Info berhasil diperbaharui');
+      }
+
     }
   }

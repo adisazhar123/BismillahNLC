@@ -30,7 +30,7 @@
 					<table id="table_id" class="table table-striped table-hover">
 					    <thead>
 					        <tr>
-											<th>#</th>
+											<th>#ID Soal</th>
 					            <th>Soal</th>
 											<th>Action</th>
 					        </tr>

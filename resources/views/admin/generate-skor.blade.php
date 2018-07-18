@@ -68,9 +68,9 @@
 				{data: "number_of_scored_teams",
 				render: function(data, type, row){
 					if (data/row['total_teams_per_packet'] * 100 < 100) {
-						return '<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="'+data/row['total_teams_per_packet'] * 100+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data/row['total_teams_per_packet'] * 100+'%"></div></div>';
+						return '<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="'+data/row['total_teams_per_packet'] * 100+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data/row['total_teams_per_packet'] * 100+'%"></div></div>'+data+"/"+row['total_teams_per_packet'];
 					}else {
-						return '<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="'+data/row['total_teams_per_packet'] * 100+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data/row['total_teams_per_packet'] * 100+'%"></div></div>';
+						return '<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="'+data/row['total_teams_per_packet'] * 100+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data/row['total_teams_per_packet'] * 100+'%"></div></div>'+data+"/"+row['total_teams_per_packet'];
 					}
 
 					},

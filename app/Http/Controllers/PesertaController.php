@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Session;
+use View;
 use App\Packet;
 use App\Question;
 use App\GeneratedPacket;
@@ -46,8 +47,8 @@ class PesertaController extends Controller
       }
 
       //Utk mencari paket ujian yang udah diassign tapi belum diselesaikan oleh tim pada hari ini
-      $team_packet = TeamPacket::whereIn('id_packet', $packets_today_arr)->where('id_team', Auth::user()->id)
-                    ->where('has_finished', 0)->first();
+      $team_packet = TeamPacket::whereIn('id_packet', $packets_today_arr)->where('id_team', Auth::user()->role_id)
+                    ->where('has_finished', 0)->where('status', 1)->first();
 
       //Kalo ada yg belum selesai
       if($team_packet){
@@ -138,6 +139,8 @@ class PesertaController extends Controller
     }
 
     public function showWelcome(){
+      View::share('team_name', Auth::user()->name);
+
       //Cek ada ujian gak hari ini
       //Utk menyimpan id_packet ujian hari ini
       $packets_today_arr = array();
@@ -156,6 +159,7 @@ class PesertaController extends Controller
       if ($packets_today->isEmpty()) {
         //Gak ada ujian hari ini
         $exam=0;
+        return view('peserta.welcome-peserta')->with('exam', $exam);
       }else {
         //Ada ujian hari ini
         //id_packet disimpan di array
@@ -165,8 +169,8 @@ class PesertaController extends Controller
         }
 
         //Utk mencari paket ujian yang udah diassign tapi belum diselesaikan oleh tim pada hari ini
-        $team_packet = TeamPacket::whereIn('id_packet', $packets_today_arr)->where('id_team', Auth::user()->id)
-                      ->where('has_finished', 0)->first();
+        $team_packet = TeamPacket::whereIn('id_packet', $packets_today_arr)->where('id_team', Auth::user()->role_id)
+                      ->where('has_finished', 0)->where('status', 1)->first();
 
         //belum dpt assign packet
         if (!$team_packet) {
