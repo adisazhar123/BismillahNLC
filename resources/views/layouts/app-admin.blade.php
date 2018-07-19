@@ -6,7 +6,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>NLC Admin</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="robots" content="all,follow">
 	<link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" href="{{asset('css/fontastic.css')}}">
@@ -14,13 +13,11 @@
 	<link rel="stylesheet" href="{{asset('css/grasp_mobile_progress_circle-1.0.0.min.css')}}">
 	<link rel="stylesheet" href="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
 	<link rel="stylesheet" href="{{asset('css/style.default.css')}}" id="theme-stylesheet">
-	<link rel="stylesheet" href="{{asset('css/custom.css')}}">
 	<link rel="icon" href="{{ asset('img/logo.png') }}">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.dataTables.min.css">
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
-	<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css">
 
      @yield('style')
 
@@ -118,7 +115,6 @@
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.js"></script>
 
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
-		<script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
 		@yield('script')
 
 		<script type="text/javascript">

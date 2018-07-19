@@ -14,6 +14,7 @@
 
   </head>
   <body>
+    <p>Paket soal: {{$identifier}}</p>
     <p>
       <strong>Pilihlah 1 jawaban yang paling benar!</strong>
     </p>

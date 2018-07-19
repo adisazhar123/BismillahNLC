@@ -4,11 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>Selamat Datang | NLC Online 2018</title>
-
   	<link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
@@ -118,7 +115,7 @@
               </div>
               <div class="main-menubar d-flex align-items-center">
                 <nav class="hide">
-                  <a href="index.html"><strong>Home</strong></a>
+                  <a href="{{url('/')}}">Home</a>
                   @if (!Auth::guest())
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">

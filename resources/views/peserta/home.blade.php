@@ -2,9 +2,6 @@
 
 @section('style')
 <style media="screen">
-  .packet-info{
-    color: red;
-  }
 
   .mesh {
     background-image: url('../img/mesh_schem.png') !important;
@@ -197,7 +194,7 @@ function startTimer(){
       }
 
 
-      document.getElementById("clock").innerHTML = hours + ":"
+      document.getElementById("clock").innerHTML = "Sisa waktu:<br>"+hours + ":"
       + minutes + ":" + seconds + "";
 
       if (distance < 0) {

@@ -15,8 +15,8 @@
 					<table id="table_id" class="table table-striped table-hover">
 					    <thead>
 					        <tr>
-											<th>#</th>
-					            <th>Nama Packet</th>
+											<th>#ID Paket</th>
+					            <th>Nama Paket</th>
 					            <th>Action</th>
 					        </tr>
 					    </thead>

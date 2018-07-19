@@ -747,7 +747,7 @@ class AdminController extends Controller
   }
 
   public function getPacketsforAssign(){
-    $packets = Packet::whereHas('questions')->get();
+    $packets = Packet::whereHas('generatedPackets')->get();
     return response()->json(["data"=>$packets]);
   }
 
@@ -755,11 +755,13 @@ class AdminController extends Controller
     $teams = Team::with(['teamPackets' => function($q) use ($request){
       $q->where('id_packet', $request->id_packet);
     }])->get();
+
     return response()->json(['data' => $teams]);
   }
 
   public function getTeamstoAssignPage(Request $request){
-    return view('admin.teams-to-assign');
+    $packet = Packet::find($request->id_packet);
+    return view('admin.teams-to-assign', ['packet' => $packet]);
   }
 
   public function assignTeamtoPacket(Request $request){

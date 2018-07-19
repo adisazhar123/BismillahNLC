@@ -50,12 +50,7 @@
 <div class="modal question fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-			<div class="modal-header">
-			 <h5 class="modal-title">Modal title</h5>
-			 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				 <span aria-hidden="true">&times;</span>
-			 </button>
-		 </div>
+
 		 <div class="modal-body">
 			 <form action="#">
 				 {{ csrf_field() }}
@@ -234,7 +229,7 @@
 			method = "POST";
 			url = '{{route('add.new.question.admin')}}';
 
-			tinyMCE.get('question').setContent("");
+			tinyMCE.get('description').setContent("");
 			tinyMCE.get('question').setContent("");
 			tinyMCE.get('option_1').setContent("");
 			tinyMCE.get('option_2').setContent("");
@@ -295,19 +290,18 @@
 					alertify.error('Server error!');
 
 				}
-			})
+			});
 
-		})
+		});
+
+		$("#related").change(function(){
+			if ($(this).val() == '0') {
+				tinyMCE.get('description').setContent("");
+			}
+		});
 
 	});
 
-
-
-	$(document).ready(function(){
-
-
-
-	})
 
 
 	</script>
