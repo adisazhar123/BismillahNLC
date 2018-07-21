@@ -21,6 +21,7 @@ class CreatePacketTable extends Migration
             $table->text('end_time', 20)->nullable();
             $table->integer('duration');
             $table->integer('active');
+            $table->integer('open')->default(1); //khusus utk paket warmup, biar peserta bisa milih kloter
             $table->string('type')->default('non-warmup')->nullable();
         });
     }

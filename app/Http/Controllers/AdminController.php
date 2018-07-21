@@ -57,6 +57,10 @@ class AdminController extends Controller
        $packet->active = 0;
        $packet->type = $request->type;
 
+       if ($packet->type =='non-warmup' ) {
+         $packet->status = $request->status;
+       }
+
        if ($packet->save())
         return "ok";
 
@@ -69,13 +73,6 @@ class AdminController extends Controller
 
     public function deletePacket(Request $request){
       $packet = Packet::find($request->id_packet);
-      // $questions = Question::where('id_packet', $request->id_packet);
-      // if($questions)
-      //   if ($questions->delete() && $packet->delete())
-      //   return "ok";
-      // elseif ($packet->delete())
-      //   return "ok";
-      // return "false";
       if ($packet->delete()) {
         return "ok";
       }
@@ -103,7 +100,7 @@ class AdminController extends Controller
     }
 
     public function getPacketDetails(Request $request){
-      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration', 'type')->find($request->id_packet);
+      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration', 'type', 'open')->find($request->id_packet);
       return response()->json($packet);
     }
 
@@ -116,11 +113,10 @@ class AdminController extends Controller
       $packet->duration = $request->duration;
       $packet->type = $request->type;
 
-      if ($request->hasFile('file')) {
-        $file = $request->file('file');
-        $contents = $file->openFile()->fread($file->getSize());
-        $packet->file = $contents;
+      if ($packet->type =='non-warmup' ) {
+        $packet->status = $request->status;
       }
+
        if ($packet->save()){
          return "ok";
        }
@@ -132,6 +128,7 @@ class AdminController extends Controller
       return view('admin.statistics');
     }
 
+    //for datatable
     public function getPacketQuestions($id_packet){
       $questions = Question::where('id_packet', $id_packet)->get()->toArray();
 
@@ -186,6 +183,7 @@ class AdminController extends Controller
     }
 
     public function addNewQuestion(Request $request){
+      // TODO: Kalo udah deploy di server harus diganti pathnya lol :')
 
       // dilakukan str_replace karena Unisharp Laravelfilemanager menyimpan sourcenya menggunakan URL relative, sedangkan
       // DOMPDF gabisa membacanya jadi tak replace dengan asset()

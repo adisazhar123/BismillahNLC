@@ -108,7 +108,13 @@
 							<option value='non-warmup' id="select_option_2">Non warmup</option>
 						</select>
 					</div>
-
+					<div class="form-group">
+						<label for="type">Status</label>
+						<select class="form-control" id="status" name="status">
+							<option value='0' id="select_option_status_1">Kunci</option>
+							<option value='1' id="select_option_status_2">Buka</option>
+						</select>
+					</div>
       </div>
       <div class="modal-footer">
 				<button type="submit" class="btn btn-primary">Submit</button>
@@ -138,6 +144,14 @@
 			});
 
 			var APP_URL = '{!! url('/') !!}';
+
+			$("#type").change(function(){
+				if ($(this).val() == 'warmup') {
+					$("#status").prop('disabled', false);
+				}else {
+					$("#status").prop('disabled', true);
+				}
+			});
 
 			table1 = $('#table_id').DataTable({
 			responsive: true,
@@ -281,6 +295,14 @@
 						$("#end_time").val(data.end_time);
 						$("#duration").val(data.duration);
 						$("#type").val(data.type);
+						if (data.type =="non-warmup") {
+							$("#status").prop('disabled', true);
+						}else {
+							$("#status").prop('disabled', false);
+
+						}
+						$("#status").val(data.open);
+
 					}
 				});
 				$(".modal.add_packet .modal-title").text('Edit paket');
