@@ -102,7 +102,7 @@
 						<small>Dalam satuan menit</small>
 					</div>
 					<div class="form-group">
-						<label for="type">Tipe peserta</label>
+						<label for="type">Tipe paket</label>
 						<select class="form-control" id="type" name="type">
 							<option value='warmup' id="select_option_1">Warmup</option>
 							<option value='non-warmup' id="select_option_2">Non warmup</option>
@@ -165,6 +165,7 @@
 				}
 			]
 		});
+
 		$("#menu-packets").addClass('active')
 
 		$("#add_packet").click(function(){
@@ -187,7 +188,6 @@
 			else{
 				 url = '{{route('update.packet.admin')}}';
 			}
-
 
 			$.ajax({
 				url: url,
@@ -223,12 +223,6 @@
 		$(document).on('click', '#delete', function(){
 			id_packet = $(this).attr('packet-id')
 
-			$.ajaxSetup({
-			    headers: {
-			        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			    }
-			});
-
 			$.ajax({
 				url: '{{route('delete.packet.admin')}}',
 				method: "DELETE",
@@ -252,12 +246,8 @@
 
 
 			$(document).on('click', '#toggle', function(){
-				id_packet = $(this).attr('packet-id')
-				$.ajaxSetup({
-						headers: {
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-						}
-				});
+				id_packet = $(this).attr('packet-id');
+
 				$.ajax({
 					url: '{{route('toggle.packet.admin')}}',
 					data: {id_packet},
@@ -326,9 +316,7 @@
 					}
 				})
 			});
-
-
-	});
+		});
 
 
 

@@ -9,7 +9,7 @@
 		<div class="card">
 			<div class="card-header">
 				<h4>Pengaturan User</h4>
-				<small>Anda bisa mengubah info user disini!</small>
+				<small>Anda bisa mengubah info akun disini!</small>
 			</div>
 			<div class="card-body">
 				<form action="{{url('/admin/update-user-info')}}" method="POST">

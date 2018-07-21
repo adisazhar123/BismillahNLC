@@ -12,17 +12,32 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-      $faker = Faker::create();
-      foreach (range(1,10) as $index) {
-      DB::table('users')->insert([
-           'name' => $faker->name,
-           'email' => $faker->email,
-           'password' => bcrypt('secret'),
-           'role' => rand(1,3)
-       ]);
-    }
+
+      //team
     DB::table('users')->insert([
-         'name' => 'adis',
+         'name' => 'team1',
+         'email' => 'team1@gmail.com',
+         'password' => bcrypt('secret'),
+         'role' => 3,
+         'role_id' => 1
+     ]);
+     DB::table('users')->insert([
+          'name' => 'team2',
+          'email' => 'team2@gmail.com',
+          'password' => bcrypt('secret'),
+          'role' => 3,
+          'role_id' => 2
+      ]);
+      DB::table('users')->insert([
+           'name' => 'team3',
+           'email' => 'team3@gmail.com',
+           'password' => bcrypt('secret'),
+           'role' => 3,
+           'role_id' => 3
+       ]);
+       //admin
+    DB::table('users')->insert([
+         'name' => 'admin',
          'email' => 'admin@gmail.com',
          'password' => bcrypt('secret'),
          'role' => 1
