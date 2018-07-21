@@ -104,9 +104,8 @@
 					<div class="form-group">
 						<label for="type">Tipe peserta</label>
 						<select class="form-control" id="type" name="type">
-							<option value='offline' id="select_option_1">Offline</option>
-							<option value='online' id="select_option_2">Online</option>
-							<option value='offline & online' id="select_option_3">Offline & online</option>
+							<option value='warmup' id="select_option_1">Warmup</option>
+							<option value='non-warmup' id="select_option_2">Non warmup</option>
 						</select>
 					</div>
 

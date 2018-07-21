@@ -21,7 +21,7 @@ class CreatePacketTable extends Migration
             $table->text('end_time', 20)->nullable();
             $table->integer('duration');
             $table->integer('active');
-            $table->string('type')->default('online')->nullable();
+            $table->string('type')->default('non-warmup')->nullable();
         });
     }
 
