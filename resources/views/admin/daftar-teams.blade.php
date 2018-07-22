@@ -17,7 +17,7 @@
 					<table id="table_id" class="table table-striped table-hover">
 					    <thead>
 					        <tr>
-								<th>#</th>
+								<th>#ID Tim</th>
 					            <th>Nama Tim</th>
 					            <th>Email</th>
 								<th>Action</th>
@@ -38,7 +38,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Tambah User</h5>
+        <h5 class="modal-title">Tambah Tim</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
