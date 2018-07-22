@@ -25,7 +25,7 @@
             @endif
           </div>
         </div>
-        
+
       @if($server_time<$warmup)
         <div class="card text-white bg-info">
           <div class="card-body">
@@ -40,7 +40,7 @@
                   <option value="1">1 (Satu)</option>
                   <option value="2">2 (Dua)</option>
                   <option value="3">3 (Tiga)</option>
-                  <option value="3">4 (Empat)</option>
+                  <option value="4">4 (Empat)</option>
                 </select>
                 <br><br>
                 <button type="submit" class="float-right btn btn-primary">Submit</button>
