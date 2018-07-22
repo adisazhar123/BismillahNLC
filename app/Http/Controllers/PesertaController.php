@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Session;
 use View;
 use App\User;
+use App\Announcement;
 use App\Packet;
 use App\Question;
 use App\GeneratedPacket;
@@ -22,6 +23,10 @@ class PesertaController extends Controller
       View::share('server_time', $this->server_time);
     }
 
+    public function getServerTime(){
+      return Carbon::now('Asia/Jakarta')->toDateTimeString();
+    }
+
     public function showLogin(){
       return view('peserta.login');
     }
@@ -31,7 +36,22 @@ class PesertaController extends Controller
     }
 
     public function announcementPage(){
-      return view('peserta.pengumuman');
+      $packets = Packet::whereHas('generatedPackets')->where('type', 'warmup')->where('open', 1)
+                  ->get();
+
+      $pkts = Packet::where('type', 'warmup')->get();
+
+      $pkt_arr = array();
+
+      foreach ($pkts as $p) {
+        $pkt_arr[] = $p->id_packet;
+      }
+
+      $announcements = Announcement::orderBy('id', 'DESC')->get();
+
+      //menampilkan pilihan kloter yang telah dipilih
+      $pilihan_kloter = TeamPacket::where('id_team', Auth::user()->role_id)->where('status', 1)->whereIn('id_packet', $pkt_arr)->select('id_packet')->first();
+      return view('peserta.pengumuman')->with('packets', $packets)->with('pilihan_kloter', $pilihan_kloter)->with('announcements', $announcements);
     }
 
     public function updatePassword(Request $request){
@@ -46,18 +66,30 @@ class PesertaController extends Controller
     }
 
     public function pilihKloter(Request $request){
+      $team_ans='';
+      $ans_stats='';
       $data = TeamPacket::firstOrNew(array('id_team' => Auth::user()->role_id));
 
       $id_generated = GeneratedPacket::where('id_packet', $request->kloter)->inRandomOrder()->first();
 
-      $data->id_packet            = $request->kloter;
+      $data->id_packet            = (int)$request->kloter;
       $data->id_generated_packet  = $id_generated['id'];
       $data->id_team              = Auth::user()->role_id;
       $data->status               = 1;
       $data->has_started          = 0;
       $data->has_finished         = 0;
 
-      $data->save ();
+      for ($i=1; $i <=90 ; $i++) {
+        $team_ans.= '0,';
+        $ans_stats.='0,';
+      }
+
+      $data->team_ans = $team_ans;
+      $data->ans_stats = $ans_stats;
+      $data->packet_file_directory = $id_generated->packet_file_directory;
+
+
+      $data->save();
 
       return redirect()->back()->with('message', 'Kloter telah dipilih');
     }
@@ -195,8 +227,7 @@ class PesertaController extends Controller
       //select id_packet yg aktif hari ini
       $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet', 'type')->get();
 
-      //menampilkan pilihan kloter yang telah dipilih
-      $pilihan_kloter = TeamPacket::where('id_team', Auth::user()->role_id)->select('id_packet')->first();
+
 
       //variable utk nyimpen flag ada ujian gak. 0 = ga ada, 1 = ada tapi belum diassign, 2 = ada dan udah diassign (peserta pernah close browser atau logout)
       //3 = udah diassign tapi start_time belum mulai
@@ -207,7 +238,7 @@ class PesertaController extends Controller
       if ($packets_today->isEmpty()) {
         //Gak ada ujian hari ini
         $exam=0;
-        return view('peserta.welcome-peserta')->with('exam', $exam)->with('pilihan_kloter', $pilihan_kloter);
+        return view('peserta.welcome-peserta')->with('exam', $exam);
       }else {
         //Ada ujian hari ini
         //id_packet disimpan di array
@@ -220,10 +251,15 @@ class PesertaController extends Controller
         $team_packet = TeamPacket::whereIn('id_packet', $packets_today_arr)->where('id_team', Auth::user()->role_id)
                       ->where('has_finished', 0)->where('status', 1)->first();
 
+        // NOTE: uncomment utk assign randomly
         //belum dpt assign packet
-        if (!$team_packet) {
-          return view('peserta.welcome-peserta')->with('exam', $exam)->with('pilihan_kloter', $pilihan_kloter);;
+        // if (!$team_packet) {
+        //   return view('peserta.welcome-peserta')->with('exam', $exam);
+        //
+        // }
 
+        if (!$team_packet) {
+          return view('peserta.welcome-peserta')->with('exam', $exam);
         }
 
         $assigned_packet = Packet::find($team_packet->id_packet);
@@ -233,7 +269,7 @@ class PesertaController extends Controller
         else if ($team_packet && strtotime($assigned_packet->start_time) > strtotime($date_today->toTimeString()))
           $exam = 3;
       }
-      return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time)->with('pilihan_kloter', $pilihan_kloter);;
+      return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time);
     }
 
     //Untuk submit jawaban, dijadikan array terus convert ke string utk store di DB

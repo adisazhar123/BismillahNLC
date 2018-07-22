@@ -1,16 +1,39 @@
 @extends('layouts.app-admin')
 
+@section('style')
+	<style media="screen">
+		.btn{
+			margin-bottom: 3px;
+			margin-right: 3px;
+		}
+	</style>
+@endsection
+
 @section('main')
 
 <br>
 
 <div class="row">
 	<div class="col-lg-12">
+		<div class="alert alert-info" role="alert">
+			<h4 class="alert-heading">Cara penggunaan</h4>
+			<ul>
+				<li>Klik 'Tambah Tim' untuk menambahkan tim baru.</li>
+				<li>Klik 'Impor Data' untuk mengimpor data tim dalam bentuk .csv.</li>
+				<li>Klik 'Ubah' untuk melakukan perubahan data tim.</li>
+				<li>Klik 'Hapus' untuk menghapus data tim.<br><strong>Ingat, penghapusan tim berarti SELURUH NILAI untuk tim tersebut akan HILANG!</strong></li>
+			</ul>
+			<hr>
+			<p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
+		</div>
 		<div class="card">
 			<div class="card-header">
 				<h4>Daftar Tim</h4>
-				<button style="float: right" type="button" name="button" id='add_team' class="btn btn-primary">Tambah Tim</button>
-				<button data-toggle="modal" data-target="#import" style="float: right;margin-right:15px;" type="button" name="button" class="btn btn-primary">Impor Data</button>
+				<div class="row" style="float: right">
+					<button type="button" name="button" id='add_team' class="btn btn-primary">Tambah Tim</button>
+					<button data-toggle="modal" data-target="#import" type="button" name="button" class="btn btn-primary">Impor Data</button>
+				</div>
+
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -102,6 +125,7 @@
 		$(document).ready( function () {
 			var table1;
 			var method, action, url;
+
 			table1 = $('#table_id').DataTable({
 			responsive: true,
 			stateSave: true,
@@ -111,11 +135,18 @@
 					{data: "name"},
 					{data: "email"},
 					{render: function(data, type, row){
-						return "<button class='btn btn-warning' id=view team-id="+row.id_team+">Ubah</button>";
+						return "<button class='btn btn-danger' id=delete team-id="+row.id_team+">Hapus</button><button class='btn btn-warning' id=view team-id="+row.id_team+">Ubah</button>";
 						}
 					}
 			]
 		});
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
 		$("#menu-teams").addClass('active');
 
 		$("#add_team").click(function(){
@@ -178,11 +209,37 @@
 					$(".modal.team").modal('hide')
 
 				},
+				error: function(data){
+					message='Server error!';
+					if (data.responseJSON == "23000") {
+						message = "Email tsb sudah ada. Gunakan email yang berbeda!";
+					}
+					alertify.error(message);
+				}
+			});
+		});
+
+		$(document).on('click', '#delete', function(){
+			id_team = $(this).attr('team-id');
+
+			$.ajax({
+				url: '{{route('delete.team')}}',
+				data: {id_team},
+				method: "DELETE",
+				success: function(data){
+					if (data == "ok") {
+						alertify.success('Tim berhasil dihapus!');
+					}else {
+						alertify.error('Tim gagal dihapus!');
+					}
+					table1.ajax.reload();
+				},
 				error: function(){
 					alertify.error('Server error!');
 				}
-			})
-		})
+			});
+
+		});
 
 	@if(session()->has('message'))
 		alertify.success('{{session()->get('message')}}');

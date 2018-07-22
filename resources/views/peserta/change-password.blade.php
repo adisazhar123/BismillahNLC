@@ -64,7 +64,7 @@
       @endif
       @if (session()->has('error'))
         alertify.error('{{session()->get('error')}}')
-      @endif      
+      @endif
 
       $("#menu-settings").addClass('active');
 

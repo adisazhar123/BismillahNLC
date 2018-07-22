@@ -27,7 +27,7 @@
   	<li>Untuk menambahkan paket klik 'Tambah Soal'.</li>
 		<li>Untuk mengganti pengaturan paket klik 'Ubah'.</li>
 		<li>Untuk menghapus paket klik 'Hapus'. <br>
-			<strong>Penghapusan paket mengakibatkan seluruh nilai dan generated PDF untuk paket tersebut hilang!</strong>
+			<strong>Penghapusan paket mengakibatkan seluruh nilai dan generated PDF untuk paket tersebut HILANG!</strong>
 		</li>
 		<li>Jika paket memiliki status 'aktif', maka paket tersebut tersedia untuk dikerjakan oleh peserta. Klik 'non-aktifkan' jika paket belum siap.</li>
 		<li>Untuk pengaturan soal pada paket, klik 'Info'.</li>

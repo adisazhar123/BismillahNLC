@@ -32,6 +32,7 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::put('/peserta/change-password-user', 'PesertaController@updatePassword');
   Route::put('/peserta/pilih-kloter', 'PesertaController@pilihKloter');
   Route::get('/peserta/announcement', 'PesertaController@announcementPage');
+  Route::get('/peserta/server-time', 'PesertaController@getServerTime');
 });
 
 
@@ -82,6 +83,12 @@ Route::middleware(['admin_only'])->group(function(){
   Route::post('/admin/duplicate-packet', 'AdminController@duplicatePacket')->name('duplicate.packet');
   Route::get('/admin/settings', 'AdminController@settingsPage');
   Route::put('/admin/update-user-info', 'AdminController@updateUser');
+  Route::delete('/admin/delete-team', 'AdminController@deleteTeam')->name('delete.team');
+  Route::get('/admin/announcement', 'AdminController@announcementPage');
+  Route::post('/admin/announce', 'AdminController@announce');
+  Route::delete('/admin/delete-announcement', 'AdminController@deleteAnnouncement');
+  Route::get('/admin/server-time', 'AdminController@getServerTime');
+
 });
 // TODO:
 Route::put('/admin/generate-score', 'AdminController@generateScore')->name('generate.score.admin');

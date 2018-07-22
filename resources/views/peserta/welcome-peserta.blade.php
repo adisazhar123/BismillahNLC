@@ -2,11 +2,8 @@
 
 @endsection
 
-        <?php
-        $warmup     =   Carbon\Carbon::createFromFormat('Y-m-d H-i-s', '2018-09-22 23-59-59')->toDateTimeString();
-        $penyisihan =   Carbon\Carbon::createFromFormat('Y-m-d H-i-s', '2018-09-29 23-59-59')->toDateTimeString();
-        ?>
 
+    {{$_SERVER['SERVER_NAME']}}
         <div class="card">
           <div class="card-body">
             <h3>Selamat datang {{$team_name}} pada NLC Online 2018</h3>
@@ -30,7 +27,7 @@
           </div>
         </div>
 
-  
+
 
 @section('script')
   <script type="text/javascript">

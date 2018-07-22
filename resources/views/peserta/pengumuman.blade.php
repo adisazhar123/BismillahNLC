@@ -1,41 +1,87 @@
 @extends('layouts.app-peserta')
 
+@section('style')
+  <style media="screen">
+    .border{
+      border-color: rgba(0,0,0,0.1) !important;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .bg-announcement{
+      background-color: #ffe556;
+    }
+
+    .card-body{
+      color: black;
+    }
+  </style>
+@endsection
+
 @section('content')
   <br>
   <div class="row">
     <div class="col-lg-12">
-      <div class="card text-white bg-info">
+      <div class="card bg-info">
+        <div class="card-body bg-announcement">
+            <h3 class="">                <i class="fa fa-calendar mb-1"></i> Pengumuman</h3>
+            @if ($announcements->isEmpty())
+              Tidak ada pengumuman.
+            @else
+              @foreach ($announcements as $a)
+                <div class="border">
+                {!! $a->content !!}
+                <small><i>{{ date_format($a->created_at, 'd/m/Y')}}</i></small>
+              </div>
+              @endforeach
+            @endif
+
+          </div>
+      </div>
+
+      <div class="card">
         <div class="card-body">
-          <h3 class="text-dark">Pemilihan Kloter pengerjaan warmup</h3>
-          <p>Pemilihan kloter akan berpengaruh pada .....</p>
+          <h3 class="text-dark">Pemilihan Kloter Pengerjaan Warmup/ Latihan</h3>
             <form action="{{url('/peserta/pilih-kloter')}}" method="POST">
               <input type="hidden" name="_method" value="PUT">
               {{ csrf_field() }}
               <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
               <select class="custom-select custom-select-sm" name="kloter" required>
                 <option value="{{ $pilihan_kloter['id_packet'] or '' }}">{{ $pilihan_kloter['id_packet'] or 'Pilih kloter' }}</option>
-                <option value="1">1 (Satu)</option>
-                <option value="2">2 (Dua)</option>
-                <option value="3">3 (Tiga)</option>
-                <option value="4">4 (Empat)</option>
+                @if (empty($pilihan_kloter))
+                  @php
+                    $i=1;
+                  @endphp
+                  @foreach ($packets as $p)
+                    <option value="{{$p->id_packet}}">{{$i}}</option>
+                    @php
+                      $i++;
+                    @endphp
+                  @endforeach
+                @endif
+
               </select>
               <br><br>
-              <button type="submit" class="float-right btn btn-primary">Submit</button>
+              @if (empty($pilihan_kloter))
+                <button type="submit" class="float-right btn btn-primary">Submit</button>
+                @else
+                  <button type="submit" class="float-right btn btn-primary" disabled>Submit</button>
+
+              @endif
             </form>
-        <p class="text-warning">*Batas pemilihan/penggantian kloter sampai 22 September 2018 23:59</p>
+        <p class="">*Penutupan pemilihan kloter akan melalui pengumuman.</p>
         </div>
       </div>
 
-      <div class="card text-white bg-warning">
-        <div class="card-body">
-          <h3 class="text-dark">Agenda selanjutnya</h3>
-          <i class="fa fa-calendar"></i>&emsp;
-              Warmup online 23 September 2018
-              <i class="fa fa-calendar"></i>&emsp;
-                  Babak penyisihan 30 September 2018
-        </div>
-      </div>
+
     </div>
   </div>
 
+@endsection
+
+@section('script')
+<script type="text/javascript">
+$("#menu-announcement").addClass('active')
+
+</script>
 @endsection

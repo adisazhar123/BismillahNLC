@@ -15,6 +15,7 @@ use App\GeneratedPacket;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Announcement;
 use Auth;
 
 class AdminController extends Controller
@@ -24,6 +25,10 @@ class AdminController extends Controller
     public function __construct(){
       $this->server_time = Carbon::now('Asia/Jakarta')->toDateTimeString();
       View::share('server_time', $this->server_time);
+    }
+
+    public function getServerTime(){
+      return Carbon::now('Asia/Jakarta')->toDateTimeString();
     }
 
     //halaman index
@@ -542,22 +547,28 @@ class AdminController extends Controller
     }
 
     public function newTeam(Request $request){
-      $user = User::create([
-        'name' => $request->team_name,
-        'email' => $request->team_email,
-        'password' => bcrypt($request->team_password),
-        'phone' => $request->team_phone,
-        'role' => 3
-      ]);
+      try {
+        $team = new Team;
+        $team->name = $request->team_name;
+        $team->email = $request->team_email;
+        $team->phone = $request->team_phone;
 
-      $team = new Team;
-      $team->id_team = $user->id;
-      $team->name = $request->team_name;
-      $team->email = $request->team_email;
-      $team->phone = $request->team_phone;
+        $team->save();
 
-      if ($team->save())
+        $user = User::create([
+          'name' => $request->team_name,
+          'email' => $request->team_email,
+          'password' => bcrypt($request->team_password),
+          'role' => 3,
+          'role_id' => $team->id_team
+        ]);
+
         return "ok";
+
+      } catch (\Exception $e) {
+        return response()->json($e->getCode(), 500);
+      }
+
       return "fail";
     }
 
@@ -956,6 +967,32 @@ class AdminController extends Controller
       if ($user->save()) {
         return redirect()->back()->with('message', 'Info berhasil diperbaharui');
       }
+    }
+
+    public function deleteTeam(Request $request){
+      $team = Team::find($request->id_team)->delete();
+      $user = User::where('role_id', $request->id_team)->first()
+              ->delete();
+      return "ok";
+    }
+
+    public function announcementPage(){
+      $a = Announcement::all();
+      return view('admin.announcement')->with('announcements', $a);
+    }
+
+    public function announce(Request $request){
+      $announcement = new Announcement;
+      $announcement->content = $request->content;
+      if ($announcement->save()) {
+        return redirect()->back()->with('message', 'Pengumuman berhasil disimpan!');
+      }
+    }
+
+    public function deleteAnnouncement(Request $request){
+      $a = Announcement::find($request->id)->delete();
+      return redirect()->back()->with('message', 'Pengumuman berhasil dihapus!');
 
     }
+
   }

@@ -23,4 +23,7 @@
 	<li id="menu-settings">
 		<a href="{{url('/admin/settings')}}"> <i class="fa fa-wrench"></i>Pengaturan </a>
 	</li>
+	<li id="menu-announcement">
+		<a href="{{url('/admin/announcement')}}"> <i class="fa fa-bell"></i>Pengumuman </a>
+	</li>
 </ul>

@@ -556,9 +556,12 @@ nav.navbar a.menu-btn:hover {
   .page.active-sm {
     width: calc(100% - 70px);
   }
+  #toggle-btn, .navbar-brand{
+    left: 20px;
+  }
   .side-navbar {
-    left: -70px;
-    width: 70px;
+    left: -97px;
+    width: 97px;
     text-align: center;
   }
   .side-navbar.show-sm {

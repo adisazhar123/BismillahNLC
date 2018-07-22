@@ -1,7 +1,7 @@
 
 <h5 class="sidenav-heading">Menu Utama</h5>
 <ul id="side-main-menu" class="side-menu list-unstyled">
-	<li id="memu-home">
+	<li id="menu-home">
 		<a href="{{route('peserta.home')}}"><i class="fa fa-home"></i>Beranda</a>
 	</li>
 	<li id="menu-announcement">

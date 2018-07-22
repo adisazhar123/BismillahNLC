@@ -4,6 +4,7 @@
 	<style media="screen">
 		.btn{
 			margin-right: 3px;
+			margin-bottom: 3px;
 		}
 
 		#loading{
@@ -23,9 +24,12 @@
 		<div class="card">
 			<div class="card-header">
 				<h4>Daftar Tim untuk Paket {{$packet->name}}</h4>
-				<button style="float: right" type="button" name="button" id='unassign_all' class="btn btn-danger" packet-id={{Input::get('id_packet')}}>Unassign semua tim</button>
-				<button style="float: right" type="button" name="button" id='assign_online' class="btn btn-primary" packet-id={{Input::get('id_packet')}}>Assign tim online</button>
-				<button style="float: right" type="button" name="button" id='assign_offline' class="btn btn-primary" packet-id={{Input::get('id_packet')}}>Assign tim offline</button>
+				<div class="row" style="float: right">
+					<button style="float: right" type="button" name="button" id='unassign_all' class="btn btn-danger" packet-id={{Input::get('id_packet')}}>Unassign semua tim</button>
+					<button style="float: right" type="button" name="button" id='assign_online' class="btn btn-primary" packet-id={{Input::get('id_packet')}}>Assign tim online</button>
+					<button style="float: right" type="button" name="button" id='assign_offline' class="btn btn-primary" packet-id={{Input::get('id_packet')}}>Assign tim offline</button>
+
+				</div>
 
 			</div>
 			<div class="card-body">

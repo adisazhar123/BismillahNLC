@@ -32,6 +32,8 @@
 $(document).ready(function(){
   $(".main-content").load('{{route('peserta.welcome')}}', function(){});
 
+  $("#menu-home").addClass('active')
+
   $(document).on('click', '.show-tes', function(){
     $(".main-content").hide().load('{{route('team.exam')}}', function(response, status, xhr){
       if (typeof response.intended_url !== 'undefined') {

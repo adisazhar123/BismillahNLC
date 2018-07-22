@@ -149,29 +149,40 @@
     @yield('script')
 
     <script type="text/javascript">
-    var time = new Date('{{$server_time}}');
 
+    $(document).ready(function(){
+      var time;
+        $.ajax({
+          url: '{{url('/peserta/server-time')}}',
+          data: "string",
+          async: false,
+          success: function(data){
+            time = new Date(data);
+            time3 = time.getTime();
+          }
+        });
 
-    time3 = time.getTime();
+      function clock() {
+        time3 = new Date(time3);
 
-    function clock() {
-      time3 = new Date(time3);
+        var hours = time3.getHours(),
+        minutes = time3.getMinutes(),
+        seconds = time3.getSeconds();
 
-      var hours = time3.getHours(),
-      minutes = time3.getMinutes(),
-      seconds = time3.getSeconds();
+        $("#server_time").text(countTime(hours) + ":" + countTime(minutes) + ":" + countTime(seconds));
+        time3 = time3.getTime() + 1000;
 
-      $("#server_time").text(countTime(hours) + ":" + countTime(minutes) + ":" + countTime(seconds));
-      time3 = time3.getTime() + 1000;
-
-      function countTime(now) {
-        if (now < 10) {
-          now = '0' + now;
+        function countTime(now) {
+          if (now < 10) {
+            now = '0' + now;
+          }
+          return now;
         }
-        return now;
       }
-    }
-      setInterval(clock, 1000);
+        setInterval(clock, 1000);
+    });
+
+
     </script>
 
 </body>
