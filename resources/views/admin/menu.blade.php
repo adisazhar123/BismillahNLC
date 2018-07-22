@@ -4,7 +4,7 @@
 	<li id="menu-teams">
 		<a href="{{route('index.admin')}}"> <i class="fa fa-users"></i>Daftar Tim </a>
 	</li>
-	<li id="menu-teams">
+	<li id="user-list">
 		<a href="{{route('list.user.admin')}}"> <i class="fa fa-users"></i>Daftar User </a>
 	</li>
 	<li><a href="#m1" id="menu-score" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-list-ol"></i>Menu Skor </a>
