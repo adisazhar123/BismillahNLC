@@ -36,6 +36,37 @@
         pointer-events: none;
         opacity: 0.3;
       }
+      .side-navbar.shrink{
+        width: 93px;
+      }
+      .exam-answers{
+        margin-top: 20px;
+      }
+      .exam-answers .card-body{
+        padding-left: 100px;
+      }
+      .form-check{
+        margin-right: 5px;
+      }
+      .form-check:hover{
+        transform: scale(1.3);
+      }
+      .question_no{
+        margin-right: 5px;
+        text-align: center;
+        height: 25px;
+        width: 25px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+      .fa-refresh{
+        margin-top: 4px;
+        margin-left: 3px;
+      }
+      .fa-refresh:hover{
+        cursor: pointer;
+        transform: scale(1.1);
+      }
      </style>
 
 </head>

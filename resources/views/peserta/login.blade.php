@@ -2,15 +2,6 @@
 
 @section('style')
 <style media="screen">
-  .login{
-    border-style: solid;
-    padding: 30px;
-    background-color: white;
-    border-radius: 10px;
-    border-color: white;
-    text-align: center;
-  }
-
   #login_btn{
     width: 100%;
   }

@@ -31,6 +31,7 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::put('/peserta/finish-exam', 'PesertaController@submitExam')->name('peserta.submit.exam');
   Route::put('/peserta/change-password-user', 'PesertaController@updatePassword');
   Route::put('/peserta/pilih-kloter', 'PesertaController@pilihKloter');
+  Route::get('/peserta/announcement', 'PesertaController@announcementPage');
 });
 
 

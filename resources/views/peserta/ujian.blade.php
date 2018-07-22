@@ -1,5 +1,4 @@
 
-  <div class="container">
     @if (!isset($finished))
       <div class="card packet-info">
         <div class="card-body">
@@ -20,7 +19,7 @@
         <div class="card exam-answers">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-lg-4">
                 @for ($i=1; $i <= 30; $i++)
                   <div class="row q_no_{{$i}}">
                     @if ($answers_stats[$i-1] == 'green')
@@ -47,7 +46,7 @@
                   </div>
                 @endfor
               </div>
-              <div class="col-md-4">
+              <div class="col-lg-4">
                 @for ($i=31; $i <= 60; $i++)
                   <div class="row q_no_{{$i}}">
                     @if ($answers_stats[$i-1] == 'green')
@@ -74,7 +73,7 @@
                   </div>
                 @endfor
               </div>
-              <div class="col-md-4">
+              <div class="col-lg-4">
                 @for ($i=61; $i <= 90; $i++)
                   <div class="row q_no_{{$i}}">
                     @if ($answers_stats[$i-1] == 'green')
@@ -114,7 +113,7 @@
           <div class="card-body">
             <div class="row">
 
-              <div class="col-md-4">
+              <div class="col-lg-4">
                 @for ($i=1; $i <= 30; $i++)
                   <div class="row q_no_{{$i}}">
                     <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
@@ -130,7 +129,7 @@
                   </div>
                 @endfor
               </div>
-              <div class="col-md-4">
+              <div class="col-lg-4">
                 @for ($i=31; $i <= 60; $i++)
                   <div class="row q_no_{{$i}}">
                     <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
@@ -146,7 +145,7 @@
                   </div>
                 @endfor
               </div>
-              <div class="col-md-4">
+              <div class="col-lg-4">
                 @for ($i=61; $i <= 90; $i++)
                   <div class="row q_no_{{$i}}">
                     <h6 class="question_no" id="q_no_{{$i}}"><strong>{{$i}} </strong></h6>
@@ -166,7 +165,7 @@
           </div>
         </div>
       @endif
-  </div>
+
   <div class="container">
     <div class="finish_exam modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">

@@ -21,13 +21,17 @@ class PesertaController extends Controller
       $this->server_time = Carbon::now('Asia/Jakarta')->toDateTimeString();
       View::share('server_time', $this->server_time);
     }
-      
+
     public function showLogin(){
       return view('peserta.login');
     }
 
     public function changePsw(){
       return view('peserta.change-password');
+    }
+
+    public function announcementPage(){
+      return view('peserta.pengumuman');
     }
 
     public function updatePassword(Request $request){
@@ -301,6 +305,7 @@ class PesertaController extends Controller
     public function submitExam(Request $request){
       $team_packet = TeamPacket::find($request->id_team_packet);
       $team_packet->has_finished = 1;
+      $team_packet->status = 0;
       if ($team_packet->save()) {
         return "ok";
       }

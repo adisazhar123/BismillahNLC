@@ -19,7 +19,6 @@ class CreateTeamPacketTable extends Migration
             $table->integer('id_generated_packet');
             $table->integer('id_team');
             $table->integer('status')->default(0);
-            $table->integer('has_started')->default(0);
             $table->integer('has_finished')->default(0);
             $table->text('team_ans')->nullable();
             $table->text('ans_stats')->nullable();

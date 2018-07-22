@@ -56,9 +56,10 @@ class AdminController extends Controller
        $packet->duration = $request->duration;
        $packet->active = 0;
        $packet->type = $request->type;
-
        if ($packet->type =='non-warmup' ) {
-         $packet->status = $request->status;
+         $packet->open = (int)$request->status;
+       }else {
+         $packet->open = 1;
        }
 
        if ($packet->save())
@@ -112,9 +113,10 @@ class AdminController extends Controller
       $packet->end_time = $request->end_time;
       $packet->duration = $request->duration;
       $packet->type = $request->type;
-
       if ($packet->type =='non-warmup' ) {
-        $packet->status = $request->status;
+        $packet->open = (int)$request->status;
+      }else {
+        $packet->open = 1;
       }
 
        if ($packet->save()){
