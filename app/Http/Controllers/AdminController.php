@@ -6,6 +6,7 @@ use View;
 use Illuminate\Http\Request;
 use App\Team;
 use App\TeamPacket;
+use App\UserListing;
 use App\Packet;
 use App\Question;
 use Carbon\Carbon;
@@ -28,6 +29,17 @@ class AdminController extends Controller
     //halaman index
     public function index(){
       return view('admin.daftar-teams');
+    }
+
+    //halaman index
+    public function listUserAdmin(){
+      return view('admin.daftar-user');
+    }
+
+    //fungsi utk GET teams (ngisi datatable)
+    public function getUser(){
+      $teams = UserListing::all(['id','name','email']);
+      return response()->json(['data'=> $teams]);
     }
 
     //fungsi utk GET teams (ngisi datatable)

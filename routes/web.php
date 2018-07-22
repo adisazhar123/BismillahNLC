@@ -38,7 +38,9 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
 //Role: Admin
 Route::middleware(['admin_only'])->group(function(){
   Route::get('/admin', 'AdminController@index')->name('index.admin');
+  Route::get('/admin/user-list', 'AdminController@listUserAdmin')->name('list.user.admin');
   Route::get('/admin/get-teams', 'AdminController@getTeams')->name('get.teams.admin');
+  Route::get('/admin/get-teams', 'AdminController@getUser')->name('get.user.admin');
   Route::get('/admin/packets', 'AdminController@packetPage')->name('packet.admin');
   Route::get('/admin/get-packets', 'AdminController@getPackets')->name('get.packets.admin');
   Route::post('/admin/new-packet', 'AdminController@newPacket')->name('new.packet.admin');
