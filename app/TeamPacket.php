@@ -8,6 +8,8 @@ class TeamPacket extends Model
 {
   protected $table = 'team_packet';
   protected $primaryKey = 'id';
+  //iki tak tambahi gawe firstornew mass assignment
+  protected $guarded = [''];
   public $timestamps = false;
 
   public function packets(){

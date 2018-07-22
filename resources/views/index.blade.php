@@ -1,4 +1,4 @@
-@extends('layouts.app-peserta')
+@extends('layouts.app-index')
 
 @section('style')
   <style media="screen">

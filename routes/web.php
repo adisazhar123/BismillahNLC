@@ -21,6 +21,7 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::get('/ujian', 'PesertaController@showExam')->name('team.exam');
   Route::get('/petunjuk-ujian', 'PesertaController@showPetunjuk')->name('peserta.petunjuk');
   Route::get('/peserta/home', 'PesertaController@home')->name('peserta.home');
+  Route::get('/peserta/change-password', 'PesertaController@changePsw')->name('peserta.changepsw');
   Route::get('/peserta/welcome-screen', 'PesertaController@showWelcome')->name('peserta.welcome');
   Route::put('/peserta/submit-answer', 'PesertaController@submitAns')->name('peserta.submit.ans');
   Route::put('/peserta/submit-answer-status', 'PesertaController@submitAnsStat')->name('peserta.submit.ans.stat');
@@ -28,6 +29,8 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::put('/peserta/reset-answer', 'PesertaController@resetAns')->name('peserta.reset.ans');
   Route::get('/peserta/download-packet', 'PesertaController@downloadPacket')->name('peserta.download.packet');
   Route::put('/peserta/finish-exam', 'PesertaController@submitExam')->name('peserta.submit.exam');
+  Route::put('/peserta/change-password-user', 'PesertaController@updatePassword');
+  Route::put('/peserta/pilih-kloter', 'PesertaController@pilihKloter');
 });
 
 
