@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Session;
 use View;
+use App\User;
 use App\Packet;
 use App\Question;
 use App\GeneratedPacket;
@@ -14,8 +15,47 @@ use Illuminate\Support\Facades\Auth;
 
 class PesertaController extends Controller
 {
+    protected $server_time;
+
+    public function __construct(){
+      $this->server_time = Carbon::now('Asia/Jakarta')->toDateTimeString();
+      View::share('server_time', $this->server_time);
+    }
+      
     public function showLogin(){
       return view('peserta.login');
+    }
+
+    public function changePsw(){
+      return view('peserta.change-password');
+    }
+
+    public function updatePassword(Request $request){
+      $user = User::find($request->user_id);
+      if ($request->new_password===$request->new_password_retype) {
+        $user->password = bcrypt($request->new_password);
+          if ($user->save()) {
+            return redirect()->back()->with('message', 'Password berhasil diperbaharui');
+          }
+      }
+      return redirect()->back()->with('error', 'Password tidak cocok');
+    }
+
+    public function pilihKloter(Request $request){
+      $data = TeamPacket::firstOrNew(array('id_team' => Auth::user()->role_id));
+
+      $id_generated = GeneratedPacket::where('id_packet', $request->kloter)->inRandomOrder()->first();
+
+      $data->id_packet            = $request->kloter;
+      $data->id_generated_packet  = $id_generated['id'];
+      $data->id_team              = Auth::user()->role_id;
+      $data->status               = 1;
+      $data->has_started          = 0;
+      $data->has_finished         = 0;
+
+      $data->save ();
+
+      return redirect()->back()->with('message', 'Kloter telah dipilih');
     }
 
     public function showExam(){
@@ -136,6 +176,7 @@ class PesertaController extends Controller
 
     public function home(){
       return view('peserta.home');
+
     }
 
     public function showWelcome(){
@@ -150,6 +191,9 @@ class PesertaController extends Controller
       //select id_packet yg aktif hari ini
       $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet', 'type')->get();
 
+      //menampilkan pilihan kloter yang telah dipilih
+      $pilihan_kloter = TeamPacket::where('id_team', Auth::user()->role_id)->select('id_packet')->first();
+
       //variable utk nyimpen flag ada ujian gak. 0 = ga ada, 1 = ada tapi belum diassign, 2 = ada dan udah diassign (peserta pernah close browser atau logout)
       //3 = udah diassign tapi start_time belum mulai
 
@@ -159,7 +203,7 @@ class PesertaController extends Controller
       if ($packets_today->isEmpty()) {
         //Gak ada ujian hari ini
         $exam=0;
-        return view('peserta.welcome-peserta')->with('exam', $exam);
+        return view('peserta.welcome-peserta')->with('exam', $exam)->with('pilihan_kloter', $pilihan_kloter);
       }else {
         //Ada ujian hari ini
         //id_packet disimpan di array
@@ -174,7 +218,7 @@ class PesertaController extends Controller
 
         //belum dpt assign packet
         if (!$team_packet) {
-          return view('peserta.welcome-peserta')->with('exam', $exam);
+          return view('peserta.welcome-peserta')->with('exam', $exam)->with('pilihan_kloter', $pilihan_kloter);;
 
         }
 
@@ -185,7 +229,7 @@ class PesertaController extends Controller
         else if ($team_packet && strtotime($assigned_packet->start_time) > strtotime($date_today->toTimeString()))
           $exam = 3;
       }
-      return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time);
+      return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time)->with('pilihan_kloter', $pilihan_kloter);;
     }
 
     //Untuk submit jawaban, dijadikan array terus convert ke string utk store di DB

@@ -1,151 +1,148 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Selamat Datang | NLC Online 2018</title>
-  	<link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-  	<link rel="stylesheet" href="{{asset('css/linearicons.css')}}">
-  	<link rel="stylesheet" href="{{asset('css/peserta.css')}}">
-  	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
-  	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
-    @yield('style')
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>NLC | National Logic Competition 2018</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
+  <link rel="stylesheet" href="{{asset('css/fontastic.css')}}">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="{{asset('css/grasp_mobile_progress_circle-1.0.0.min.css')}}">
+  <link rel="stylesheet" href="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
+  <link rel="stylesheet" href="{{asset('css/style.default.css')}}" id="theme-stylesheet">
+  <link rel="icon" href="{{ asset('img/logo.png') }}">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
 
-    <style media="screen">
-    html,
-    body {
-      height: 100%;
-      width: 100%;
-      overflow-x: hidden;
-      background-image: linear-gradient(#282828, #000);
-      font-family: 'Noto Sans', sans-serif !important;
-    }
+     @yield('style')
 
-    .mesh {
-      background-image: url('img/mesh_schem.png');
-      opacity: 0.3;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: 240px -480px;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 900px;
-      height: 480px;
-      animation: shake2 13s;
-      animation-iteration-count: infinite;
-    }
-      .btn-nlc{
-        background: linear-gradient(to right, #efc94c, #f5a503);
+     <style media="screen">
+      body {
+        font-family: 'Noto Sans', sans-serif !important;
       }
-      .btn-nlc:hover{
-        box-shadow: inset 0 70px 0 0 #00000052;
+      .ans-list{
+        list-style-type: none;
       }
-      .logo img {
-        height: 50px;
-        opacity: 0.8;
+      .card:hover{
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        -webkit-transition:  box-shadow .2s ease-in;
       }
-
-      .logo:hover img {
-        opacity: 1;
-      }
-      .content{
-        margin-top: 80px;
-      }
-
-      .exam-answers{
-        margin-top: 20px;
-      }
-      .exam-answers .card-body{
-        padding-left: 100px;
-      }
-      .form-check{
-        margin-right: 5px;
-
-      }
-
-      .form-check:hover{
-        transform: scale(1.3);
-      }
-
-      .question_no{
-        margin-right: 5px;
-        text-align: center;
-        height: 25px;
-        width: 25px;
-        border-radius: 4px;
-        display: inline-block;
-      }
-
-      .fa-refresh{
-        margin-top: 4px;
-        margin-left: 3px;
-      }
-
-      .fa-refresh:hover{
-        cursor: pointer;
-        transform: scale(1.1);
-      }
-
       .disabled {
         pointer-events: none;
         opacity: 0.3;
       }
-    </style>
+     </style>
+
 </head>
 
 <body>
-<div id="app">
-  <div class="mesh">
-  </div>
-  <div class="content">
-    <div class="oz-body-wrap">
-      <header class="default-header">
-        <div class="container-fluid">
-          <div class="header-wrap">
-            <div class="header-top d-flex justify-content-between align-items-center">
-              <div class="logo">
-                <a href="{{url('/')}}"><img src="{{asset('img/logo_schem.png')}}" alt=""></a>
-              </div>
-              <div class="main-menubar d-flex align-items-center">
-                <nav class="hide">
-                  <a href="{{url('/')}}">Home</a>
-                  @if (!Auth::guest())
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                    Keluar</a>
-
-                  @endif
-                </nav>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                      style="display: none;">
-                    {{ csrf_field() }}
-                </form>
-
-                <div class="menu-bar"><span class="lnr lnr-menu"></span></div>
-              </div>
+    <nav class="side-navbar">
+        <div class="side-navbar-wrapper">
+            <div class="sidenav-header d-flex align-items-center justify-content-center">
+                <div class="sidenav-header-inner text-center">
+                <img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
+                <h2 class="h5">{{Auth::user()->name}}</h2>
+                <span>Waktu Server</span><br>
+                <span id="server_time"></span>
+                </div>
+                <div class="sidenav-header-logo">
+                  <img class="brand-small" src="{{ asset('img/schematics.png') }}" style="height:unset">
+                </div>
             </div>
-          </div>
+            <div class="main-menu">
+                @include('peserta.menu')
+            </div>
         </div>
-      </header>
-    </div>
-    @yield('content')
-  </div>
-</div>
+    </nav>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-<script src="{{asset('js/main.js')}}"></script>
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
-@yield('script')
+    <div class="page">
+        <header class="header">
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <div class="navbar-holder d-flex align-items-center justify-content-between">
+                        <div class="navbar-header"><a id="toggle-btn" href="#" class="menu-btn"><i class="icon-bars"> </i></a>
+                            <a href="#" class="navbar-brand">
+                                <div class="brand-text d-none d-md-inline-block">Dashboard Tim</div>
+                            </a>
+                        </div>
+                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                            <!-- Log out-->
+                            <li class="nav-item">
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <section>
+            <div class="container-fluid">
+                @yield('content')
+            </div>
+        </section>
+        <footer class="main-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>Schematics ITS 2018</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+          style="display: none;">
+        {{ csrf_field() }}
+    </form>
+
+    <!-- JavaScript files-->
+    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('vendor/popper.js/umd/popper.min.js')}}">
+    </script>
+    <script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+    <script src="{{asset('js/front.js')}}"></script>
+
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+    @yield('script')
+
+    <script type="text/javascript">
+    var time = new Date('{{$server_time}}');
+
+
+    time3 = time.getTime();
+
+    function clock() {
+      time3 = new Date(time3);
+
+      var hours = time3.getHours(),
+      minutes = time3.getMinutes(),
+      seconds = time3.getSeconds();
+
+      $("#server_time").text(countTime(hours) + ":" + countTime(minutes) + ":" + countTime(seconds));
+      time3 = time3.getTime() + 1000;
+
+      function countTime(now) {
+        if (now < 10) {
+          now = '0' + now;
+        }
+        return now;
+      }
+    }
+      setInterval(clock, 1000);
+    </script>
 
 </body>
+
 </html>

@@ -12,8 +12,17 @@
 @endsection
 
 @section('content')
-  <div class="main-content">
+
+<br>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="main-content">
+    </div>
   </div>
+</div>
+
+
 @endsection
 
 @section('script')
