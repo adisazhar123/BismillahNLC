@@ -7,8 +7,8 @@
               <h3 id="clock">Sisa Waktu: </h3>
             </div>
             <div class="col-md-5">
-              <a href="{{route('peserta.download.packet')}}" target="_blank" class="btn btn-primary" type="button" name="button">Unduh Paket Soal</a>
-              <button class='btn btn-success' type="button" name="submit_exam" id="submit_exam">Selesai</button>
+              <a href="{{route('peserta.download.packet')}}" target="_blank" class="btn btn-info" type="button" name="button">Unduh Paket Soal</a>
+              <button class='btn btn-success' type="button" name="submit_exam" id="submit_exam">Selesai Ujian</button>
             </div>
           </div>
         </div>

@@ -68,7 +68,7 @@ class PesertaController extends Controller
     public function pilihKloter(Request $request){
       $team_ans='';
       $ans_stats='';
-      $data = TeamPacket::firstOrNew(array('id_team' => Auth::user()->role_id));
+      $data = TeamPacket::firstOrNew(array('id_team' => Auth::user()->role_id, 'id_packet' => (int)$request->kloter));
 
       $id_generated = GeneratedPacket::where('id_packet', $request->kloter)->inRandomOrder()->first();
 
@@ -76,8 +76,8 @@ class PesertaController extends Controller
       $data->id_generated_packet  = $id_generated['id'];
       $data->id_team              = Auth::user()->role_id;
       $data->status               = 1;
-      $data->has_started          = 0;
       $data->has_finished         = 0;
+
 
       for ($i=1; $i <=90 ; $i++) {
         $team_ans.= '0,';
@@ -87,6 +87,10 @@ class PesertaController extends Controller
       $data->team_ans = $team_ans;
       $data->ans_stats = $ans_stats;
       $data->packet_file_directory = $id_generated->packet_file_directory;
+
+
+      $packet = Packet::find($request->kloter);
+      $packet->current_capacity = $packet->current_capacity + 1;
 
 
       $data->save();

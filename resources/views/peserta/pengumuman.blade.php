@@ -9,7 +9,7 @@
     }
 
     .bg-announcement{
-      background-color: #ffe556;
+      background-color: #ffea7a;
     }
 
     .card-body{
@@ -47,13 +47,26 @@
               {{ csrf_field() }}
               <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
               <select class="custom-select custom-select-sm" name="kloter" required>
-                <option value="{{ $pilihan_kloter['id_packet'] or '' }}">{{ $pilihan_kloter['id_packet'] or 'Pilih kloter' }}</option>
+                <option value="{{ $pilihan_kloter['id_packet'] or '' }}">
+
+                  @if ($pilihan_kloter)
+                    Kloter: {{$pilihan_kloter->packets['name']}} - Jam {{$pilihan_kloter->packets['start_time']}},
+                    {{$pilihan_kloter->packets['active_date']}}
+                  @else
+                    Pilih Kloter
+                  @endif
+
+                </option>
                 @if (empty($pilihan_kloter))
                   @php
                     $i=1;
                   @endphp
                   @foreach ($packets as $p)
-                    <option value="{{$p->id_packet}}">{{$i}}</option>
+                    @if ($p->capacity <= $p->current_capacity)
+                      <option disabled value="{{$p->id_packet}}">Kloter: {{$i}} - Jam {{$p->start_time.", ".date_format(new DateTime($p->active_date), 'd-m-Y')}}</option>
+                    @else
+                      <option value="{{$p->id_packet}}">Kloter: {{$i}} - Jam {{$p->start_time.", ".date_format(new DateTime($p->active_date), 'd-m-Y')}}</option>
+                    @endif
                     @php
                       $i++;
                     @endphp

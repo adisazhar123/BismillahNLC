@@ -16,7 +16,7 @@
             @elseif ($exam == 2)
               {{-- melanjutkan ujian yang udh di-assign, mungkin pernah logout/ close browser --}}
               <p><strong>Mulai mengerjakan ujian.</strong></p>
-              <button type="button" class="btn btn-nlc show-tes" name="button">Lanjutkan ujian</button>
+              <button type="button" class="btn btn-success show-tes" name="button">Lanjutkan ujian</button>
 
             @elseif ($exam == 3)
               <p>Mohon untuk menunggu sebentar. Ujian belum mulai.<br>Ujian dimulai pukul {{$start_time}}</p>

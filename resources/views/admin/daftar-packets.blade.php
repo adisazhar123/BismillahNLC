@@ -109,6 +109,11 @@
 						</select>
 					</div>
 					<div class="form-group">
+						<label for="type">Kapasitas</label>
+						<input class="form-control" type="number" name="capacity" value="" id="capacity" min="0" max="3000">
+						<small id="capacity-label">Max 3000</small>
+					</div>
+					<div class="form-group">
 						<label for="type">Status</label>
 						<select class="form-control" id="status" name="status">
 							<option value='0' id="select_option_status_1">Kunci</option>
@@ -148,8 +153,10 @@
 			$("#type").change(function(){
 				if ($(this).val() == 'warmup') {
 					$("#status").prop('disabled', false);
+					$("#capacity").prop('disabled', false);
 				}else {
 					$("#status").prop('disabled', true);
+					$("#capacity").prop('disabled', true);
 				}
 			});
 
@@ -237,26 +244,31 @@
 		$(document).on('click', '#delete', function(){
 			id_packet = $(this).attr('packet-id')
 
-			$.ajax({
-				url: '{{route('delete.packet.admin')}}',
-				method: "DELETE",
-				data: {id_packet},
-				success: function(data){
-					if (data == "ok"){
-						alertify.success('Penghapusan paket berhasil!');
 
-					}else{
-						alertify.error('Penghapusan paket gagal!');
+			alertify.confirm('Warning', "Menghapus paket mengakibatkan seluruh nilai dan generated PDF untuk paket tersebut HILANG! Lanjutkan?", function(){
+				$.ajax({
+					url: '{{route('delete.packet.admin')}}',
+					method: "DELETE",
+					data: {id_packet},
+					success: function(data){
+						if (data == "ok"){
+							alertify.success('Penghapusan paket berhasil!');
 
+						}else{
+							alertify.error('Penghapusan paket gagal!');
+
+						}
+						table1.ajax.reload(null, false)
+
+					},
+					error: function(){
+						alertify.error('Server error!');
 					}
-					table1.ajax.reload(null, false)
-
-				},
-				error: function(){
-					alertify.error('Server error!');
-				}
-			})
-		})
+				});
+			},
+			function(){}
+		)
+	});
 
 
 			$(document).on('click', '#toggle', function(){
@@ -294,12 +306,14 @@
 						$("#start_time").val(data.start_time);
 						$("#end_time").val(data.end_time);
 						$("#duration").val(data.duration);
+						$("#capacity").val(data.capacity);
 						$("#type").val(data.type);
 						if (data.type =="non-warmup") {
 							$("#status").prop('disabled', true);
+							$("#capacity").prop('disabled', true);
 						}else {
 							$("#status").prop('disabled', false);
-
+							$("#capacity").prop('disabled', false);
 						}
 						$("#status").val(data.open);
 

@@ -157,7 +157,7 @@ $(document).on('click', '#confirm_finish', function(){
         alertify.success("Ujian berhasil diselesaikan! Terima kasih sudah berpartisipasi di NLC Online 2018 :)");
         window.setTimeout(function(){
           window.location = "{{url('/')}}";
-        }, 2000);
+        }, 2800);
 
       }else {
         alertify.error("Gagal menyelesaikan ujian!");
@@ -177,14 +177,13 @@ function startTimer(){
   //deadline dari server-side yakni end time ujian
   var deadline = $("#deadline").val();
   var countDownDate = new Date(deadline).getTime();
-  var now = new Date($("#time_now").val()).getTime();
+  var now = new Date($("#time_now").val()).getTime() ;
 
   // Update the count down every 1 second
   var x = setInterval(function() {
 
       // Get todays date and time
       // Find the distance between now an the count down date
-      now+= 1000;
       // console.log(now)
       var distance = countDownDate - now;
 
@@ -215,6 +214,8 @@ function startTimer(){
           $(".card.packet-info").addClass("disabled");
           $("#confirm_finish").trigger('click');
       }
+      now+= 1000;
+
   }, 1000);
 
 }

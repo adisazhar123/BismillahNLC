@@ -67,8 +67,6 @@
       @endif
 
       $("#menu-settings").addClass('active');
-
-
   });
 
     $(".toggle-password").click(function() {

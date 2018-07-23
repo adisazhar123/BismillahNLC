@@ -86,6 +86,13 @@
 					<label for="team_phone">No HP</label>
 					<input type="text" class="form-control" id="team_phone" placeholder="No HP" name="team_phone" required>
 				</div>
+				<div class="form-group">
+					<label for="type">Region</label>
+					<select class="form-control" id="region" name="region">
+						<option value='online' id="select_option_status_1">Online</option>
+						<option value='offline' id="select_option_status_2">Offline</option>
+					</select>
+				</div>
 			  </div>
 			  <div class="modal-footer">
 				<button type="submit" class="btn btn-primary">Submit</button>
@@ -178,7 +185,7 @@
 					$(".modal-title").text("Lihat Tim");
 					$("#newuser #team_name").val(data[1].name);
 					$("#newuser #team_email").val(data[1].email)
-					// $("#newuser #team_password").val(data[0].password)
+					$("#region").val(data[1].type)
 					$("#newuser #team_phone").val(data[1].phone)
 				}
 			});
@@ -222,22 +229,28 @@
 		$(document).on('click', '#delete', function(){
 			id_team = $(this).attr('team-id');
 
-			$.ajax({
-				url: '{{route('delete.team')}}',
-				data: {id_team},
-				method: "DELETE",
-				success: function(data){
-					if (data == "ok") {
-						alertify.success('Tim berhasil dihapus!');
-					}else {
-						alertify.error('Tim gagal dihapus!');
+			alertify.confirm('Warning', "Menghapus tim berarti SELURUH NILAI untuk tim tersebut akan HILANG. Lanjutkan?", function(){
+				$.ajax({
+					url: '{{route('delete.team')}}',
+					data: {id_team},
+					method: "DELETE",
+					success: function(data){
+						if (data == "ok") {
+							alertify.success('Tim berhasil dihapus!');
+						}else {
+							alertify.error('Tim gagal dihapus!');
+						}
+						table1.ajax.reload();
+					},
+					error: function(){
+						alertify.error('Server error!');
 					}
-					table1.ajax.reload();
-				},
-				error: function(){
-					alertify.error('Server error!');
-				}
-			});
+				});
+			},
+			function(){}
+		);
+
+
 
 		});
 
@@ -260,6 +273,9 @@
 	$("#import_file").change(function(){
 		checkFile(this);
 	});
+
+
+
 
 });
 

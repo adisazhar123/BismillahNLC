@@ -73,8 +73,9 @@ class AdminController extends Controller
        $packet->duration = $request->duration;
        $packet->active = 0;
        $packet->type = $request->type;
-       if ($packet->type =='non-warmup' ) {
+       if ($packet->type =='warmup' ) {
          $packet->open = (int)$request->status;
+         $packet->capacity = $request->capacity;
        }else {
          $packet->open = 1;
        }
@@ -118,7 +119,7 @@ class AdminController extends Controller
     }
 
     public function getPacketDetails(Request $request){
-      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration', 'type', 'open')->find($request->id_packet);
+      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration', 'type', 'open', 'capacity')->find($request->id_packet);
       return response()->json($packet);
     }
 
@@ -130,8 +131,9 @@ class AdminController extends Controller
       $packet->end_time = $request->end_time;
       $packet->duration = $request->duration;
       $packet->type = $request->type;
-      if ($packet->type =='non-warmup' ) {
+      if ($packet->type =='warmup' ) {
         $packet->open = (int)$request->status;
+        $packet->capacity = $request->capacity;
       }else {
         $packet->open = 1;
       }
@@ -552,6 +554,7 @@ class AdminController extends Controller
         $team->name = $request->team_name;
         $team->email = $request->team_email;
         $team->phone = $request->team_phone;
+        $team->type = $request->region;
 
         $team->save();
 
@@ -574,7 +577,7 @@ class AdminController extends Controller
 
     public function getTeamtoUpdate(Request $request){
       $user = User::where('role_id', $request->id_team)->select('name','email')->first();
-      $team = Team::select('id_team','name','email','phone')->find($request->id_team);
+      $team = Team::select('id_team','name','email','phone', 'type')->find($request->id_team);
 
       return response()->json([$user, $team]);
     }
@@ -586,6 +589,7 @@ class AdminController extends Controller
       $team->name = $request->team_name;
       $team->email = $request->team_email;
       $team->phone = $request->team_phone;
+      $team->type = $request->region;
 
       $user->name = $request->team_name;
       $user->email = $request->team_email;
@@ -649,15 +653,15 @@ class AdminController extends Controller
       $team_packets = TeamPacket::where('id_packet', $request->id_packet)
                       ->where('final_score', null)->limit(10)->get();
 
+
       foreach ($team_packets as $tp) {
         $generated_packet = GeneratedPacket::find($tp->id_generated_packet);
-
         $team_ans = explode(',', $tp->team_ans);
         $questions_order = explode(',', $generated_packet->questions_order);
 
         $final_score = 0;
 
-        for ($i=0; $i < 90 ; $i++) {
+        for ($i=0; $i < sizeof($questions_order) - 1 ; $i++) {
           $q = Question::find($questions_order[$i]);
           if ($q->right_ans == $team_ans[$i]) {
             $final_score+=4;
@@ -792,6 +796,11 @@ class AdminController extends Controller
     $ans_stats='';
 
     $packet = Packet::find($request->id_packet);
+    if ($packet->type == "warmup") {
+      $packet->current_capacity = $packet->current_capacity + 1;
+      $packet->save();
+    }
+
     $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
 
 
@@ -801,6 +810,7 @@ class AdminController extends Controller
 
     if ($team_packet) {
       $team_packet->status = 1;
+      $team_packet->has_finished = 0;
       if ($team_packet->save())
         return "ok";
       }
@@ -861,7 +871,10 @@ class AdminController extends Controller
           $team_packet->ans_stats = $ans_stats;
           $team_packet->save();
         }
-
+      }
+      if ($packet->type == "warmup") {
+        $packet->current_capacity = $packet->current_capacity + $teams->count();
+        $packet->save();
       }
       return "ok";
     }
@@ -902,12 +915,21 @@ class AdminController extends Controller
         }
 
       }
+      if ($packet->type == "warmup") {
+        $packet->current_capacity = $packet->current_capacity + $teams->count();
+        $packet->save();
+      }
       return "ok";
     }
 
     public function unassignTeam(Request $request){
       $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $request->id_team)
                     ->first();
+      $packet = Packet::find($request->id_packet);
+      if ($packet->type == "warmup") {
+        $packet->current_capacity = $packet->current_capacity -1 ;
+        $packet->save();
+      }
       $team_packet->status = 0;
 
       if ($team_packet->save()) {
@@ -918,6 +940,10 @@ class AdminController extends Controller
     public function unassignAll(Request $request){
       $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('status', 1)
                     ->update(['status' => 0]);
+      $packet = Packet::find($request->id_packet);
+      if ($packet->type == "warmup")
+        $packet->current_capacity = 0;
+      $packet->save();
       return "ok";
     }
 
@@ -993,6 +1019,13 @@ class AdminController extends Controller
       $a = Announcement::find($request->id)->delete();
       return redirect()->back()->with('message', 'Pengumuman berhasil dihapus!');
 
+    }
+
+    public function getKloter(){
+      $packets = Packet::with(['teamPackets' => function($q){
+        $q->where('status', 0)->count();
+      }])->get();
+      return $packets;
     }
 
   }

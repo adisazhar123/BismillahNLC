@@ -88,7 +88,7 @@ Route::middleware(['admin_only'])->group(function(){
   Route::post('/admin/announce', 'AdminController@announce');
   Route::delete('/admin/delete-announcement', 'AdminController@deleteAnnouncement');
   Route::get('/admin/server-time', 'AdminController@getServerTime');
-
+  Route::get('/count', 'AdminController@getKloter');
 });
 // TODO:
 Route::put('/admin/generate-score', 'AdminController@generateScore')->name('generate.score.admin');
