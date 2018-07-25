@@ -85,7 +85,7 @@
     </section>
   @endif
 
-  <form action="{{route('delete.pdf.admin')}}" method="post">
+  <form action="{{route('delete.pdf.admin')}}" method="post" id="delete_form">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="id" value="" id="id">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -98,7 +98,7 @@
   $(".delete").click(function(){
     id = $(this).attr('pdf-id');
     $("#id").val(id)
-    $("form").trigger("submit")
+    $("#delete_form").trigger("submit")
   });
 
 

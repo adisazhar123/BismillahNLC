@@ -144,7 +144,8 @@
 			paste_data_images: true,
 			image_dimensions: true,
 			toolbar: "undo redo | bold italic | bullist numlist | image tiny_mce_wiris_formulaEditor paste",
-			relative_urls: false,
+			relative_urls : false,
+			remove_script_host : false,
 			file_browser_callback : function(field_name, url, type, win) {
 				var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
 				var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
@@ -181,6 +182,8 @@
 		})
 
 		$(document).on('click', '#edit', function(){
+
+			console.log(tinyMCE.get('question'))
 
 			question_id = $(this).attr('question-id')
 			$("#id_question").val(question_id);
@@ -241,6 +244,7 @@
 
 		$(document).on('submit', 'form', function(e){
 			 tinyMCE.triggerSave();
+			 console.log("saved: " + $("#question").val())
 			e.preventDefault();
 			$.ajax({
 				url: url,
