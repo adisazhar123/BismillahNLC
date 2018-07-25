@@ -3,9 +3,9 @@
 @section('style')
 <style media="screen">
 
-  .mesh {
+  /* .mesh {
     background-image: url('../img/mesh_schem.png') !important;
-  }
+  } */
 
 
 </style>
@@ -30,21 +30,43 @@
 <!--Load partial views-->
 <script type="text/javascript">
 $(document).ready(function(){
-  $(".main-content").load('{{route('peserta.welcome')}}', function(){});
+  $(".main-content").load('{{route('peserta.welcome')}}', function(response, status, xhr){
+    if (typeof response.intended_url !== 'undefined') {
+      window.location= '{{route('index')}}';
+    }
+  });
 
   $("#menu-home").addClass('active')
 
   $(document).on('click', '.show-tes', function(){
-    $(".main-content").hide().load('{{route('team.exam')}}', function(response, status, xhr){
-      if (typeof response.intended_url !== 'undefined') {
-        window.location= '{{route('index')}}';
-      }
-      if (status != "error") {
-        if ($("#deadline").val() != null && $("#time_now")) {
-          startTimer();
+
+    $.ajax({
+      url: '{{route('team.exam')}}',
+      start_ajax_time: new Date().getTime(),
+      success: function(response, status, xhr){
+        $(".main-content").hide().html(response).fadeIn(1000);
+        if (typeof response.intended_url !== 'undefined') {
+          window.location= '{{route('index')}}';
+        }
+        if (status != "error") {
+          if ($("#deadline").val() != null && $("#time_now")) {
+            startTimer((new Date().getTime() - this.start_ajax_time));
+          }
         }
       }
-    }).fadeIn(1000);
+    });
+
+
+    // $(".main-content").hide().load('{{route('team.exam')}}',{start_ajax_time: new Date().getTime()},function(response, status, xhr){
+    //   if (typeof response.intended_url !== 'undefined') {
+    //     window.location= '{{route('index')}}';
+    //   }
+    //   if (status != "error") {
+    //     if ($("#deadline").val() != null && $("#time_now")) {
+    //       startTimer((new Date().getTime() - this.start_ajax_time));
+    //     }
+    //   }
+    // }).fadeIn(1000);
   });
 
   $(document).on('click', '.show-petunjuk', function(){
@@ -71,10 +93,7 @@ $(document).ready(function(){
     ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
   }
 
-</script>
-
 <!-- Ajax function to submit ans -->
-<script type="text/javascript">
 $(document).on('click',".form-check-input", function(){
   var name = $(this).attr('name');
   var q_index = name.slice(3);
@@ -169,15 +188,12 @@ $(document).on('click', '#confirm_finish', function(){
   })
 });
 
-</script>
-
-<script type="text/javascript">
-function startTimer(){
+function startTimer(added_time){
   // Set the date we're counting down to
   //deadline dari server-side yakni end time ujian
   var deadline = $("#deadline").val();
   var countDownDate = new Date(deadline).getTime();
-  var now = new Date($("#time_now").val()).getTime() ;
+  var now = new Date($("#time_now").val()).getTime() + added_time;
 
   // Update the count down every 1 second
   var x = setInterval(function() {

@@ -5,9 +5,6 @@
     justify-content: center;
     text-align: center;
   }
-  #loading{
-    margin-top: -180px;
-  }
 
   table .btn{
     margin-right: 3px;
@@ -124,8 +121,10 @@
     })
 
     $("form").submit(function(e){
-      $(".loading_gif").html('<img src="{{asset('img/loading.gif')}}" alt="Loading" width="100px" id="loading">')
-      $(".row.my_page").addClass("disabled")
+      $("body").loading({
+        zIndex: 9999999
+      });
+
       e.preventDefault();
 
       $.ajax({
@@ -133,16 +132,13 @@
         method: "POST",
         data: $(this).serialize(),
         success: function(data){
-          $(".loading_gif").html('')
-          $(".row.my_page").removeClass("disabled")
+          $("body").loading('stop');
           $(".modal.generate_pdf").modal('hide');
-          alertify.success("PDF berhasil dibuat")
+          alertify.success("PDF berhasil dibuat");
         },
         error: function(){
-          $(".loading_gif").html('')
-          $(".row.my_page").removeClass("disabled")
-
-          alertify.error("Server error!")
+          $("body").loading('stop');
+          alertify.error("Server error!");
         }
       })
     });

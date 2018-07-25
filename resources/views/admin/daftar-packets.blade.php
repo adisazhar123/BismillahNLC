@@ -11,10 +11,6 @@
 			margin-top: 9px;
 		}
 
-		#loading{
-			margin-top: -600px;
-			margin-left: 700px;
-		}
 	</style>
 @endsection
 

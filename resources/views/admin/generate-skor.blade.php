@@ -7,10 +7,6 @@
 		margin-left: 3px;
 	}
 
-	#loading{
-    margin-top: -100px;
-		margin-left: 700px;
-  }
 
 </style>
 @endsection
@@ -91,9 +87,9 @@
 		});
 
 		$(document).on('click', '.generate-score', function(){
-			$(".loading_gif").html('<img src="{{asset('img/loading.gif')}}" alt="Loading" width="100px" id="loading">')
-      $(".row.my_page").addClass("disabled")
-
+			$("body").loading({
+				zIndex: 9999999
+			});
 			id_packet = $(this).attr('id-packet');
 
 			$.ajax({
@@ -103,18 +99,14 @@
 				success: function(data){
 					if (data == "ok") {
 						alertify.success("Berhasil generate skor!");
+						table1.ajax.reload();
 					}else {
 						alertify.error("Gagal!");
 					}
-					$(".loading_gif").html('')
-					$(".row.my_page").removeClass("disabled")
-
-					table1.ajax.reload();
+					$("body").loading('stop');
 				},
 				error: function(data){
-					$(".loading_gif").html('')
-					$(".row.my_page").removeClass("disabled")
-
+					$("body").loading('stop');
 					alertify.error("Server error!");
 				}
 			});

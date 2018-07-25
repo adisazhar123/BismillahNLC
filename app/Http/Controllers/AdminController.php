@@ -221,15 +221,13 @@ class AdminController extends Controller
       $data_option4 = array();
       $data_option5 = array();
       $data_description = array();
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->question, $data_question);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_1, $data_option1);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_2, $data_option2);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_3, $data_option3);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_4, $data_option4);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_5, $data_option5);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->description, $data_description);
-
-
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->question, $data_question);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_1, $data_option1);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_2, $data_option2);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_3, $data_option3);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_4, $data_option4);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_5, $data_option5);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->description, $data_description);
 
       $question = $request->question;
       $option1 = $request->option_1;
@@ -241,104 +239,95 @@ class AdminController extends Controller
 
       //Filter Math formulas
       if (isset($data_question[0]) && !empty($data_question[0])){
-        $keep_question =  substr_replace($data_question[0], '/', 2, 0);
-        $keep_question = substr_replace($keep_question, '/', 5, 0);
+        $keep_question = array();
 
-        //Utk di XAMPP
-        // $question = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0], asset('storage/cache/'.$keep_question.'.png'), $request->question);
-        //utk di php artisan serve
-        $question = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0], asset('storage/cache/'.$keep_question.'.png'), $question);
+        for ($i=0; $i < count($data_question[0]); $i++) {
+          $keep_question[$i] = substr_replace($data_question[0][$i], '/', 2, 0);
+          $keep_question[$i] = substr_replace($keep_question[$i], '/', 5, 0);
+
+        }
+
+          for ($i=0; $i <count($data_question[0]) ; $i++) {
+            $question = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0][$i], asset('storage/cache/'.$keep_question[$i].'.png'), $question);
+          }
       }
       if (isset($data_option1[0]) && !empty($data_option1[0])){
-        $keep_option1 =  substr_replace($data_option1[0], '/', 2, 0);
-        $keep_option1 = substr_replace($keep_option1, '/', 5, 0);
+        $keep_option1 = array ();
 
-        //Utk di XAMPP
-        // $option1 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0], asset('storage/cache/'.$keep_option1.'.png'), $request->option_1);
-        //utk di php artisan serve
-        $option1 = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0], asset('storage/cache/'.$keep_option1.'.png'), $option1);
+        for ($i=0; $i < count($data_option1[0]); $i++) {
+          $keep_option1[$i] =  substr_replace($data_option1[0][$i], '/', 2, 0);
+          $keep_option1[$i] = substr_replace($keep_option1[$i], '/', 5, 0);
+        }
+        for ($i=0; $i <count($data_option1[0]) ; $i++) {
+          $option1 = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0][$i], asset('storage/cache/'.$keep_option1[$i].'.png'), $option1);
+        }
       }
 
       if (isset($data_option2[0]) && !empty($data_option2[0])){
-         $keep_option2 =  substr_replace($data_option2[0], '/', 2, 0);
-         $keep_option2 = substr_replace($keep_option2, '/', 5, 0);
+        $keep_option2 = array();
 
-        //Utk di XAMPP
-        // $option2 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option2[0], asset('storage/cache/'.$keep_option2.'.png'), $request->option_2);
-        //utk di php artisan serve
-        $option2 = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option2[0], asset('storage/cache/'.$keep_option2.'.png'), $option2);
+        for ($i=0; $i < count($data_option2[0]); $i++) {
+          $keep_option2[$i] =  substr_replace($data_option2[0][$i], '/', 2, 0);
+          $keep_option2[$i] = substr_replace($keep_option2[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option2[0]); $i++) {
+          $option2 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option2[0][$i]."/", asset('storage/cache/'.$keep_option2[$i].'.png'), $option2);
+        }
       }
-
       if (isset($data_option3[0]) && !empty($data_option3[0])){
-        $keep_option3 =  substr_replace($data_option3[0], '/', 2, 0);
-        $keep_option3 = substr_replace($keep_option3, '/', 5, 0);
+        $keep_option3 = array();
 
-        //Utk di XAMPP
-        // $option3 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option3[0], asset('storage/cache/'.$keep_option3.'.png'), $request->option_3);
-        //utk di php artisan serve
-        $option3 = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option3[0], asset('storage/cache/'.$keep_option3.'.png'), $option3);
+        for ($i=0; $i < count($data_option3[0]); $i++) {
+          $keep_option3[$i] =  substr_replace($data_option3[0][$i], '/', 2, 0);
+          $keep_option3[$i] = substr_replace($keep_option3[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option3[0]); $i++) {
+          $option3 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option3[0][$i]."/", asset('storage/cache/'.$keep_option3[$i].'.png'), $option3);
+        }
       }
+      if (isset($data_option4[0]) && !empty($data_option4[0])) {
+        $keep_option4 = array();
 
-      if (isset($data_option4[0]) && !empty($data_option4[0])){
-        $keep_option4 =  substr_replace($data_option4[0], '/', 2, 0);
-        $keep_option4 = substr_replace($keep_option4, '/', 5, 0);
-
-        //Utk di XAMPP
-        // $option4 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option4[0], asset('storage/cache/'.$keep_option4.'.png'), $request->option_4);
-        //utk di php artisan serve
-        $option4 = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option4[0], asset('storage/cache/'.$keep_option4.'.png'), $option4);
+        for ($i=0; $i < count($data_option4[0]); $i++) {
+          $keep_option4[$i] =  substr_replace($data_option4[0][$i], '/', 2, 0);
+          $keep_option4[$i] = substr_replace($keep_option4[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option4[0]); $i++) {
+          $option4 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option4[0][$i]."/", asset('storage/cache/'.$keep_option4[$i].'.png'), $option4);
+        }
       }
-
       if (isset($data_option5[0]) && !empty($data_option5[0])){
-        $keep_option5 =  substr_replace($data_option5[0], '/', 2, 0);
-        $keep_option5 = substr_replace($keep_option5, '/', 5, 0);
+        $keep_option5 = array();
 
-        //Utk di XAMPP
-        // $option5 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option5[0], asset('storage/cache/'.$keep_option5.'.png'), $request->option_5);
-        //utk di php artisan serve
-        $option5 = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option5[0], asset('storage/cache/'.$keep_option5.'.png'), $option5);
+        for ($i=0; $i < count($data_option5[0]); $i++) {
+          $keep_option5[$i] =  substr_replace($data_option5[0][$i], '/', 2, 0);
+          $keep_option5[$i] = substr_replace($keep_option5[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option5[0]); $i++) {
+          $option5 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option5[0][$i]."/", asset('storage/cache/'.$keep_option5[$i].'.png'), $option5);
+        }
       }
-
       if (isset($data_description[0]) && !empty($data_description[0])){
-        $keep_description =  substr_replace($data_description[0], '/', 2, 0);
-        $keep_description = substr_replace($keep_description, '/', 5, 0);
 
-        //Utk di XAMPP
-        // $description = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_description[0], asset('storage/cache/'.$keep_description.'.png'), $request->description);
-        //utk di php artisan serve
-        $description = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_description[0], asset('storage/cache/'.$keep_description.'.png'), $description);
+        $keep_description = array();
+
+        for ($i=0; $i < count($data_description[0]); $i++) {
+          $keep_description[$i] =  substr_replace($data_description[0][$i], '/', 2, 0);
+          $keep_description[$i] = substr_replace($keep_description[$i], '/', 5, 0);
+        }
+
+        for ($i=0; $i < count($data_description[0]); $i++) {
+          $description = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_description[0][$i]."/", asset('storage/cache/'.$keep_description[$i].'.png'), $description);
+        }
+
       }
 
-
-
-      //Filter image unisharp
-      //utk di XAMPP
-      // $question = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $question);
-      //utk PHP artisan serve
       $question = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $question);
-
-      // $option1 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option1);
-      //utk PHP artisan serve
       $option1 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option1);
-
-      // $option2 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option2);
-      //utk PHP artisan serve
       $option2 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option2);
-
-      // $option3 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option3);
-      //utk PHP artisan serve
       $option3 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option3);
-
-      // $option4 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option4);
-      //utk PHP artisan serve
       $option4 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option4);
-
-      // $option5 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option5);
-      //utk PHP artisan serve
       $option5 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option5);
-
-      // $description = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $description);
-      //utk PHP artisan serve
       $description = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $description);
 
       $question = Question::create([
@@ -357,12 +346,7 @@ class AdminController extends Controller
     }
 
     public function updateQuestion(Request $request){
-
-      // return $request->all();
-
       $new_question = Question::find($request->id_question);
-
-      //return $new_question;
 
       if (empty($request->description))
         $request->description = '';
@@ -386,14 +370,12 @@ class AdminController extends Controller
       //sebanyak array lengthnya agar bisa direplace . cek bawah!
 
       preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->question, $data_question);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_1, $data_option1);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_2, $data_option2);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_3, $data_option3);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_4, $data_option4);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_5, $data_option5);
-      preg_match("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->description, $data_description);
-
-
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_1, $data_option1);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_2, $data_option2);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_3, $data_option3);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_4, $data_option4);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_5, $data_option5);
+      preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->description, $data_description);
 
       $question = $request->question;
       $option1 = $request->option_1;
@@ -403,182 +385,98 @@ class AdminController extends Controller
       $option5 = $request->option_5;
       $description = $request->description;
 
-      // $object = array(
-      //   'question'=> $question,
-      //   '1' => $option1,
-      //   '2' => $option2,
-      //   '3' => $option3,
-      //   '4' => $option4,
-      //   '5' => $option5,
-      // );
-      //
-      // return $object;
-
-      //http://localhost:8000/laravel-filemanager/app/public/photos_soal/6/169.jpg
-      ///js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula=981ad13f67bb5067d696dc4590da9d22
-
-      //Filter Math formulas
       if (isset($data_question[0]) && !empty($data_question[0])){
         $keep_question = array();
 
-        return $data_question;
 
-        for ($i=0; $i < count($data_question); $i++) {
-          $keep_question[$i] = substr_replace($data_question[0], '/', 2, 0);
+        for ($i=0; $i < count($data_question[0]); $i++) {
+          $keep_question[$i] = substr_replace($data_question[0][$i], '/', 2, 0);
           $keep_question[$i] = substr_replace($keep_question[$i], '/', 5, 0);
 
         }
-        // $keep_question =  substr_replace($data_question[0], '/', 2, 0);
-        // $keep_question = substr_replace($keep_question, '/', 5, 0);
 
-
-        // return count($data_question);
-
-      //
-      //   //Utk di XAMPP
-      //   $question = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0], asset('storage/cache/'.$keep_question.'.png'), $request->question);
-      //   //utk di php artisan serve
-
-          for ($i=0; $i <count($data_question) ; $i++) {
-            $question = str_replace('/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[$i], asset('storage/cache/'.$keep_question[$i].'.png'), $question);
-            echo $question;
+          for ($i=0; $i <count($data_question[0]) ; $i++) {
+            $question = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0][$i], asset('storage/cache/'.$keep_question[$i].'.png'), $question);
           }
-
-          return $question;
-
-          // $partial = url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_question[0];
-          //
-          // return urlencode(url('/'));
-          //return $question;
-
-        // $question = preg_replace("/(\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula=".$data_question[0].")/", asset('storage/cache/'.$keep_question.'.png'), $question);
-        // return $question;
       }
       if (isset($data_option1[0]) && !empty($data_option1[0])){
-        $keep_option1 =  substr_replace($data_option1[0], '/', 2, 0);
-        $keep_option1 = substr_replace($keep_option1, '/', 5, 0);
-      //
-      //   //Utk di XAMPP
-      //   $option1 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0], asset('storage/cache/'.$keep_option1.'.png'), $request->option_1);
-      //   //utk di php artisan serve
-      $option1 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option1[0]."/", asset('storage/cache/'.$keep_option1.'.png'), $option1);
+        $keep_option1 = array ();
+
+        for ($i=0; $i < count($data_option1[0]); $i++) {
+          $keep_option1[$i] =  substr_replace($data_option1[0][$i], '/', 2, 0);
+          $keep_option1[$i] = substr_replace($keep_option1[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option1[0]); $i++) {
+          $option1 = str_replace(url('/').'/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option1[0][$i], asset('storage/cache/'.$keep_option1[$i].'.png'), $option1);
+        }
       }
-      //
+
       if (isset($data_option2[0]) && !empty($data_option2[0])){
-         $keep_option2 =  substr_replace($data_option2[0], '/', 2, 0);
-         $keep_option2 = substr_replace($keep_option2, '/', 5, 0);
-      //
-      //   //Utk di XAMPP
-      //   $option2 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option2[0], asset('storage/cache/'.$keep_option2.'.png'), $request->option_2);
-      //   //utk di php artisan serve
-      $option2 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option2[0]."/", asset('storage/cache/'.$keep_option2.'.png'), $option2);
+        $keep_option2 = array();
+
+        for ($i=0; $i < count($data_option2[0]); $i++) {
+          $keep_option2[$i] =  substr_replace($data_option2[0][$i], '/', 2, 0);
+          $keep_option2[$i] = substr_replace($keep_option2[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option2[0]); $i++) {
+          $option2 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option2[0][$i]."/", asset('storage/cache/'.$keep_option2[$i].'.png'), $option2);
+        }
       }
-      //
       if (isset($data_option3[0]) && !empty($data_option3[0])){
-        $keep_option3 =  substr_replace($data_option3[0], '/', 2, 0);
-        $keep_option3 = substr_replace($keep_option3, '/', 5, 0);
-      //
-      //   //Utk di XAMPP
-      //   $option3 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option3[0], asset('storage/cache/'.$keep_option3.'.png'), $request->option_3);
-      //   //utk di php artisan serve
-      $option3 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option3[0]."/", asset('storage/cache/'.$keep_option3.'.png'), $option3);
-      }
-      //
-      if (isset($data_option4[0]) && !empty($data_option4[0])){
-        $keep_option4 =  substr_replace($data_option4[0], '/', 2, 0);
-        $keep_option4 = substr_replace($keep_option4, '/', 5, 0);
-      //
-      //   //Utk di XAMPP
-      //   $option4 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option4[0], asset('storage/cache/'.$keep_option4.'.png'), $request->option_4);
-      //   //utk di php artisan serve
-      $option4 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option4[0]."/", asset('storage/cache/'.$keep_option4.'.png'), $option4);
+        $keep_option3 = array();
 
+        for ($i=0; $i < count($data_option3[0]); $i++) {
+          $keep_option3[$i] =  substr_replace($data_option3[0][$i], '/', 2, 0);
+          $keep_option3[$i] = substr_replace($keep_option3[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option3[0]); $i++) {
+          $option3 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option3[0][$i]."/", asset('storage/cache/'.$keep_option3[$i].'.png'), $option3);
+        }
       }
-      //
+      if (isset($data_option4[0]) && !empty($data_option4[0])) {
+        $keep_option4 = array();
+
+        for ($i=0; $i < count($data_option4[0]); $i++) {
+          $keep_option4[$i] =  substr_replace($data_option4[0][$i], '/', 2, 0);
+          $keep_option4[$i] = substr_replace($keep_option4[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option4[0]); $i++) {
+          $option4 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option4[0][$i]."/", asset('storage/cache/'.$keep_option4[$i].'.png'), $option4);
+        }
+      }
       if (isset($data_option5[0]) && !empty($data_option5[0])){
-        $keep_option5 =  substr_replace($data_option5[0], '/', 2, 0);
-        $keep_option5 = substr_replace($keep_option5, '/', 5, 0);
-      //
-      //   //Utk di XAMPP
-      //   $option5 = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_option5[0], asset('storage/cache/'.$keep_option5.'.png'), $request->option_5);
-      //   //utk di php artisan serve
-      $option5 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option5[0]."/", asset('storage/cache/'.$keep_option5.'.png'), $option5);
+        $keep_option5 = array();
 
+        for ($i=0; $i < count($data_option5[0]); $i++) {
+          $keep_option5[$i] =  substr_replace($data_option5[0][$i], '/', 2, 0);
+          $keep_option5[$i] = substr_replace($keep_option5[$i], '/', 5, 0);
+        }
+        for ($i=0; $i < count($data_option5[0]); $i++) {
+          $option5 = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_option5[0][$i]."/", asset('storage/cache/'.$keep_option5[$i].'.png'), $option5);
+        }
       }
-      //
       if (isset($data_description[0]) && !empty($data_description[0])){
-        $keep_description =  substr_replace($data_description[0], '/', 2, 0);
-        $keep_description = substr_replace($keep_description, '/', 5, 0);
-      //
-      //   //Utk di XAMPP
-      //   $description = str_replace('/bismillahNLC/public/js/tinymce/plugins/tiny_mce_wiris/integration/showimage.php?formula='.$data_description[0], asset('storage/cache/'.$keep_description.'.png'), $request->description);
-      //   //utk di php artisan serve
-        $description = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_description[0]."/", asset('storage/cache/'.$keep_description.'.png'), $description);
+
+        $keep_description = array();
+
+        for ($i=0; $i < count($data_description[0]); $i++) {
+          $keep_description[$i] =  substr_replace($data_description[0][$i], '/', 2, 0);
+          $keep_description[$i] = substr_replace($keep_description[$i], '/', 5, 0);
+        }
+
+        for ($i=0; $i < count($data_description[0]); $i++) {
+          $description = preg_replace("/^".'\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php?formula='.$data_description[0][$i]."/", asset('storage/cache/'.$keep_description[$i].'.png'), $description);
+        }
+
       }
 
-
-
-
-      //Filter image unisharp
-      //utk di XAMPP
-      // $question = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $question);
-      // $question = str_replace('/bismillahNLC/public/storage', asset('storage'), $question);
-      // $question = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $question);
-      // $question = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public', url('/'), $question);
-      //
-      //
-      // //utk PHP artisan serve
       $question = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $question);
-      //
-      //
-      // $option1 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option1);
-      // $option1 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option1);
-      // $option1 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option1);
-      // $option1 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public',  url('/'), $option1);
-      //
-      // //utk PHP artisan serve
       $option1 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option1);
-      //
-      // $option2 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option2);
-      // $option2 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option2);
-      // $option2 = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $option2);
-      // $option2 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public', url('/'), $option2);
-      //
-      // //utk PHP artisan serve
       $option2 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option2);
-      //
-      // $option3 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option3);
-      // $option3 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option3);
-      // $option3 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option3);
-      // $option3 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public',  url('/'), $option3);
-      //
-      // //utk PHP artisan serve
       $option3 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option3);
-      //
-      // $option4 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option4);
-      // $option4 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option4);
-      // $option4 = str_replace('http://localhosthttp://localhost/bismillahNLC/public',  url('/'), $option4);
-      // $option4 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public',  url('/'), $option4);
-      //
-      // //utk PHP artisan serve
       $option4 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option4);
-      //
-      // $option5 = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $option5);
-      // $option5 = str_replace('/bismillahNLC/public/storage', asset('storage'), $option5);
-      // $option5 = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $option5);
-      // $option5 = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public', url('/'), $option5);
-      //
-      // //utk PHP artisan serve
       $option5 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option5);
-      //
-      // $description = str_replace('/bismillahNLC/public/laravel-filemanager/app/public', asset('storage'), $description);
-      // $description = str_replace('/bismillahNLC/public/storage', asset('storage'), $description);
-      // $description = str_replace('http://localhosthttp://localhost/bismillahNLC/public', url('/'), $description);
-      // $description = str_replace('http://127.0.0.1http://127.0.0.1/bismillahNLC/public', url('/'), $description);
-      //
-      // //utk PHP artisan serve
       $description = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $description);
-
 
       $new_question->description = $description;
       $new_question->question = $question;

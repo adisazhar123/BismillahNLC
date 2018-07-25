@@ -18,7 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.dataTables.min.css">
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
-
+	<link href="{{asset('js/jquery-easy-loading/dist/jquery.loading.css')}}" rel="stylesheet">
      @yield('style')
 
 		 <style media="screen">
@@ -118,6 +118,9 @@
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.js"></script>
 
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+
+		<script src="{{asset('js/jquery-easy-loading/dist/jquery.loading.min.js')}}"></script>
+
 		@yield('script')
 
 		<script type="text/javascript">
@@ -126,12 +129,16 @@
         $.ajax({
           url: '{{url('/admin/server-time')}}',
           data: "string",
-					async: false,
+					async: true,
+					start_time: new Date().getTime(),
           success: function(data){
+						ajax_duration = new Date().getTime() - this.start_time;
             time = new Date(data);
-            time3 = time.getTime();
+            time3 = time.getTime() + ajax_duration;
           }
         });
+
+
 
 				function clock() {
 					time3 = new Date(time3);

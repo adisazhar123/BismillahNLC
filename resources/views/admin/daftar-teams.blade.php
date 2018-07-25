@@ -43,7 +43,8 @@
 								<th>#ID Tim</th>
 					            <th>Nama Tim</th>
 					            <th>Email</th>
-								<th>Action</th>
+											<th>Region</th>
+											<th>Action</th>
 					        </tr>
 					    </thead>
 					    <tbody>
@@ -141,6 +142,7 @@
 					{data: "id_team"},
 					{data: "name"},
 					{data: "email"},
+					{data: "type"},
 					{render: function(data, type, row){
 						return "<button class='btn btn-danger' id=delete team-id="+row.id_team+">Hapus</button><button class='btn btn-warning' id=view team-id="+row.id_team+">Ubah</button>";
 						}

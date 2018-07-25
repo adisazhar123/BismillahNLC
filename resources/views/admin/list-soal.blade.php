@@ -10,6 +10,8 @@
 	#field_description{
 		display: none;
 	}
+
+
 </style>
 @endsection
 
@@ -17,7 +19,7 @@
 
 <br>
 
-<div class="row">
+<div class="row my_page">
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
@@ -40,6 +42,9 @@
 
 					    </tbody>
 					</table>
+				</div>
+				<div class="loading_gif" id="loading">
+
 				</div>
 			</div>
 		</div>
@@ -243,9 +248,12 @@
 		});
 
 		$(document).on('submit', 'form', function(e){
-			 tinyMCE.triggerSave();
-			 console.log("saved: " + $("#question").val())
+			tinyMCE.triggerSave();
 			e.preventDefault();
+			$("body").loading({
+				zIndex: 9999999
+			});
+
 			$.ajax({
 				url: url,
 				method: method,
@@ -256,16 +264,20 @@
 							alertify.success('Penambahan soal berhasil!');
 						else
 							alertify.success('Pembaharuan soal berhasil!');
+						table1.ajax.reload(null, false)
 					}else{
 						if (action == "new")
 							alertify.error('Penambahan soal gagal!');
 						else
 							alertify.error('Pembaharuan soal gagal!');
 					}
-					table1.ajax.reload(null, false)
+					$("body").loading('stop');
+
 					$(".modal.question").modal('hide');
 				},
 				error: function(){
+					$("body").loading('stop');
+
 					alertify.error('Server error!');
 				}
 			});

@@ -184,8 +184,7 @@ return array(
          *
          * @var int
          */
-        // "dpi" => 96,
-        "dpi" => 72,
+        "dpi" => 96,
         /**
          * Enable inline PHP
          *
@@ -208,7 +207,7 @@ return array(
          *
          * @var bool
          */
-        "enable_javascript" => true,
+        "enable_javascript" => false,
 
         /**
          * Enable remote file access

@@ -7,10 +7,6 @@
 			margin-bottom: 3px;
 		}
 
-		#loading{
-			margin-top: -600px;
-			margin-left: 700px;
-		}
 	</style>
 @endsection
 
@@ -160,8 +156,9 @@
 
 		$("#assign_online").click(function(){
 			id_packet = '{{Input::get('id_packet')}}';
-			$(".loading_gif").html('<img src="{{asset('img/loading.gif')}}" alt="Loading" width="100px" id="loading">');
-			$(".row.my_page").addClass("disabled");
+			$("body").loading({
+				zIndex: 9999999
+			});
 			$.ajax({
 				url: '{{route('assign.online.teams')}}',
 				data: {id_packet},
@@ -169,17 +166,14 @@
 				success: function(data){
 					if (data == "ok") {
 						alertify.success("Tim region online berhasil di-assign!");
+						table1.ajax.reload();
 					}else {
 						alertify.error("Tim region online gagal di-assign!");
-
 					}
-					$(".loading_gif").html('')
-					$(".row.my_page").removeClass("disabled")
-					table1.ajax.reload();
+					$("body").loading('stop');
 				},
 				error: function(){
-					$(".loading_gif").html('')
-					$(".row.my_page").removeClass("disabled")
+					$("body").loading('stop');
 					alertify.error("Server error!");
 				}
 
@@ -189,25 +183,24 @@
 
 		$("#assign_offline").click(function(){
 			id_packet = '{{Input::get('id_packet')}}';
-			$(".loading_gif").html('<img src="{{asset('img/loading.gif')}}" alt="Loading" width="100px" id="loading">');
-			$(".row.my_page").addClass("disabled");
+			$("body").loading({
+				zIndex: 9999999
+			});
 			$.ajax({
 				url: '{{route('assign.offline.teams')}}',
 				data: {id_packet},
 				method: "PUT",
 				success: function(data){
 					if (data == "ok") {
+						table1.ajax.reload();
 						alertify.success("Tim region offline berhasil di-assign!");
 					}else {
 						alertify.error("Tim region offline gagal di-assign!");
 					}
-					$(".loading_gif").html('')
-					$(".row.my_page").removeClass("disabled")
-					table1.ajax.reload();
+					$("body").loading('stop');
 				},
 				error: function(){
-					$(".loading_gif").html('')
-					$(".row.my_page").removeClass("disabled")
+					$("body").loading('stop');
 					alertify.error("Server error!");
 				}
 			});
@@ -215,25 +208,25 @@
 
 		$("#unassign_all").click(function(){
 			id_packet = '{{Input::get('id_packet')}}';
-			$(".loading_gif").html('<img src="{{asset('img/loading.gif')}}" alt="Loading" width="100px" id="loading">');
-			$(".row.my_page").addClass("disabled");
+			$("body").loading({
+				zIndex: 9999999
+			});
 			$.ajax({
 				url: '{{route('unassign.teams')}}',
 				data: {id_packet},
 				method: "PUT",
 				success: function(data){
 					if (data == "ok") {
+						table1.ajax.reload();
 						alertify.success("Semua tim berhasil di-unassign!");
 					}else {
 						alertify.error("Tim gagal di-unassign!");
 					}
-					$(".loading_gif").html('')
-					$(".row.my_page").removeClass("disabled")
-					table1.ajax.reload();
+					$("body").loading('stop');
+
 				},
 				error: function(){
-					$(".loading_gif").html('')
-					$(".row.my_page").removeClass("disabled")
+					$("body").loading('stop');
 					alertify.error("Server error!");
 				}
 			});

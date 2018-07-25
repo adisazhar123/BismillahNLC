@@ -149,10 +149,11 @@
         $.ajax({
           url: '{{url('/peserta/server-time')}}',
           data: "string",
-          async: false,
+          start_time: new Date().getTime(),
           success: function(data){
+            ajax_duration = new Date().getTime() - this.start_time;
             time = new Date(data);
-            time3 = time.getTime();
+            time3 = time.getTime() + ajax_duration;
           }
         });
 
@@ -164,7 +165,6 @@
         seconds = time3.getSeconds();
 
         $("#server_time").text(countTime(hours) + ":" + countTime(minutes) + ":" + countTime(seconds));
-        time3 = time3.getTime() + 1000;
 
         function countTime(now) {
           if (now < 10) {
@@ -172,6 +172,7 @@
           }
           return now;
         }
+        time3 = time3.getTime() + 1000;
       }
         setInterval(clock, 1000);
     });
