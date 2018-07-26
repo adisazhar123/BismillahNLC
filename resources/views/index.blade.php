@@ -2,13 +2,14 @@
 
 @section('style')
   <style media="screen">
+
 		.welcome-banner {
 			height: 100%;
 			justify-content: center;
 			text-align: center;
 			margin-left: auto;
 			margin-right: auto;
-			margin-top: 140px;
+			margin-top: 90px;
 		}
 
 		#mascot {
@@ -126,13 +127,13 @@
 		        font-size: 48px;
 		    }
         .welcome-banner {
-          margin-top: 120px;
+          margin-top: 100px;
         }
 		}
 
     @media only screen and (max-width: 768px) {
         .welcome-banner {
-          margin-top: 50px;
+          margin-top: 10px;
         }
     }
 
@@ -149,6 +150,44 @@
     .modal-footer{
       border-top: none;
     }
+
+
+  #container {
+     min-height:100%;
+     position:relative;
+  }
+
+  #body {
+     padding-bottom:20rem;
+  }
+  #footer {
+    position:absolute;
+    width:100%;
+    background:white;
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    z-index: 10;
+  }
+
+  .sponsor1child{
+    height: 5rem;
+    margin-top: 0.35rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .sponsor2child{
+    height: 3rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .sponsor3child{
+    height: 2rem;
+    margin-top: 0.15rem;
+    margin-bottom: 0.15rem;
+  }
+
 
 	</style>
 
@@ -184,6 +223,34 @@
 		</div>
 	</div>
 
+  <div id="container">
+     <div id="header"></div>
+     <div id="body"></div>
+     <div id="footer">
+       <div class="container">
+         <div class="sponsor1">
+           <img src="https://schematics.its.ac.id/img/sponsor/bukalapak.png" class="sponsor1child">
+           <img src="https://schematics.its.ac.id/img/sponsor/packetsystem.jpg" class="sponsor1child">
+           <img src="https://schematics.its.ac.id/img/sponsor/global.png" class="sponsor1child">
+           <img src="https://schematics.its.ac.id/img/sponsor/telkomsigma.png" class="sponsor1child">
+         </div>
+         <div class="sponsor2">
+           <img src="https://schematics.its.ac.id/img/sponsor/dwimitra logo.png" class="sponsor2child">
+           <img src="https://schematics.its.ac.id/img/sponsor/laplasindo.gif" class="sponsor2child">
+           <img src="https://schematics.its.ac.id/img/sponsor/fujitsu.png" class="sponsor2child">
+           <img src="https://schematics.its.ac.id/img/sponsor/xva.png" class="sponsor2child">
+         </div>
+         <div class="sponsor3">
+           <a href="https://idcloudhost.com/" target="_blank">
+               <img src="https://schematics.its.ac.id/img/sponsor/logo_idcloudhost.png" class="sponsor3child">
+           </a>
+           <img src="https://schematics.its.ac.id/img/sponsor/duprint.jpg" class="sponsor3child">
+           <img src="https://schematics.its.ac.id/img/sponsor/nurul.png" class="sponsor3child">
+       </div>
+       </div>
+     </div>
+  </div>
+
 
 
   <div class="login-modal modal fade" tabindex="-1" role="dialog">
@@ -191,9 +258,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" style="color: white">Login</h5>
-        {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> --}}
       </div>
       <div class="modal-body">
         <div class="row">

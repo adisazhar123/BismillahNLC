@@ -15,8 +15,8 @@ return [
     'middlewares' => ['web', 'auth'],
 
     // The url to this package. Change it if necessary.
-    'url_prefix' => 'laravel-filemanager',
-    
+    'url_prefix' => 'nlc-filemanager',
+
     /*
     |--------------------------------------------------------------------------
     | Multi-User Mode

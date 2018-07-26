@@ -40,6 +40,26 @@
       animation: shake2 13s;
       animation-iteration-count: infinite;
     }
+
+    .ok{
+      position: relative;
+    }
+    .mesh2 {
+      background-image: url('img/mesh_schem.png');
+      opacity: 0.3;
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      bottom: 0;
+      left: -220px;
+      width: 900px;
+      height: 400px;
+      animation: shake2 20s;
+      animation-iteration-count: infinite;
+      z-index: 1;
+    }
       .btn-nlc{
         background: linear-gradient(to right, #efc94c, #f5a503);
       }
@@ -129,6 +149,11 @@
     </div>
     @yield('content')
   </div>
+  <div class="ok">
+    <div class="mesh2">
+    </div>
+  </div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
