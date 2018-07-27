@@ -9,7 +9,7 @@
     }
 
     .bg-announcement{
-      background-color: #ffea7a;
+      background-color: #fff89b;
     }
 
     .card-body{
@@ -29,7 +29,7 @@
               Tidak ada pengumuman.
             @else
               @foreach ($announcements as $a)
-                <div class="border">
+                <div class="border mb-1">
                 {!! $a->content !!}
                 <small><i>{{ date_format($a->created_at, 'd/m/Y')}}</i></small>
               </div>

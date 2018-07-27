@@ -193,7 +193,7 @@ function startTimer(added_time){
   //deadline dari server-side yakni end time ujian
   var deadline = $("#deadline").val();
   var countDownDate = new Date(deadline).getTime();
-  var now = new Date($("#time_now").val()).getTime() + added_time;
+  var now = new Date($("#time_now").val()).getTime() + added_time - 1000;
 
   // Update the count down every 1 second
   var x = setInterval(function() {

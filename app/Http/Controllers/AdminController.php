@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Announcement;
 use Auth;
+use Illuminate\Support\Facades\Redis;
 
 class AdminController extends Controller
 {
@@ -748,6 +749,7 @@ class AdminController extends Controller
     $ans_stats='';
 
     $packet = Packet::find($request->id_packet);
+
     if ($packet->type == "warmup") {
       $packet->current_capacity = $packet->current_capacity + 1;
       $packet->save();
@@ -763,6 +765,10 @@ class AdminController extends Controller
     if ($team_packet) {
       $team_packet->status = 1;
       $team_packet->has_finished = 0;
+      //save in redis cache
+      Redis::set('id-'.$team_packet->id.'-ans', $team_packet->team_ans);
+      Redis::set('id-'.$team_packet->id.'-stat', $team_packet->ans_stats);
+
       if ($team_packet->save())
         return "ok";
       }
@@ -786,6 +792,8 @@ class AdminController extends Controller
     $team_packet->ans_stats = $ans_stats;
 
     if ($team_packet->save())
+      Redis::set('id-'.$team_packet->id.'-ans', $team_packet->team_ans);
+      Redis::set('id-'.$team_packet->id.'-stat', $team_packet->ans_stats);
       return "ok";
     }
 
@@ -809,6 +817,8 @@ class AdminController extends Controller
 
         if ($team_packet) {
           $team_packet->status = 1;
+          Redis::set('id-'.$team_packet->id.'-ans', $team_packet->team_ans);
+          Redis::set('id-'.$team_packet->id.'-stat', $team_packet->ans_stats);
           $team_packet->save();
         }else {
           $team_packet = new TeamPacket;
@@ -822,6 +832,8 @@ class AdminController extends Controller
           $team_packet->team_ans = $team_ans;
           $team_packet->ans_stats = $ans_stats;
           $team_packet->save();
+          Redis::set('id-'.$team_packet->id.'-ans', $team_packet->team_ans);
+          Redis::set('id-'.$team_packet->id.'-stat', $team_packet->ans_stats);
         }
       }
       if ($packet->type == "warmup") {
@@ -851,6 +863,8 @@ class AdminController extends Controller
 
         if ($team_packet) {
           $team_packet->status = 1;
+          Redis::set('id-'.$team_packet->id.'-ans', $team_packet->team_ans);
+          Redis::set('id-'.$team_packet->id.'-stat', $team_packet->ans_stats);
           $team_packet->save();
         }else {
           $team_packet = new TeamPacket;
@@ -864,6 +878,8 @@ class AdminController extends Controller
           $team_packet->team_ans = $team_ans;
           $team_packet->ans_stats = $ans_stats;
           $team_packet->save();
+          Redis::set('id-'.$team_packet->id.'-ans', $team_packet->team_ans);
+          Redis::set('id-'.$team_packet->id.'-stat', $team_packet->ans_stats);
         }
 
       }
@@ -878,6 +894,10 @@ class AdminController extends Controller
       $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $request->id_team)
                     ->first();
       $packet = Packet::find($request->id_packet);
+
+      Redis::del('id-'.$team_packet->id.'-ans');
+      Redis::del('id-'.$team_packet->id.'-stat');
+
       if ($packet->type == "warmup") {
         $packet->current_capacity = $packet->current_capacity -1 ;
         $packet->save();
@@ -893,6 +913,7 @@ class AdminController extends Controller
       $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('status', 1)
                     ->update(['status' => 0]);
       $packet = Packet::find($request->id_packet);
+      Redis::flushAll();
       if ($packet->type == "warmup")
         $packet->current_capacity = 0;
       $packet->save();

@@ -324,6 +324,9 @@
     $(".go").click(function(){
       $(".modal").modal('show');
     });
+    $("#mascot").click(function(){
+      $(".modal").modal('show');
+    });
   });
 
   $("form").submit(function(e){
