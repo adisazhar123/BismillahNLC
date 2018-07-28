@@ -201,6 +201,10 @@
     pointer-events: auto;
   }
 
+  *{
+    -webkit-overflow-scrolling: touch;
+  }
+
 
 	</style>
 
