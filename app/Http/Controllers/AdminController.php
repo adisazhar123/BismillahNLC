@@ -323,13 +323,13 @@ class AdminController extends Controller
 
       }
 
-      $question = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $question);
-      $option1 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option1);
-      $option2 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option2);
-      $option3 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option3);
-      $option4 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option4);
-      $option5 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option5);
-      $description = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $description);
+      $question = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $question);
+      $option1 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option1);
+      $option2 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option2);
+      $option3 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option3);
+      $option4 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option4);
+      $option5 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option5);
+      $description = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $description);
 
       $question = Question::create([
         'id_packet' => $request->id_packet,
@@ -471,13 +471,13 @@ class AdminController extends Controller
 
       }
 
-      $question = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $question);
-      $option1 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option1);
-      $option2 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option2);
-      $option3 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option3);
-      $option4 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option4);
-      $option5 = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $option5);
-      $description = str_replace(url('/').'/nlc-filemanager/app/public', asset('storage'), $description);
+      $question = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $question);
+      $option1 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option1);
+      $option2 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option2);
+      $option3 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option3);
+      $option4 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option4);
+      $option5 = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $option5);
+      $description = str_replace(url('/').'/laravel-filemanager/app/public', asset('storage'), $description);
 
       $new_question->description = $description;
       $new_question->question = $question;
