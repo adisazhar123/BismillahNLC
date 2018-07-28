@@ -104,10 +104,6 @@
         cursor: pointer;
         transform: scale(1.1);
       }
-      .disabled {
-        pointer-events: none;
-        opacity: 0.3;
-      }
     </style>
 </head>
 
@@ -146,6 +142,8 @@
           </div>
         </div>
       </header>
+
+
     </div>
     @yield('content')
   </div>

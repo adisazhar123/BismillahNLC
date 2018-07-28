@@ -3,6 +3,7 @@
 @section('style')
   <style media="screen">
 
+
 		.welcome-banner {
 			height: 100%;
 			justify-content: center;
@@ -122,9 +123,13 @@
 			pointer-events: auto;
 		}
 
+    .ok{
+      pointer-events: none;
+    }
+
 		@media only screen and (max-width: 500px) {
 		    .title{
-		        font-size: 48px;
+		        font-size: 36px;
 		    }
         .welcome-banner {
           margin-top: 100px;
@@ -188,6 +193,14 @@
     margin-bottom: 0.15rem;
   }
 
+  .go, .masuk{
+    z-index: 9999999999;
+  }
+
+  body{
+    pointer-events: auto;
+  }
+
 
 	</style>
 
@@ -210,9 +223,9 @@
 					<div class="login">
             @if (Auth::user())
               @if (Auth::user()->role == 3)
-                <a href="{{url('/peserta/home')}}" class="genric-btn primary circle arrow" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
+                <a href="{{url('/peserta/home')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
               @elseif (Auth::user()->role < 3)
-                <a href="{{url('/admin')}}" class="genric-btn primary circle arrow" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
+                <a href="{{url('/admin')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
               @endif
             @else
               <a href="#" class="genric-btn primary circle arrow go" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
@@ -222,6 +235,10 @@
 			</div>
 		</div>
 	</div>
+
+  <div class="container">
+
+  </div>
 
   <div id="container">
      <div id="header"></div>
@@ -258,6 +275,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" style="color: white">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:white">
+         <span aria-hidden="true">&times;</span>
+       </button>
       </div>
       <div class="modal-body">
         <div class="row">

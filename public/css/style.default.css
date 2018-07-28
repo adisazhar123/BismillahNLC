@@ -141,13 +141,6 @@ section header {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
-
-@media (min-width: 768px) {
-  .container-fluid {
-    padding: 0 3rem;
-  }
-}
-
 /*
 * ==========================================================
 *     Main NAVBAR
@@ -1139,45 +1132,6 @@ footer.main-footer p {
   }
 }
 
-/*
-* ==========================================================
-*     POLAR CHART
-* ==========================================================
-*/
-.polar-chart-example .chart-container {
-  width: 500px;
-  max-width: 100%;
-  margin: 20px auto;
-}
-
-/*
-* ==========================================================
-*     PIE CHART
-* ==========================================================
-*/
-.pie-chart-example .chart-container {
-  width: 500px;
-  max-width: 100%;
-  margin: 20px auto;
-}
-
-/*
-* ==========================================================
-*     RADAR CHART
-* ==========================================================
-*/
-.radar-chart-example .chart-container {
-  width: 500px;
-  max-width: 100%;
-  margin: 20px auto;
-}
-
-/* CHARTS MEDIAQUERIES -------------------------- */
-@media (min-width: 768px) {
-  section.charts h2 {
-    font-size: 1rem;
-  }
-}
 
 /*
 * ==========================================================
