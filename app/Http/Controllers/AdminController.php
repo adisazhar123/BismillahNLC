@@ -916,7 +916,7 @@ class AdminController extends Controller
                     ->update(['status' => 0]);
       $packet = Packet::find($request->id_packet);
 
-      exec("/var/www/nlconline/delete_keys.sh '".$request->id_packet."'");
+      shell_exec("/var/www/nlconline/delete_keys.sh '".$request->id_packet."'");
       // Redis::del('id-'.$request->id_packet.'-*-ans');
       // Redis::del('id-'.$request->id_packet.'-*-stat');
 
