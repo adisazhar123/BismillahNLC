@@ -57,7 +57,8 @@
           <h4 class="alert-heading">Kumpulan PDF untuk paket {{''}}</h4>
           <ul>
             <li>Untuk melihat hasil PDF klik icon berwarna hijau disebelah kiri-bawah.</li>
-            <li>Untuk menghapus hasil PDF klik icon berwarna merah disebelah kanan-bawah.</li>
+            <li>Untuk menghapus hasil PDF klik icon berwarna merah disebelah kanan-bawah.
+            <strong>Dilarang menghapus PDF jika paket belum dinilai full!</strong></li>
           </ul>
           <hr>
           <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
