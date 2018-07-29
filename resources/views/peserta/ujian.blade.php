@@ -192,5 +192,6 @@
 <input type="hidden" name="id_team_packet" id="id_team_packet" value="{{$id_team_packet}}">
 <input type="hidden" name="deadline" id="deadline" value="{{$packet_info->active_date." ".$packet_info->end_time}}">
 <input type="hidden" name="time_now" id="time_now" value="{{$packet_info->active_date." ".$time_now}}">
+<input type="hidden" name="id_packet" id="id_packet" value="{{$packet_info->id_packet}}">
 
   <br>

@@ -100,13 +100,14 @@ $(document).on('click',".form-check-input", function(){
   var value = $(this).val();
   var status = "green";
   id_team_packet = $("#id_team_packet").val();
+  id_packet = $("#id_packet").val();
 
   $("#q_"+name).css('background-color', "#98fb98");
 
   $.ajax({
     url: '{{route('peserta.submit.ans')}}',
     method: 'put',
-    data: {value, q_index, id_team_packet},
+    data: {value, q_index, id_team_packet, id_packet},
     success: function(data){
       if (typeof data.intended_url !== 'undefined') {
         window.location= '{{route('index')}}';
@@ -130,7 +131,7 @@ $(document).on("click", ".question_no", function(){
     $.ajax({
       url: '{{route('peserta.submit.ans.stat')}}',
       method: 'put',
-      data: {q_index, id_team_packet},
+      data: {q_index, id_team_packet, id_packet},
       success: function(data){
         if (typeof data.intended_url !== 'undefined') {
           window.location= '{{route('index')}}';
@@ -151,7 +152,7 @@ $(document).on("click", ".fa-refresh", function(){
   $.ajax({
     url: '{{route('peserta.reset.ans')}}',
     method: "PUT",
-    data: {q_index, id_team_packet},
+    data: {q_index, id_team_packet, id_packet},
     success: function(data){
       if (typeof data.intended_url !== 'undefined') {
         window.location= '{{route('index')}}';
@@ -166,9 +167,10 @@ $(document).on('click', '#submit_exam', function(){
 
 $(document).on('click', '#confirm_finish', function(){
   var id_team_packet = $("#id_team_packet").val();
+  id_packet = $("#id_packet").val();
   $.ajax({
     method: "PUT",
-    data: {id_team_packet},
+    data: {id_team_packet, id_packet},
     url: '{{route('peserta.submit.exam')}}',
     success: function(data){
       if (data == "ok") {

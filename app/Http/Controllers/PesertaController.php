@@ -144,8 +144,8 @@ class PesertaController extends Controller
           // echo strtotime($has_time['end_time'])-strtotime($time_now);
           // echo "<br>";
           // echo "Time now ";
-          return view('peserta.ujian')->with('answers', explode(",", Redis::get('id-'.$team_packet->id.'-ans')))
-          ->with('answers_stats', explode(",", Redis::get('id-'.$team_packet->id.'-stat')))->with('ans_index', $ans_label_index)
+          return view('peserta.ujian')->with('answers', explode(",", Redis::get('id-'.$team_packet->id_packet.'-'.$team_packet->id.'-ans')))
+          ->with('answers_stats', explode(",", Redis::get('id-'.$team_packet->id_packet.'-'.$team_packet->id.'-stat')))->with('ans_index', $ans_label_index)
           ->with('id_team_packet', $team_packet->id)
           ->with('packet_info', $has_time)->with('time_now', $time_now);
 
@@ -281,11 +281,11 @@ class PesertaController extends Controller
     public function submitAns(Request $request){
       // NOTE: Pake redis cache
 
-      $ans = Redis::get('id-'.$request->id_team_packet.'-ans');
+      $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
 
       $ans = explode(',', $ans);
 
-      $stat = Redis::get('id-'.$request->id_team_packet.'-stat');
+      $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
       $stat = explode(',', $stat);
 
       $ans[$request->q_index-1] = $request->value;
@@ -294,8 +294,8 @@ class PesertaController extends Controller
       $ans = implode(',', $ans);
       $stat = implode(',', $stat);
 
-      Redis::set('id-'.$request->id_team_packet.'-ans', $ans);
-      Redis::set('id-'.$request->id_team_packet.'-stat', $stat);
+      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans', $ans);
+      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
 
       return response()->json(['message' => 'ok'], 200);
 
@@ -319,11 +319,11 @@ class PesertaController extends Controller
 
     //Untuk submit status jawaban e.g. "ragu", dijadikan array terus convert ke string utk store di DB
     public function submitAnsStat(Request $request){
-      $stat = Redis::get('id-'.$request->id_team_packet.'-stat');
+      $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
       $stat = explode(',', $stat);
       $stat[$request->q_index-1] = "orange";
       $stat = implode(',', $stat);
-      Redis::set('id-'.$request->id_team_packet.'-stat', $stat);
+      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
 
       return response()->json(['message' => 'ok'], 200);
 
@@ -341,11 +341,11 @@ class PesertaController extends Controller
 
     //Untuk reset jawaban, dijadikan array terus convert ke string utk store di DB
     public function resetAns(Request $request){
-      $ans = Redis::get('id-'.$request->id_team_packet.'-ans');
+      $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
 
       $ans = explode(',', $ans);
 
-      $stat = Redis::get('id-'.$request->id_team_packet.'-stat');
+      $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
       $stat = explode(',', $stat);
 
       $ans[$request->q_index-1] = "0";
@@ -354,8 +354,8 @@ class PesertaController extends Controller
       $ans = implode(',', $ans);
       $stat = implode(',', $stat);
 
-      Redis::set('id-'.$request->id_team_packet.'-ans', $ans);
-      Redis::set('id-'.$request->id_team_packet.'-stat', $stat);
+      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans', $ans);
+      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
 
       return response()->json(['message' => 'ok'], 200);
 
@@ -391,8 +391,8 @@ class PesertaController extends Controller
     }
 
     public function submitExam(Request $request){
-      $ans = Redis::get('id-'.$request->id_team_packet.'-ans');
-      $stat = Redis::get('id-'.$request->id_team_packet.'-stat');
+      $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
+      $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
 
       $team_packet = TeamPacket::find($request->id_team_packet);
       $team_packet->has_finished = 1;
