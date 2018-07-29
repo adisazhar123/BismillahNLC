@@ -39,6 +39,9 @@
 		    pointer-events: none;
 		    opacity: 0.3;
 			}
+			nav.navbar a.menu-btn{
+				margin-left: 20px;
+			}
 		 </style>
 
 </head>

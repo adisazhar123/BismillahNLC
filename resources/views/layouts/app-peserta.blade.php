@@ -65,6 +65,9 @@
         cursor: pointer;
         transform: scale(1.1);
       }
+      nav.navbar a.menu-btn{
+				margin-left: 20px;
+			}
      </style>
 
 </head>
