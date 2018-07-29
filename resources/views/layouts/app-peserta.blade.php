@@ -128,7 +128,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        <p>Schematics ITS 2018</p>
+                        <p>&copy; Schematics ITS 2018</p>
                     </div>
                 </div>
             </div>
