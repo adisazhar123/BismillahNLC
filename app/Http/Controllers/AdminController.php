@@ -915,8 +915,8 @@ class AdminController extends Controller
       $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('status', 1)
                     ->update(['status' => 0]);
       $packet = Packet::find($request->id_packet);
-      Redis::del('id-'.$team_packet->id_packet.'-*-ans');
-      Redis::del('id-'.$team_packet->id_packet.'-*-stat');
+      Redis::del('id-'.$request->id_packet.'-*-ans');
+      Redis::del('id-'.$request->id_packet.'-*-stat');
 
       if ($packet->type == "warmup")
         $packet->current_capacity = 0;
