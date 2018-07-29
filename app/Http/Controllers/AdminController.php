@@ -604,7 +604,7 @@ class AdminController extends Controller
 
     public function generateScore(Request $request){
       $team_packets = TeamPacket::where('id_packet', $request->id_packet)
-                      ->where('final_score', null)->limit(10)->get();
+                      ->where('final_score', null)->limit(100)->get();
 
 
       foreach ($team_packets as $tp) {
