@@ -916,8 +916,10 @@ class AdminController extends Controller
                     ->update(['status' => 0]);
       $packet = Packet::find($request->id_packet);
 
-      Redis::del('id-'.$request->id_packet.'-*-ans');
-      Redis::del('id-'.$request->id_packet.'-*-stat');
+      exec('redis-cli KEYS "id-'.$request->id_packet.'-*" | xargs redis-cli DEL');
+
+      // Redis::del('id-'.$request->id_packet.'-*-ans');
+      // Redis::del('id-'.$request->id_packet.'-*-stat');
 
       if ($packet->type == "warmup")
         $packet->current_capacity = 0;
