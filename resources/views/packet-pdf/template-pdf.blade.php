@@ -49,7 +49,7 @@
               <ol type="A">
                 @for ($i=1; $i <= 5; $i++)
                   <li>
-                    {!! $question['option_'.$i] !!}
+                    {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                   </li>
                 @endfor
               </ol>
