@@ -42,6 +42,12 @@
 			nav.navbar a.menu-btn{
 				margin-left: 20px;
 			}
+
+			@media only screen and (max-width: 1200px) {
+				nav.navbar a.menu-btn{
+					margin-left: 0px;
+				}
+			}
 		 </style>
 
 </head>
