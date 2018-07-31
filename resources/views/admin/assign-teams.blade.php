@@ -3,7 +3,14 @@
 @section('main')
 
 <br>
-
+<div class="alert alert-info" role="alert">
+  <h4 class="alert-heading">Cara penggunaan</h4>
+  <ul>
+  	<li>Untuk melihat detail lebih lanjut klik 'Info'.</li>		
+  </ul>
+  <hr>
+  <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
+</div>
 <div class="row">
 	<div class="col-lg-12">
 		<div class="card">

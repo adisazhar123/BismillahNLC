@@ -14,12 +14,19 @@
 @section('main')
 
 <br>
-
+<div class="alert alert-info" role="alert">
+  <h4 class="alert-heading">Cara penggunaan</h4>
+  <ul>
+  	<li>Berikut adalah daftar skor tim sesuai paket.</li>
+  </ul>
+  <hr>
+  <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
+</div>
 <div class="row">
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h4>List Skor </h4>
+				<h4>Daftar Skor </h4>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

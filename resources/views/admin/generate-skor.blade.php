@@ -14,6 +14,15 @@
 @section('main')
 
 <br>
+<div class="alert alert-info" role="alert">
+  <h4 class="alert-heading">Cara penggunaan</h4>
+  <ul>
+  	<li>Untuk menilai tim klik 'Generate Skor'. Setiap klik akan nge-generate nilai dari 100 tim.</li>
+		<li>Angka di kolom progress menunjukkan jumlah tim yang sudah dinilai dari total tim yang ada di paket tersebut.</li>
+  </ul>
+  <hr>
+  <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
+</div>
 
 <div class="row my_page">
 	<div class="col-lg-12">

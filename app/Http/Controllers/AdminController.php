@@ -36,7 +36,7 @@ class AdminController extends Controller
     public function index(){
       return view('admin.daftar-teams');
     }
-	
+
 	public function modifyUserList(Request $request){
 		try{
 			if($request->input("user_id") == '-1' && $request->input("act") == "add"){
@@ -54,7 +54,7 @@ class AdminController extends Controller
 				$user = User::findOrFail($request->input("user_id"));
 				$user->name = $request->input("user_name");
 				$user->email = $request->input('user_email');
-				if($request->input('user_password') != "") 
+				if($request->input('user_password') != "")
 					$user->password = bcrypt($request->input('user_password'));
 				$user->role = $request->input('type') == 1 ? 1 : 2; //Untuk mencegah auto add user sebagai admin
 				return response()->json(['success'=> $user->update(),'op'=>$request->input("act")]);
@@ -616,10 +616,10 @@ class AdminController extends Controller
       else $pdfs = GeneratedPacket::where('id_packet', $id)->orderBy('packet_type', 'asc')->paginate(12);
 
       if ($request->ajax()) {
-        return view('admin.partial-list-pdf', ['pdfs' => $pdfs, 'search_empty'=> $search_empty])->render();
+        return view('admin.partial-list-pdf', ['pdfs' => $pdfs, 'search_empty'=> $search_empty, 'id'=>$id])->render();
       }
 
-      return view('admin.list-pdf')->with('pdfs', $pdfs)->with('search_empty', $search_empty);
+      return view('admin.list-pdf')->with('pdfs', $pdfs)->with('search_empty', $search_empty)->with('id', $id);
     }
 
     public function deletePdf(Request $request){
@@ -632,6 +632,11 @@ class AdminController extends Controller
     public function viewPdf($id){
       $pdf = GeneratedPacket::find($id);
       return response()->file(storage_path()."/app/".$pdf->packet_file_directory);
+    }
+
+    public function viewPdfInfo($id){
+      $pdf = GeneratedPacket::find($id);
+      return response()->file(storage_path()."/app/".$pdf->packet_file_directory."-with-info");
     }
 
     public function generateScore(Request $request){
@@ -1033,12 +1038,4 @@ class AdminController extends Controller
       return redirect()->back()->with('message', 'Pengumuman berhasil dihapus!');
 
     }
-
-    public function getKloter(){
-      $packets = Packet::with(['teamPackets' => function($q){
-        $q->where('status', 0)->count();
-      }])->get();
-      return $packets;
-    }
-
   }

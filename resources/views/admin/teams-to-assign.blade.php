@@ -14,7 +14,17 @@
 @section('main')
 
 <br>
+<div class="alert alert-info" role="alert">
+  <h4 class="alert-heading">Cara penggunaan</h4>
+  <ul>
+  	<li>Untuk nge-assign tim bisa secara individu dengan cara klik 'Assign' di kolom <i>Action</i>, atau 'Assign tim online' untuk semua tim online,
+			atau 'Assign tim offline' untuk semua tim offline.</li>
+		<li>Untuk menghilangkan 'Assign' dengan cara klik 'Unassign semua tim' atau 'Unassign'.</li>
 
+  </ul>
+  <hr>
+  <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
+</div>
 <div class="row my_page">
 	<div class="col-lg-12">
 		<div class="card">

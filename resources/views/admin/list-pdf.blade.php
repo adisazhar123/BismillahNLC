@@ -68,7 +68,7 @@
 
 
 
-      <form action="{{url('/admin/list-pdf', 1)}}" id="search_pdf">
+      <form action="{{url('/admin/list-pdf', $id)}}" id="search_pdf">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon1" name="keywords">
           <div class="input-group-append">

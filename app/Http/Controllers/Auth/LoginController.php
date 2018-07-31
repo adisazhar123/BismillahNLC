@@ -49,7 +49,9 @@ class LoginController extends Controller
         User::find(Auth::id())->update(['session_token' => Session::getId()]);
         if (Auth::user()->role == 3){
           return response()->json(['intended_url'=>'/peserta/home']);
-        }else{
+        }else if (Auth::user()->role == 2){
+          return response()->json(['intended_url'=>'/admin/scoreboard']);
+        }else {
           return response()->json(['intended_url'=>'/admin']);
         }
       }

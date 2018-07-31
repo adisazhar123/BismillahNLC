@@ -228,8 +228,10 @@
             @if (Auth::user())
               @if (Auth::user()->role == 3)
                 <a href="{{url('/peserta/home')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
-              @elseif (Auth::user()->role < 3)
-                <a href="{{url('/admin')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
+              @elseif (Auth::user()->role == 2)
+                <a href="{{url('/admin/scoreboard')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
+              @else
+                <a href="{{url('/admin')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>                
               @endif
             @else
               <a href="#" class="genric-btn primary circle arrow go" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>

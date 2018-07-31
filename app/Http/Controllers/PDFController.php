@@ -48,6 +48,13 @@ class PDFController extends Controller
           Storage::put($nama_file, $pdf->output());
           unset($pdf);
 
+          $pdf = App::make('dompdf.wrapper');
+          $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+
+            //utk generate paket dgn info Soal
+            $pdf->loadView('packet-pdf.template-pdf-with-info', array('questions' => $questions, 'identifier' => $packet->name));
+            Storage::put($nama_file."-with-info", $pdf->output());
+            unset($pdf);
 
           foreach ($questions as $q) {
             $questions_order.=$q->id_question.',';
@@ -97,6 +104,14 @@ class PDFController extends Controller
           $pdf->loadView('packet-pdf.template-pdf-random', array('related' => $related, 'non_related'=>$non_related, 'identifier' => $packet->name));
           Storage::put($nama_file, $pdf->output());
           unset($pdf);
+
+          $pdf = App::make('dompdf.wrapper');
+          $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+
+            //utk generate paket dgn info Soal
+            $pdf->loadView('packet-pdf.template-pdf-random-with-info', array('related' => $related, 'non_related'=>$non_related, 'identifier' => $packet->name));
+            Storage::put($nama_file."-with-info", $pdf->output());
+            unset($pdf);
 
           $generated_packet->id_packet = $request->id_packet;
           $generated_packet->packet_type = $packet->name."_".substr(uniqid('', true), -4);

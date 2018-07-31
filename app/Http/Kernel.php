@@ -60,6 +60,6 @@ class Kernel extends HttpKernel
         'single_session' => \App\Http\Middleware\SingleSession::class,
         'participant_only' => \App\Http\Middleware\ParticipantOnly::class,
         'admin_only' => \App\Http\Middleware\AdminOnly::class,
-
+        'admin_and_commitee' => \App\Http\Middleware\AdminCommiteeOnly::class,
     ];
 }

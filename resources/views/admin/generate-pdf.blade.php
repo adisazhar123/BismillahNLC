@@ -22,7 +22,7 @@
         <ul>
           <li>Untuk membuat PDF silahkan klik <i>generate</i>. Lalu pilih kebutuhan selanjutnya. Pembuatan PDF <strong>maksimal 10</strong> per
             <i>generate</i>.</li>
-          <li>Untuk melihat kumpulan PDF per paket, klik <i>view</i>.</li>
+          <li>Untuk melihat kumpulan PDF per paket, klik 'Info'.</li>
         </ul>
         <hr>
         <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>

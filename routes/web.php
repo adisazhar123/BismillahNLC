@@ -36,11 +36,8 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
 });
 
 
-//Role: Admin
-Route::middleware(['admin_only'])->group(function(){
-  Route::get('/admin', 'AdminController@index')->name('index.admin');
-  Route::get('/admin/user-list', 'AdminController@listUserAdmin')->name('list.user.admin');
-  Route::post('/admin/user-list', 'AdminController@modifyUserList')->name('modify.user.admin');
+//Role: Admin and commitee
+Route::middleware(['admin_and_commitee'])->group(function(){
   Route::get('/admin/get-teams', 'AdminController@getTeams')->name('get.teams.admin');
   Route::get('/admin/get-users', 'AdminController@getUser')->name('get.user.admin');
   Route::get('/admin/packets', 'AdminController@packetPage')->name('packet.admin');
@@ -73,6 +70,7 @@ Route::middleware(['admin_only'])->group(function(){
   Route::get('/admin/list-pdf/{id}', 'AdminController@listPdf')->name('list.pdf.admin');
   Route::delete('/admin/delete-pdf', 'AdminController@deletePdf')->name('delete.pdf.admin');
   Route::get('/admin/view-pdf/{id}', 'AdminController@viewPdf')->name('view.pdf.admin');
+Route::get('/admin/view-pdf-info/{id}', 'AdminController@viewPdfInfo')->name('view.pdf.info.admin');
   Route::get('/admin/assign-teams-page', 'AdminController@assignTeamPage')->name('assign.team');
   Route::get('/admin/get-packets-for-assign', 'AdminController@getPacketsforAssign')->name('get.packets.for.assign');
   Route::get('/admin/get-teams-to-assign', 'AdminController@getTeamstoAssign')->name('get.teams.to.assign');
@@ -90,14 +88,18 @@ Route::middleware(['admin_only'])->group(function(){
   Route::post('/admin/announce', 'AdminController@announce');
   Route::delete('/admin/delete-announcement', 'AdminController@deleteAnnouncement');
   Route::get('/admin/server-time', 'AdminController@getServerTime');
-  Route::get('/count', 'AdminController@getKloter');
+  Route::put('/admin/generate-score', 'AdminController@generateScore')->name('generate.score.admin');
+  Route::get('/admin/get-team-scores', 'AdminController@getTeamScores')->name('get.team.scores.admin');
+  Route::get('/admin/generate-score-page', 'AdminController@generateScorePage')->name('generate.score.page.admin');
+  Route::get('/admin/get-packets-to-score', 'AdminController@getPacketstoScore')->name('get.packets.to.score.admin');
 });
-// TODO:
-Route::put('/admin/generate-score', 'AdminController@generateScore')->name('generate.score.admin');
-Route::get('/admin/get-team-scores', 'AdminController@getTeamScores')->name('get.team.scores.admin');
-Route::get('/admin/generate-score-page', 'AdminController@generateScorePage')->name('generate.score.page.admin');
-Route::get('/admin/get-packets-to-score', 'AdminController@getPacketstoScore')->name('get.packets.to.score.admin');
 
+//Admin
+Route::middleware(['admin_only'])->group(function(){
+  Route::get('/admin', 'AdminController@index')->name('index.admin');
+  Route::get('/admin/user-list', 'AdminController@listUserAdmin')->name('list.user.admin');
+  Route::post('/admin/user-list', 'AdminController@modifyUserList')->name('modify.user.admin');
+});
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     '\UniSharp\LaravelFilemanager\Lfm::routes()';
