@@ -40,6 +40,7 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
 Route::middleware(['admin_only'])->group(function(){
   Route::get('/admin', 'AdminController@index')->name('index.admin');
   Route::get('/admin/user-list', 'AdminController@listUserAdmin')->name('list.user.admin');
+  Route::post('/admin/user-list', 'AdminController@modifyUserList')->name('modify.user.admin');
   Route::get('/admin/get-teams', 'AdminController@getTeams')->name('get.teams.admin');
   Route::get('/admin/get-users', 'AdminController@getUser')->name('get.user.admin');
   Route::get('/admin/packets', 'AdminController@packetPage')->name('packet.admin');
@@ -62,6 +63,7 @@ Route::middleware(['admin_only'])->group(function(){
   Route::post('/admin/upload-csv', 'AdminController@uploadcsv')->name('upload.team.csv');
   Route::get('/admin/download-csv', 'AdminController@downloadcsv')->name('download.team.csv');
   Route::get('/admin/get-team', 'AdminController@getTeamtoUpdate')->name('get.team.to.update');
+  Route::get('/admin/get-user-detail', 'AdminController@getUserDetail')->name('get.user.detail');
   Route::put('/admin/update-team', 'AdminController@updateTeam')->name('update.team.admin');
   Route::get('/admin/generate-pdf', 'AdminController@listPdfPage')->name('list.pdf.page.admin');
   Route::get('/admin/get-packets-for-pdf', 'AdminController@getPacketsforPdf')->name('get.packets.for.pdf.admin');

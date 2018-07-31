@@ -51,33 +51,34 @@
 				</button>
 			</div>
 			<div class="modal-body">
-			<form action="#">
-				{{ csrf_field() }}
-				<input type="hidden" name="user_id" id="user_id" value="">
-				<div class="form-group">
-				 <label for="nama_tim">Nama user</label>
-				 <input type="text" class="form-control" id="user_name" placeholder="Enter nama tim" required name="user_name">
-			 </div>
-				<div class="form-group">
-				<label for="user_email">Email user</label>
-				<input type="email" class="form-control" id="user_email" aria-describedby="emailHelp" placeholder="Enter email" name="user_email" required>
-				</div>
-				<div class="form-group">
-				<label for="user_password">Password</label>
-				<input type="password" class="form-control" id="user_password" placeholder="Password" name="user_password" >
-				</div>
-				<?php // NOTE: web master role = 1, komite/ user biasa role = 2 ?>
-				<div class="form-group">
-					<label for="type">Tipe user</label>
-					<select class="form-control" id="type" name="type">
-						<option value='1' id="select_option_1">Web Master</option>
-						<option value='2-warmup' id="select_option_2">Komite</option>
-					</select>
-				</div>
-				</div>
-				<div class="modal-footer">
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
+				<form id="frm" action="#" method="post">
+					{{ csrf_field() }}
+					<input type="hidden" name="user_id" id="user_id" value="-1">
+					<input type="hidden" name="act" id="act" value="null">
+					<div class="form-group">
+					 <label for="nama_tim">Nama user</label>
+					 <input type="text" class="form-control" id="user_name" placeholder="Enter nama tim" required name="user_name">
+					</div>
+					<div class="form-group">
+					<label for="user_email">Email user</label>
+					<input type="email" class="form-control" id="user_email" aria-describedby="emailHelp" placeholder="Enter email" name="user_email" required>
+					</div>
+					<div class="form-group">
+					<label for="user_password">Password</label>
+					<input type="password" class="form-control" id="user_password" placeholder="Password" name="user_password" >
+					</div>
+					<?php // NOTE: web master role = 1, komite/ user biasa role = 2 ?>
+					<div class="form-group">
+						<label for="type">Tipe user</label>
+						<select class="form-control" id="type" name="type">
+							<option value='1'>Web Master</option>
+							<option value='2'>Komite</option>
+						</select>
+					</div>
+					</div>
+					<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -88,95 +89,107 @@
 
 @section('script')
 	<script type="text/javascript">
-
-		$(document).ready( function () {
-			var table1;
-			var method, action, url;
-			table1 = $('#table_id').DataTable({
-			responsive: true,
-			stateSave: true,
-			ajax: "{{route('get.user.admin')}}",
-			columns:[
-					{data: "id"},
-					{data: "name"},
-					{data: "email"},
-					{render: function(data, type, row){
-						return "<button class='btn btn-danger' id=delete user-id="+row.id_team+">Hapus</button>"+
-						"<button class='btn btn-warning' id=view user-id="+row.id_team+">Ubah</button>";
+		$(document).ready( function(){
+			window['table1'] = $('#table_id').DataTable({
+				responsive: true,
+				stateSave: true,
+				ajax: "{{route('get.user.admin')}}",
+				columns:[
+						{data: "id"},
+						{data: "name"},
+						{data: "email"},
+						{render: function(data, type, row){
+							return "<button class='btn btn-danger delete' user-id="+row.id+">Hapus</button>"+
+							"<button class='btn btn-warning edit' user-id="+row.id+">Ubah</button>";
+							}
 						}
-					}
-			]
-		});
+				]
+			});
 		$("#user-list").addClass('active');
-
+		
+		$("#frm").submit(function(e){
+			e.preventDefault();
+			$.ajax({
+		 		url: "{{route('modify.user.admin')}}",
+		 		method: "POST",
+		 		data: $(this).serialize(),
+		 		success: function(p){
+					try{
+						if (p.success){
+							switch(p.op){
+							case "add":
+								alertify.success('User berhasil ditambah!');	
+								break;
+							case "del":
+								alertify.success('User berhasil dihapus!');	
+								break;
+							case "alter":
+								alertify.success('User berhasil diubah!');	
+								break;
+							}
+						}else{
+							switch(p.op){
+							case "add":
+								alertify.error('User gagal ditambah!');
+								break;
+							case "del":
+								alertify.success('User gagal dihapus!');	
+								break;
+							case "alter":
+								alertify.success('User gagal diubah!');	
+								break;
+							}
+						}
+						table1.ajax.reload(null, false);
+					}catch(err){
+						alertify.error(err);
+					}
+					$(".modal").modal('hide');
+		 		},
+		 		error: function(){
+		 			alertify.error('Server error!');
+		 		}
+		 	});
+		});
+		
 		$("#add_user").click(function(){
-			$("form")[0].reset();
-			method = "POST";
-			url = '{{route('new.team.admin')}}';
-			action = "new";
+			$("#frm")[0].reset();
+			$("#frm #act").val("add");
+			$("#frm #user_id").val(-1);
 			$(".modal-title").html("Tambah user");
+			$("#frm input[name=user_password]").attr("placeholder","Password");
 			$(".modal.user").modal('show');
 		});
+		
+		$(document).on("click", ".delete",function(){
+			if(confirm("Hapus user ini?")){
+				let f=$("#frm");
+				f[0].reset();
+				f.find("#user_id").val($(this).attr("user-id"));
+				f.find("#act").val("del");
+				f.submit();
+			}
+		});
+		
+		$(document).on("click", ".edit",function(){
+			let f=$("#frm");
+			let id=$(this).attr("user-id");
+			f[0].reset();
+			f.find("#act").val("alter");
+			f.find("#user_id").val(id);
+			f.find("#user_password").attr("placeholder","Tidak dirubah");
+			$.ajax({
+		 		url: '{{route('get.user.detail')}}',
+		 		data: {id},
+		 		success: function(data){
+					f.find("#user_name").val(data[0].name);
+					f.find("#user_email").val(data[0].email);
+					f.find("#type").val(data[0].role);
+					$(".modal.user").modal('show');
+		 		}
+		 	});
+		});
 
-		// $(document).on('click', '#view', function(){
-		// 	$("#newuser form")[0].reset();
-		//
-		// 	id_team = $(this).attr('team-id')
-		// 	$("#newuser #user_id").val(id_team)
-		// 	method = "PUT";
-		// 	url = '{{route('update.team.admin')}}';
-		// 	action = "update";
-		// 	$(".team.modal-title").html("Edit tim");
-		//
-		// 	$(".team").modal('show')
-		//
-		//
-		// 	$.ajax({
-		// 		url: '{{route('get.team.to.update')}}',
-		// 		data: {id_team},
-		// 		success: function(data){
-		// 			$(".modal-title").text("Lihat Tim");
-		// 			$("#newuser #user_name").val(data[1].name);
-		// 			$("#newuser #user_email").val(data[1].email)
-		// 			// $("#newuser #user_password").val(data[0].password)
-		// 			$("#newuser #user_phone").val(data[1].phone)
-		// 		}
-		// 	});
-		//
-		// });
-
-		// $("#newuser form").submit(function(e){
-		// 	e.preventDefault();
-		// 	$.ajax({
-		// 		url: url,
-		// 		method: method,
-		// 		data: $(this).serialize(),
-		// 		success: function(data){
-		// 			if (data == "ok"){
-		// 				if (action == "new")
-		// 					alertify.success('Tim berhasil ditambah!');
-		// 				else {
-		// 					alertify.success('Tim berhasil diperbaruhi!');
-		//
-		// 				}
-		// 			}else{
-		// 				if (action == "new")
-		// 					alertify.error('Tim gagal ditambah!');
-		// 				else
-		// 					alertify.error('Tim gagal diperbaruhi!');
-		// 			}
-		// 			table1.ajax.reload(null, false);
-		// 			$(".modal.team").modal('hide')
-		//
-		// 		},
-		// 		error: function(){
-		// 			alertify.error('Server error!');
-		// 		}
-		// 	});
-		// });
-
-});
-
-
+	});
 	</script>
 @endsection
