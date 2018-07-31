@@ -5,8 +5,10 @@
    Ganti **wiriscachedirectory** dan **wirisformuladirectory** ke absolute path folder /storage/app/public/cache dan /storage/app/public/formulas.
    Contoh: J:/KULIAH/schematics/NLC2018/BismillahNLC/storage/app/public/formulas
 4. Run **php artisan storage:link**
-5. Serve pake XAMPP, jangan pakai php artisan serve. DOMPDF lemot kalau pakai php artisan serve.
-6. Makasih :)
+5. Download redis server
+6. Run redis server
+7. Nyalakan mysql server, serve app.
+8. Enjoy
 
 ## .env sample
 APP_NAME=Laravel
