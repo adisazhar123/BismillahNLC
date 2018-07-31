@@ -36,15 +36,41 @@ class AdminController extends Controller
     public function index(){
       return view('admin.daftar-teams');
     }
+	
+	public function modifyUserList(Request $request){
+		try{
+			if($request->input("user_id") == '-1' && $request->input("act") == "add"){
+				//Create new
+				$user = new User;
+				$user->name = $request->input("user_name");
+				$user->email = $request->input('user_email');
+				$user->password = bcrypt($request->input('user_password'));
+				$user->role = $request->input('type') == 1 ? 1 : 2; //Untuk mencegah auto add user sebagai admin
+				return response()->json(['success'=> $user->save(),'op'=>$request->input("act")]);
+			}else if($request->input("act") == "del"){
+				$user = User::findOrFail($request->input("user_id"));
+				return response()->json(['success'=> $user->delete(),'op'=>$request->input("act")]);
+			}else if($request->input("act") == "alter"){
+				$user = User::findOrFail($request->input("user_id"));
+				$user->name = $request->input("user_name");
+				$user->email = $request->input('user_email');
+				if($request->input('user_password') != "") 
+					$user->password = bcrypt($request->input('user_password'));
+				$user->role = $request->input('type') == 1 ? 1 : 2; //Untuk mencegah auto add user sebagai admin
+				return response()->json(['success'=> $user->update(),'op'=>$request->input("act")]);
+			}
+		}catch(\Exception $e){
+			//Kode error bisa dihilangkan jika tidak ingin mengekspose error
+			return response()->json(['success'=> false, 'error'=> $e->getMessage(),'op'=>$request->input("act")]);
+		}
+	}
 
-    //halaman index
     public function listUserAdmin(){
       return view('admin.daftar-user');
     }
 
-    //fungsi utk GET teams (ngisi datatable)
     public function getUser(){
-      $teams = UserListing::all(['id','name','email']);
+      $teams = UserListing::where("role","!=",3)->get(['id','name','email']);
       return response()->json(['data'=> $teams]);
     }
 
@@ -535,6 +561,12 @@ class AdminController extends Controller
       return response()->json([$user, $team]);
     }
 
+    public function getUserDetail(Request $request){
+      $user = User::where('id', $request->id)->select('name','email','role')->first();
+
+      return response()->json([$user]);
+    }
+
     public function updateTeam(Request $request){
       $user = User::where('role_id', $request->team_id)->first();
       $team = Team::find($request->team_id);
@@ -700,21 +732,21 @@ class AdminController extends Controller
 				set_time_limit(0); //Prevent time limit
 				foreach($results as $row){
 					//Start adding the user
-            $id = DB::table('team')->insertGetId([
-              // 'id_team' => $row->get("id_team"),
-              'name' => $row->get("name"),
-              'email' => $row->get("email"),
-              'phone' => $row->get("phone"),
-              'type' => $row->get('type')
-            ]);
+					$id = DB::table('team')->insertGetId([
+					  // 'id_team' => $row->get("id_team"),
+					  'name' => $row->get("name"),
+					  'email' => $row->get("email"),
+					  'phone' => $row->get("phone"),
+					  'type' => $row->get('type')
+					]);
 
-            $user = new User;
-            $user->name = $row->get('name');
-            $user->email = $row->get('email');
-            $user->password = bcrypt($row->get('email')."_".$row->get('type'));
-            $user->role = 3;
-            $user->role_id = $id;
-            $user->save();
+					$user = new User;
+					$user->name = $row->get('name');
+					$user->email = $row->get('email');
+					$user->password = bcrypt($row->get('email')."_".$row->get('type'));
+					$user->role = 3;
+					$user->role_id = $id;
+					$user->save();
 				}
 				set_time_limit(30); //Restore time limit
 			});
