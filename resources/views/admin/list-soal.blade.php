@@ -91,8 +91,7 @@
 		</div>
 		<div class="form-group">
 			<label for="right_ans">Kunci Jawaban</label>
-			<select class="form-control" id="right_ans" name="right_ans">
-				<option value=''></option>
+			<select class="form-control" id="right_ans" name="right_ans" required>
 				<option value='1' id="select_option_1">A</option>
 				<option value='2' id="select_option_2">B</option>
 				<option value='3' id="select_option_3">C</option>

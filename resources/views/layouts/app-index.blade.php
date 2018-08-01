@@ -13,98 +13,98 @@
     <link rel="stylesheet" href="{{asset('css/peserta.css')}}">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
-	<link rel="icon" href="https://adisazhar.xyz/img/logo.png">
+  	<link rel="icon" href="https://adisazhar.xyz/img/logo.png">
     @yield('style')
 
     <style media="screen">
-    html,
-    body {
-      height: 100%;
-      width: 100%;
-      overflow-x: hidden;
-      background-image: linear-gradient(#282828, #000);
-      font-family: 'Noto Sans', sans-serif !important;
-    }
-    .mesh {
-      background-image: url('img/mesh_schem.png');
-      opacity: 0.3;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: 240px -480px;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 900px;
-      height: 480px;
-      animation: shake2 13s;
-      animation-iteration-count: infinite;
-    }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        background-image: linear-gradient(#282828, #000);
+        font-family: 'Noto Sans', sans-serif !important;
+      }
+      .mesh {
+        background-image: url('img/mesh_schem.png');
+        opacity: 0.3;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 240px -480px;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 900px;
+        height: 480px;
+        animation: shake2 13s;
+        animation-iteration-count: infinite;
+      }
 
-    .ok{
-      position: relative;
-    }
-    .mesh2 {
-      background-image: url('img/mesh_schem.png');
-      opacity: 0.3;
-      background-size: cover;
-      background-repeat: no-repeat;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      bottom: 0;
-      left: -220px;
-      width: 900px;
-      height: 400px;
-      animation: shake2 20s;
-      animation-iteration-count: infinite;
-      z-index: 1;
-    }
-      .btn-nlc{
-        background: linear-gradient(to right, #efc94c, #f5a503);
+      .ok{
+        position: relative;
       }
-      .btn-nlc:hover{
-        box-shadow: inset 0 70px 0 0 #00000052;
+      .mesh2 {
+        background-image: url('img/mesh_schem.png');
+        opacity: 0.3;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 0;
+        left: -220px;
+        width: 900px;
+        height: 400px;
+        animation: shake2 20s;
+        animation-iteration-count: infinite;
+        z-index: 1;
       }
-      .logo img {
-        height: 50px;
-        opacity: 0.8;
-      }
-      .logo:hover img {
-        opacity: 1;
-      }
-      .content{
-        margin-top: 80px;
-      }
-      .exam-answers{
-        margin-top: 20px;
-      }
-      .exam-answers .card-body{
-        padding-left: 100px;
-      }
-      .form-check{
-        margin-right: 5px;
-      }
-      .form-check:hover{
-        transform: scale(1.3);
-      }
-      .question_no{
-        margin-right: 5px;
-        text-align: center;
-        height: 25px;
-        width: 25px;
-        border-radius: 4px;
-        display: inline-block;
-      }
-      .fa-refresh{
-        margin-top: 4px;
-        margin-left: 3px;
-      }
-      .fa-refresh:hover{
-        cursor: pointer;
-        transform: scale(1.1);
-      }
+        .btn-nlc{
+          background: linear-gradient(to right, #efc94c, #f5a503);
+        }
+        .btn-nlc:hover{
+          box-shadow: inset 0 70px 0 0 #00000052;
+        }
+        .logo img {
+          height: 50px;
+          opacity: 0.8;
+        }
+        .logo:hover img {
+          opacity: 1;
+        }
+        .content{
+          margin-top: 80px;
+        }
+        .exam-answers{
+          margin-top: 20px;
+        }
+        .exam-answers .card-body{
+          padding-left: 100px;
+        }
+        .form-check{
+          margin-right: 5px;
+        }
+        .form-check:hover{
+          transform: scale(1.3);
+        }
+        .question_no{
+          margin-right: 5px;
+          text-align: center;
+          height: 25px;
+          width: 25px;
+          border-radius: 4px;
+          display: inline-block;
+        }
+        .fa-refresh{
+          margin-top: 4px;
+          margin-left: 3px;
+        }
+        .fa-refresh:hover{
+          cursor: pointer;
+          transform: scale(1.1);
+        }
     </style>
 </head>
 

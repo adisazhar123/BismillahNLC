@@ -626,6 +626,7 @@ class AdminController extends Controller
       $pdf = GeneratedPacket::find($request->id);
       $pdf->delete();
       unlink(storage_path('app/'.$pdf->packet_file_directory));
+      unlink(storage_path('app/'.$pdf->packet_file_directory.'-with-info'));
       return redirect()->back()->with('status', 'Penghapusan PDF berhasil!');
     }
 

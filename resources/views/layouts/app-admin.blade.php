@@ -4,7 +4,11 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>NLC Admin</title>
+	@if (Auth::user()->role == 2)
+		<title>NLC Komite</title>
+	@else
+		<title>NLC Admin</title>
+	@endif
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('vendor/font-awesome/css/font-awesome.min.css')}}">
@@ -59,7 +63,12 @@
                 <div class="sidenav-header-inner text-center">
 								<img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
                 <h2 class="h5">{{Auth::user()->name}}</h2>
-								<span>Web Master</span><br>
+								@if (Auth::user()->role==1)
+									<span>Web Master</span>
+								@else
+									<span>Komite</span>
+								@endif
+								<br>
 								<span id="server_time"></span>
                 </div>
                 <div class="sidenav-header-logo">
@@ -146,8 +155,6 @@
             time3 = time.getTime() + ajax_duration;
           }
         });
-
-
 
 				function clock() {
 					time3 = new Date(time3);
