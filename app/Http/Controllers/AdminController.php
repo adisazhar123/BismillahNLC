@@ -682,14 +682,14 @@ class AdminController extends Controller
 
     public function getPacketstoScore(){
       $packet_info = DB::table('packet')->select(DB::raw('count(team_packet.id) as number_of_scored_teams, packet.name, packet.id_packet'))
-                  ->groupBy('id_packet')
+                  ->groupBy('id_packet', 'packet.name')
                   ->orderBy('id_packet', 'asc')
                   ->where('final_score', '!=', null)
                   ->rightJoin('team_packet', 'packet.id_packet','=','team_packet.id_packet')
                   ->get();
 
       $no_of_teams_per_packet = DB::table('packet')->select(DB::raw('count(team_packet.id) as total_teams_per_packet, packet.name, packet.id_packet'))
-                  ->groupBy('id_packet')
+                  ->groupBy('id_packet', 'packet.name')
                   ->orderBy('id_packet', 'asc')
                   ->join('team_packet', 'packet.id_packet','=','team_packet.id_packet')
                   ->get();

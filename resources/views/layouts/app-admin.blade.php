@@ -46,11 +46,22 @@
 			nav.navbar a.menu-btn{
 				margin-left: 20px;
 			}
-
-			@media only screen and (max-width: 1200px) {
-				nav.navbar a.menu-btn{
-					margin-left: 0px;
+			@media only screen and (min-width: 1200px) {
+					footer.main-footer p {
+						margin-left: 15px;
 				}
+			}
+				@media only screen and (max-width: 1200px) {
+					nav.navbar a.menu-btn{
+						margin-left: 0px;
+					}
+					footer.main-footer p {
+						margin-left: 0;
+				}
+			}
+
+			.container-fluid.content{
+				padding-left: 30px;
 			}
 		 </style>
 
@@ -103,7 +114,7 @@
             </nav>
         </header>
         <section>
-            <div class="container-fluid">
+            <div class="container-fluid content">
                 @yield('main')
             </div>
         </section>

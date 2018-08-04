@@ -7,6 +7,11 @@
     background-image: url('../img/mesh_schem.png') !important;
   } */
 
+  .disabled{
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
 
 </style>
 @endsection
@@ -15,7 +20,7 @@
 
 <br>
 
-<div class="row">
+<div class="row my_page animated fadeIn">
   <div class="col-lg-12">
     <div class="main-content">
     </div>
@@ -44,7 +49,7 @@ $(document).ready(function(){
       url: '{{route('team.exam')}}',
       start_ajax_time: new Date().getTime(),
       success: function(response, status, xhr){
-        $(".main-content").hide().html(response).fadeIn(1000);
+        $(".main-content").hide().html(response).fadeIn();
         if (typeof response.intended_url !== 'undefined') {
           window.location= '{{route('index')}}';
         }
@@ -168,6 +173,8 @@ $(document).on('click', '#submit_exam', function(){
 $(document).on('click', '#confirm_finish', function(){
   var id_team_packet = $("#id_team_packet").val();
   id_packet = $("#id_packet").val();
+  $(".my_page").addClass('disabled');
+
   $.ajax({
     method: "PUT",
     data: {id_team_packet, id_packet},
@@ -185,7 +192,7 @@ $(document).on('click', '#confirm_finish', function(){
       }
     },
     error: function(){
-
+      alertify.error("Server error!");
     }
   })
 });
@@ -222,7 +229,7 @@ function startTimer(added_time){
       }
 
 
-      document.getElementById("clock").innerHTML = "Sisa waktu:<br>"+hours + ":"
+      document.getElementById("clock").innerHTML = "<strong>Sisa Waktu:</strong> "+hours + ":"
       + minutes + ":" + seconds + "";
 
       if (distance < 0) {

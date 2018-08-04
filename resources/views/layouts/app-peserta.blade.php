@@ -16,8 +16,9 @@
   <link rel="icon" href="{{ asset('img/logo.png') }}">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
+  <link rel="stylesheet" href="{{asset('css/animate.css')}}">
 
-     @yield('style')
+    @yield('style')
 
      <style media="screen">
       body {
@@ -68,12 +69,24 @@
       nav.navbar a.menu-btn{
 				margin-left: 20px;
 			}
-
-      @media only screen and (max-width: 1200px) {
-        nav.navbar a.menu-btn{
-          margin-left: 0px;
+      @media only screen and (min-width: 1200px) {
+          footer.main-footer p {
+            margin-left: 15px;
         }
       }
+        @media only screen and (max-width: 1200px) {
+          nav.navbar a.menu-btn{
+            margin-left: px;
+          }
+          footer.main-footer p {
+            margin-left: 0;
+        }
+      }
+
+			.container-fluid.content{
+				padding-left: 30px;
+			}
+
      </style>
 
 </head>
@@ -120,7 +133,7 @@
             </nav>
         </header>
         <section>
-            <div class="container-fluid">
+            <div class="container-fluid content animated fadeIn">
                 @yield('content')
             </div>
         </section>
@@ -148,7 +161,8 @@
     <script src="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
     <script src="{{asset('js/front.js')}}"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    
     @yield('script')
 
     <script type="text/javascript">
