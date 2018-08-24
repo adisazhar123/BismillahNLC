@@ -219,7 +219,7 @@
 
 
   <div class="row">
-		<div class="container">
+		<div class="container animated fadeIn">
 			<div class="welcome-banner">
 				<h1 class="text-uppercase text-white title">National Logic Competition <br> Online 2018</h1>
 				<div class="parent-login">
@@ -231,7 +231,7 @@
               @elseif (Auth::user()->role == 2)
                 <a href="{{url('/admin/scoreboard')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
               @else
-                <a href="{{url('/admin')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>                
+                <a href="{{url('/admin')}}" class="genric-btn primary circle arrow masuk" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>
               @endif
             @else
               <a href="#" class="genric-btn primary circle arrow go" style="text-decoration: none">Masuk<span class="lnr lnr-arrow-right"></span></a>

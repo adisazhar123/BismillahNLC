@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="{{asset('css/peserta.css')}}">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
-  	<link rel="icon" href="https://adisazhar.xyz/img/logo.png">
+    <link rel="icon" href="{{ asset('img/logo.png') }}">
+    <link rel="stylesheet" href="{{asset('css/animate.css')}}">
+
     @yield('style')
 
     <style media="screen">
