@@ -390,12 +390,6 @@ class AdminController extends Controller
       $data_option5 = array();
       $data_description = array();
 
-      // TODO: Fix this urgent bug
-      // BUG: ga ke replace kalo > 1 image wiris
-      // NOTE: Remember buat adis ini ada bug!!! jadi kalo wiris image ada lebih > 1 dia ga keganti
-      //solusinya untuk preg_match_all biar dapet semua formula_id nya, taru dalem array, terus di loop
-      //sebanyak array lengthnya agar bisa direplace . cek bawah!
-
       preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->question, $data_question);
       preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_1, $data_option1);
       preg_match_all("/(?<=\/js\/tinymce\/plugins\/tiny_mce_wiris\/integration\/showimage.php\?formula=)(\w*)/", $request->option_2, $data_option2);

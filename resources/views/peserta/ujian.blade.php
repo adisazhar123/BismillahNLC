@@ -1,3 +1,8 @@
+<?php // BUG:
+  // Modal ketika finish ujian ketutupan backdrop fade
+
+ ?>
+
 <div class="animated fadeIn">
 
       @if (!isset($finished))
@@ -5,7 +10,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-3">
-                <h3>Ujian Selesai: 18:00</h3>
+                <h3><strong>Ujian Selesai:</strong> {{$packet_info->end_time}}</h3>
               </div>
               <div class="col-md-3">
                 <h3 id="clock"><strong>Sisa Waktu: </strong></h3>
@@ -171,7 +176,7 @@
         @endif
 
     <div class="container">
-      <div class="finish_exam modal fade" tabindex="-1" role="dialog">
+      <div class="finish_exam modal fade" tabindex="-1" role="dialog" data-backdrop="false">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">

@@ -24,6 +24,10 @@
       body {
         font-family: 'Noto Sans', sans-serif !important;
       }
+      .disabled{
+        pointer-events: none;
+        opacity: 0.3;
+      }
       .ans-list{
         list-style-type: none;
       }
@@ -31,18 +35,11 @@
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         -webkit-transition:  box-shadow .2s ease-in;
       }
-      .disabled {
-        pointer-events: none;
-        opacity: 0.3;
-      }
       .side-navbar.shrink{
         width: 93px;
       }
       .exam-answers{
         margin-top: 20px;
-      }
-      .exam-answers .card-body{
-        padding-left: 100px;
       }
       .form-check{
         margin-right: 5px;
@@ -71,7 +68,10 @@
 			}
       @media only screen and (min-width: 1200px) {
           footer.main-footer p {
-            margin-left: 15px;
+            margin-left: 15px
+            .exam-answers .card-body{
+              padding-left: 3em;
+            }
         }
       }
         @media only screen and (max-width: 1200px) {
@@ -82,8 +82,13 @@
             margin-left: 0;
         }
       }
+      @media only screen and (min-width: 991px) {
+        .exam-answers .card-body{
+          padding-left: 7em;
+        }
+      }
 
-			.container-fluid.content{
+			div.page.active .container-fluid.content{
 				padding-left: 30px;
 			}
 
@@ -161,8 +166,8 @@
     <script src="{{asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
     <script src="{{asset('js/front.js')}}"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     
+
     @yield('script')
 
     <script type="text/javascript">

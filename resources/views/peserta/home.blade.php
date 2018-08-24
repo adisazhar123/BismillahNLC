@@ -3,14 +3,7 @@
 @section('style')
 <style media="screen">
 
-  /* .mesh {
-    background-image: url('../img/mesh_schem.png') !important;
-  } */
 
-  .disabled{
-    pointer-events: none;
-    background-color: rgba(0, 0, 0, 0.3);
-  }
 
 
 </style>
@@ -60,18 +53,6 @@ $(document).ready(function(){
         }
       }
     });
-
-
-    // $(".main-content").hide().load('{{route('team.exam')}}',{start_ajax_time: new Date().getTime()},function(response, status, xhr){
-    //   if (typeof response.intended_url !== 'undefined') {
-    //     window.location= '{{route('index')}}';
-    //   }
-    //   if (status != "error") {
-    //     if ($("#deadline").val() != null && $("#time_now")) {
-    //       startTimer((new Date().getTime() - this.start_ajax_time));
-    //     }
-    //   }
-    // }).fadeIn(1000);
   });
 
   $(document).on('click', '.show-petunjuk', function(){
@@ -98,7 +79,7 @@ $(document).ready(function(){
     ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
   }
 
-<!-- Ajax function to submit ans -->
+// <!-- Ajax function to submit ans -->
 $(document).on('click',".form-check-input", function(){
   var name = $(this).attr('name');
   var q_index = name.slice(3);
@@ -210,13 +191,13 @@ function startTimer(added_time){
       // Get todays date and time
       // Find the distance between now an the count down date
       // console.log(now)
-      var distance = countDownDate - now;
+      var distance = parseInt(countDownDate - now);
 
       // Time calculations for days, hours, minutes and seconds
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      var days = parseInt(Math.floor(distance / (1000 * 60 * 60 * 24)));
+      var hours = parseInt(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+      var minutes = parseInt(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+      var seconds = parseInt(Math.floor((distance % (1000 * 60)) / 1000));
 
       if (hours < 10) {
         hours = "0"+hours;
@@ -235,8 +216,8 @@ function startTimer(added_time){
       if (distance < 0) {
         document.getElementById("clock").innerHTML = "Waktu Habis!";
           clearInterval(x);
-          $(".exam-answers").addClass("disabled");
-          $(".card.packet-info").addClass("disabled");
+          $(".my_page .main-content").addClass("disabled");
+          $(".my_page .main-content").addClass("disabled");
           $("#confirm_finish").trigger('click');
       }
       now+= 1000;

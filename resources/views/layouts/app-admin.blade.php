@@ -60,9 +60,10 @@
 				}
 			}
 
-			.container-fluid.content{
+			div.page.active .container-fluid.content{
 				padding-left: 30px;
 			}
+
 		 </style>
 
 </head>
