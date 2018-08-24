@@ -20,7 +20,7 @@
   	<li>Untuk nge-assign tim bisa secara individu dengan cara klik 'Assign' di kolom <i>Action</i>, atau 'Assign tim online' untuk semua tim online,
 			atau 'Assign tim offline' untuk semua tim offline.</li>
 		<li>Untuk menghilangkan 'Assign' dengan cara klik 'Unassign semua tim' atau 'Unassign'.</li>
-
+		<li>Nge-unassign akan menghilangkan progress ujian untuk tim tsb.</li>
   </ul>
   <hr>
   <p class="mb-0">Jika ada masalah yang muncul, mohon untuk menghubungi WebKes.</p>
