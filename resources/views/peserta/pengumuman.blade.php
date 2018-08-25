@@ -41,6 +41,17 @@
 
       <div class="card">
         <div class="card-body">
+          <h3>Info Warmup</h3>
+          @if ($pilihan_kloter)
+            <p>Warmup NLC Online anda mulai tanggal {{date_format(new DateTime($pilihan_kloter->packets['active_date']), 'd-m-Y')}} | jam {{$pilihan_kloter->packets['start_time']}}</p>
+          @else
+            <p>Anda belum memilih kloter. Mohon untuk memilih kloter warmup.</p>
+          @endif
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
           <h3 class="text-dark">Pemilihan Kloter Pengerjaan Warmup/ Latihan</h3>
             <form action="{{url('/peserta/pilih-kloter')}}" method="POST">
               <input type="hidden" name="_method" value="PUT">
@@ -48,24 +59,25 @@
               <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
               <select class="custom-select custom-select-sm" name="kloter" required>
                 <option value="{{ $pilihan_kloter['id_packet'] or '' }}">
-
+                  {{-- Kalo udah milih kloter --}}
                   @if ($pilihan_kloter)
-                    Kloter: {{$pilihan_kloter->packets['name']}} - Jam {{$pilihan_kloter->packets['start_time']}},
-                    {{$pilihan_kloter->packets['active_date']}}
+                    Kloter: {{$pilihan_kloter->packets['name']}} - Jam {{$pilihan_kloter->packets['start_time']}} |
+                    {{$pilihan_kloter->packets['active_date']}} | Kapasitas: {{$pilihan_kloter->packets['current_capacity']}}/{{$pilihan_kloter->packets['capacity']}}
                   @else
                     Pilih Kloter
                   @endif
 
                 </option>
+                {{-- kalo belum milih kloter --}}
                 @if (empty($pilihan_kloter))
                   @php
                     $i=1;
                   @endphp
                   @foreach ($packets as $p)
                     @if ($p->capacity <= $p->current_capacity)
-                      <option disabled value="{{$p->id_packet}}">Kloter: {{$i}} - Jam {{$p->start_time.", ".date_format(new DateTime($p->active_date), 'd-m-Y')}}</option>
+                      <option disabled value="{{$p->id_packet}}">Kloter: {{$i}} | Jam {{$p->start_time." | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
                     @else
-                      <option value="{{$p->id_packet}}">Kloter: {{$i}} - Jam {{$p->start_time.", ".date_format(new DateTime($p->active_date), 'd-m-Y')}}</option>
+                      <option value="{{$p->id_packet}}">Kloter: {{$i}} | Jam {{$p->start_time." | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
                     @endif
                     @php
                       $i++;

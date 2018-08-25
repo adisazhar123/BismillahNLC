@@ -99,6 +99,7 @@ class AdminController extends Controller
        $packet->end_time = $request->end_time;
        $packet->duration = $request->duration;
        $packet->active = 0;
+       $packet->current_capacity = 0;
        $packet->type = $request->type;
        if ($packet->type =='warmup' ) {
          $packet->open = (int)$request->status;

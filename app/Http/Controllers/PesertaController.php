@@ -47,11 +47,12 @@ class PesertaController extends Controller
       foreach ($pkts as $p) {
         $pkt_arr[] = $p->id_packet;
       }
-
+      
       $announcements = Announcement::orderBy('id', 'DESC')->get();
 
       //menampilkan pilihan kloter yang telah dipilih
       $pilihan_kloter = TeamPacket::where('id_team', Auth::user()->role_id)->where('status', 1)->whereIn('id_packet', $pkt_arr)->select('id_packet')->first();
+
       return view('peserta.pengumuman')->with('packets', $packets)->with('pilihan_kloter', $pilihan_kloter)->with('announcements', $announcements);
     }
 
@@ -95,6 +96,7 @@ class PesertaController extends Controller
 
 
       $data->save();
+      $packet->save();
 
       return redirect()->back()->with('message', 'Kloter telah dipilih');
     }
