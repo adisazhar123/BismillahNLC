@@ -132,7 +132,7 @@
 					}else {
 						alertify.error("Tim gagal di-assign!");
 					}
-					table1.ajax.reload();
+					table1.ajax.reload(null, false)
 				},
 				error: function(){
 					alertify.error("Server error!");
@@ -155,7 +155,7 @@
 					}else {
 						alertify.error("Tim gagal di-unassign!");
 					}
-					table1.ajax.reload();
+					table1.ajax.reload(null, false)
 				},
 				error: function(){
 					alertify.error("Server error!");
@@ -226,7 +226,7 @@
 				method: "PUT",
 				success: function(data){
 					if (data == "ok") {
-						table1.ajax.reload();
+						table1.ajax.reload(null, false)
 						alertify.success("Semua tim berhasil di-unassign!");
 					}else {
 						alertify.error("Tim gagal di-unassign!");

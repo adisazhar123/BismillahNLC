@@ -47,7 +47,7 @@ class PesertaController extends Controller
       foreach ($pkts as $p) {
         $pkt_arr[] = $p->id_packet;
       }
-      
+
       $announcements = Announcement::orderBy('id', 'DESC')->get();
 
       //menampilkan pilihan kloter yang telah dipilih
@@ -401,6 +401,7 @@ class PesertaController extends Controller
       $team_packet->status = 0;
       $team_packet->team_ans = $ans;
       $team_packet->ans_stats = $stat;
+      $team_packet->final_score = null;
 
       if ($team_packet->save()) {
         return "ok";

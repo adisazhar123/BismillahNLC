@@ -637,7 +637,6 @@ class AdminController extends Controller
       $team_packets = TeamPacket::where('id_packet', $request->id_packet)
                       ->where('final_score', null)->limit(100)->get();
 
-
       foreach ($team_packets as $tp) {
         $generated_packet = GeneratedPacket::find($tp->id_generated_packet);
         $team_ans = explode(',', $tp->team_ans);
@@ -841,8 +840,9 @@ class AdminController extends Controller
         $ans_stats.='0,';
       }
 
+      $packet = Packet::find($request->id_packet);
+
       for ($i=0; $i < $teams->count(); $i++) {
-        $packet = Packet::find($request->id_packet);
         $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
 
         $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $teams[$i]->id_team)
@@ -887,8 +887,9 @@ class AdminController extends Controller
         $ans_stats.='0,';
       }
 
+      $packet = Packet::find($request->id_packet);
+
       for ($i=0; $i < $teams->count(); $i++) {
-        $packet = Packet::find($request->id_packet);
         $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
 
         $team_packet = TeamPacket::where('id_packet', $request->id_packet)->where('id_team', $teams[$i]->id_team)
