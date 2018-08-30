@@ -4,10 +4,10 @@
 3. Copy isi file **BismillahNLC\public\js\tinymce\plugins\tiny_mce_wiris\integration\lib\sample-default-configuration.ini** ke file baru bernama **default-configuration.ini** di path **BismillahNLC\public\js\tinymce\plugins\tiny_mce_wiris\integration\lib\**.
    Ganti **wiriscachedirectory** dan **wirisformuladirectory** ke absolute path folder /storage/app/public/cache dan /storage/app/public/formulas.
    Contoh: J:/KULIAH/schematics/NLC2018/BismillahNLC/storage/app/public/formulas
-4. Run **php artisan storage:link**
+4. Run **php artisan storage:link**, copy .env dan isi sesuai setting local
 5. Download redis server
 6. Run redis server
-7. Nyalakan mysql server, serve app.
+7. Nyalakan mysql server, **php artisan:migrate**, serve app **php artisan serve**.
 8. Enjoy
 
 ## .env sample

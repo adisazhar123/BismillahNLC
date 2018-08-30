@@ -1,8 +1,3 @@
-<?php // BUG:
-  // Modal ketika finish ujian ketutupan backdrop fade
-
- ?>
-
 <div class="animated fadeIn">
 
       @if (!isset($finished))
@@ -176,7 +171,7 @@
         @endif
 
     <div class="container">
-      <div class="finish_exam modal fade" tabindex="-1" role="dialog" data-backdrop="false">
+      <div class="finish_exam modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">

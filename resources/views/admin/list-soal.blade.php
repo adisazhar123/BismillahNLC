@@ -23,8 +23,8 @@
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h4>List soal paket {{$packet_name}}</h4>
-				<button style="float: right" type="button" name="button" class="btn btn-primary" id='add_question'>Tambah Soal</button>
+				<h4>List soal paket {{$packet_name}}				<button style="float: right" type="button" name="button" class="btn btn-primary" id='add_question'>Tambah Soal</button>
+</h4>
 
 			</div>
 			<div class="card-body">

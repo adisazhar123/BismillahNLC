@@ -232,8 +232,6 @@ class AdminController extends Controller
     }
 
     public function addNewQuestion(Request $request){
-      // TODO: Kalo udah deploy di server harus diganti pathnya lol :')
-
       // dilakukan str_replace karena Unisharp Laravelfilemanager menyimpan sourcenya menggunakan URL relative, sedangkan
       // DOMPDF gabisa membacanya jadi tak replace dengan asset()
 

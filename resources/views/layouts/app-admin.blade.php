@@ -23,9 +23,13 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
 	<link href="{{asset('js/jquery-easy-loading/dist/jquery.loading.css')}}" rel="stylesheet">
+
      @yield('style')
 
-		 <style media="screen">
+		 <style media="screen">		
+	 		.card-header .btn{
+	 			 vertical-align: middle;
+	 		}
 		 	body {
 			  font-family: 'Noto Sans', sans-serif !important;
 			}
@@ -62,6 +66,46 @@
 
 			div.page.active .container-fluid.content{
 				padding-left: 30px;
+			}
+
+			@keyframes fadein {
+			    from {
+			        opacity:0;
+			    }
+			    to {
+			        opacity:1;
+			    }
+			}
+			@-moz-keyframes fadein { /* Firefox */
+			    from {
+			        opacity:0;
+			    }
+			    to {
+			        opacity:1;
+			    }
+			}
+			@-webkit-keyframes fadein { /* Safari and Chrome */
+			    from {
+			        opacity:0;
+			    }
+			    to {
+			        opacity:1;
+			    }
+			}
+			@-o-keyframes fadein { /* Opera */
+			    from {
+			        opacity:0;
+			    }
+			    to {
+			        opacity: 1;
+			    }
+			}
+
+			.container-fluid.content{
+				animation: fadein 1.5s;
+				-moz-animation: fadein 1.5s; /* Firefox */
+				-webkit-animation: fadein 1.5s; /* Safari and Chrome */
+				-o-animation: fadein 1.5s; /* Opera */
 			}
 
 		 </style>

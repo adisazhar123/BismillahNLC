@@ -28,11 +28,8 @@
 		</div>
 		<div class="card">
 			<div class="card-header">
-				<h4>Daftar Tim</h4>
-				<div class="row" style="float: right">
-					<button type="button" name="button" id='add_team' class="btn btn-primary">Tambah Tim</button>
-					<button data-toggle="modal" data-target="#import" type="button" name="button" class="btn btn-primary">Impor Data</button>
-				</div>
+				<h4>Daftar Tim<button style="float: right" type="button" name="button" id='add_team' class="btn btn-primary">Tambah Tim</button>
+				<button style="float: right" data-toggle="modal" data-target="#import" type="button" name="button" class="btn btn-primary">Impor Data</button></h4>
 
 			</div>
 			<div class="card-body">

@@ -16,8 +16,7 @@
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h4>Daftar Users</h4>
-				<button style="float: right" type="button" name="button" id='add_user' class="btn btn-primary">Tambah User</button>
+				<h4>Daftar Users				<button style="float: right" type="button" name="button" id='add_user' class="btn btn-primary">Tambah User</button></h4>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -106,7 +105,7 @@
 				]
 			});
 		$("#user-list").addClass('active');
-		
+
 		$("#frm").submit(function(e){
 			e.preventDefault();
 			$.ajax({
@@ -118,13 +117,13 @@
 						if (p.success){
 							switch(p.op){
 							case "add":
-								alertify.success('User berhasil ditambah!');	
+								alertify.success('User berhasil ditambah!');
 								break;
 							case "del":
-								alertify.success('User berhasil dihapus!');	
+								alertify.success('User berhasil dihapus!');
 								break;
 							case "alter":
-								alertify.success('User berhasil diubah!');	
+								alertify.success('User berhasil diubah!');
 								break;
 							}
 						}else{
@@ -133,10 +132,10 @@
 								alertify.error('User gagal ditambah!');
 								break;
 							case "del":
-								alertify.success('User gagal dihapus!');	
+								alertify.success('User gagal dihapus!');
 								break;
 							case "alter":
-								alertify.success('User gagal diubah!');	
+								alertify.success('User gagal diubah!');
 								break;
 							}
 						}
@@ -151,7 +150,7 @@
 		 		}
 		 	});
 		});
-		
+
 		$("#add_user").click(function(){
 			$("#frm")[0].reset();
 			$("#frm #act").val("add");
@@ -160,7 +159,7 @@
 			$("#frm input[name=user_password]").attr("placeholder","Password");
 			$(".modal.user").modal('show');
 		});
-		
+
 		$(document).on("click", ".delete",function(){
 			if(confirm("Hapus user ini?")){
 				let f=$("#frm");
@@ -170,7 +169,7 @@
 				f.submit();
 			}
 		});
-		
+
 		$(document).on("click", ".edit",function(){
 			let f=$("#frm");
 			let id=$(this).attr("user-id");

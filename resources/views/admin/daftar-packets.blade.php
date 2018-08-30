@@ -35,8 +35,7 @@
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h4>Daftar Paket</h4>
-				<button style="float: right" type="button" name="button" class="btn btn-primary" id='add_packet'>Tambah Paket</button>
+				<h4>Daftar Paket<button style="float: right" type="button" name="button" class="btn btn-primary" id='add_packet'>Tambah Paket</button></h4>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -323,8 +322,9 @@
 			$(document).on('click', '#duplicate', function(){
 				id_packet = $(this).attr('packet-id');
 
-				$(".loading_gif").html('<img src="{{asset('img/loading.gif')}}" alt="Loading" width="100px" id="loading">');
-				$(".row.my_page").addClass("disabled");
+				$("body").loading({
+					zIndex: 9999999
+				});
 
 				$.ajax({
 					url: '{{route('duplicate.packet')}}',
@@ -337,16 +337,15 @@
 							alertify.error("Paket gagal diduplikasi!");
 
 						}
-						$(".loading_gif").html('')
+						$("body").loading('stop');
 						$(".row.my_page").removeClass("disabled")
 						table1.ajax.reload();
 					},
 					error: function(){
 						alertify.error("Server error!");
-						$(".loading_gif").html('')
-						$(".row.my_page").removeClass("disabled")
+						$("body").loading('stop');
 					}
-				})
+				});
 			});
 		});
 
