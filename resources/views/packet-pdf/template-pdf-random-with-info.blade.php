@@ -31,7 +31,7 @@
                 @for ($i=1; $i <= 5; $i++)
                   @if ($i == $question['right_ans'])
                   {{-- <strong> --}}
-                    <li>
+                  <li style="color: blue">
                       {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                     </li>
                   {{-- </strong> --}}
@@ -56,7 +56,7 @@
                  @for ($i=1; $i <= 5; $i++)
                    @if ($i == $question['right_ans'])
                    {{-- <strong> --}}
-                     <li>
+                     <li style="color: blue">
                        {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                      </li>
                    {{-- </strong> --}}
