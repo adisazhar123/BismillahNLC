@@ -30,6 +30,9 @@
     </style>
 
   </head>
+  <?php // BUG:
+    // Bug in a, b,.., e, when its the answer
+  ?>
   <body>
     {{-- <div id="watermark">
       <img src="http://www.color-hex.com/palettes/7808.png" alt="" height="100%" width="100%">
@@ -55,10 +58,12 @@
                       {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                     </li>
                   </strong>
+                  @break(1)
                   @else
                     <li>
                       {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                     </li>
+                    @break(1)
                   @endif
 
                 @endfor

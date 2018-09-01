@@ -13,6 +13,9 @@
     </style>
 
   </head>
+  <?php // BUG:
+    // Bug in a, b,.., e, when its the answer
+  ?>
   <body>
     <p>Paket soal: {{$identifier}}</p>
     <p>
@@ -57,10 +60,12 @@
                        {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                      </li>
                    </strong>
+                    @break(1)
                    @else
                      <li>
                        {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                      </li>
+                     @break(1)
                    @endif
                  @endfor
                </ol>
