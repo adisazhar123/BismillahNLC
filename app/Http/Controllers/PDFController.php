@@ -44,6 +44,7 @@ class PDFController extends Controller
 
         if ($request->randomize === '0') { //Utk paket yang gak acak soal
           $pdf->loadView('packet-pdf.template-pdf', array('questions' => $questions, 'identifier' => $packet->name));
+
           $nama_file = "public/paket_soal/".str_random(5).".pdf";
           Storage::put($nama_file, $pdf->output());
           unset($pdf);
