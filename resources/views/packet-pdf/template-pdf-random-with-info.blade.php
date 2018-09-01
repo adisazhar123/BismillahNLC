@@ -30,11 +30,11 @@
               <ol type="A">
                 @for ($i=1; $i <= 5; $i++)
                   @if ($i == $question['right_ans'])
-                  <strong>
+                  {{-- <strong> --}}
                     <li>
                       {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                     </li>
-                  </strong>
+                  {{-- </strong> --}}
                 @elseif ($i != $question['right_ans'])
                     <li>
                       {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
@@ -55,11 +55,11 @@
                <ol style="list-style-type: upper-latin">
                  @for ($i=1; $i <= 5; $i++)
                    @if ($i == $question['right_ans'])
-                   <strong>
+                   {{-- <strong> --}}
                      <li>
                        {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                      </li>
-                   </strong>
+                   {{-- </strong> --}}
                  @elseif ($i != $question['right_ans'])
                      <li>
                        {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
