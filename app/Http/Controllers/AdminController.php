@@ -673,18 +673,22 @@ class AdminController extends Controller
     }
 
     public function getPacketstoScore(){
+      // BUG: querynya salah urgent!
       $packet_info = DB::table('packet')->select(DB::raw('count(team_packet.id) as number_of_scored_teams, packet.name, packet.id_packet'))
                   ->groupBy('id_packet', 'packet.name')
                   ->orderBy('id_packet', 'asc')
-                  ->where('final_score', '!=', null)
-                  ->rightJoin('team_packet', 'packet.id_packet','=','team_packet.id_packet')
+                  ->where('final_score', '=', null) //salah disini
+                  ->leftJoin('team_packet', 'packet.id_packet','=','team_packet.id_packet')
                   ->get();
 
+                  return $packet_info;
       $no_of_teams_per_packet = DB::table('packet')->select(DB::raw('count(team_packet.id) as total_teams_per_packet, packet.name, packet.id_packet'))
                   ->groupBy('id_packet', 'packet.name')
                   ->orderBy('id_packet', 'asc')
                   ->join('team_packet', 'packet.id_packet','=','team_packet.id_packet')
                   ->get();
+
+                  // return $no_of_teams_per_packet;
 
       $data = array();
       $row = array();
@@ -695,7 +699,7 @@ class AdminController extends Controller
         $row['total_teams_per_packet'] = $n->total_teams_per_packet;
         $row['packet_name'] = $n->name;
         $row['id_packet'] = $n->id_packet;
-        if (isset($packet_info[$idx])) {
+        if (isset($packet_info[$idx]) && $packet_info[$idx]->id_packet == $n->id_packet) { //sini salah
           $row['number_of_scored_teams'] = $packet_info[$idx]->number_of_scored_teams;
         }else {
           $row['number_of_scored_teams'] = 0;

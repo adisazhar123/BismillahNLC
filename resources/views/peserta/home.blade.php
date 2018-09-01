@@ -3,9 +3,6 @@
 @section('style')
 <style media="screen">
 
-
-
-
 </style>
 @endsection
 

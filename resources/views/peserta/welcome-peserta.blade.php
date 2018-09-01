@@ -6,6 +6,14 @@
       <h3>Selamat datang {{$team_name}} di NLC Online 2018</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
+      @if (isset($packet_info) && $exam == 3 || $exam == 2)
+        <div class="packet-info">
+          Nama packet: {{$packet_info->name}}<br>
+          Waktu mulai: {{$packet_info->start_time}}<br>
+          Waktu selesai: {{$packet_info->end_time}}
+        </div>
+      @endif
+
       @if ($exam == 1)
         <p>Tidak ada ujian untuk anda.</p>
         {{-- <button type="button" class="btn btn-nlc show-petunjuk" name="button">Selanjutnya</button> --}}

@@ -276,7 +276,8 @@ class PesertaController extends Controller
         else if ($team_packet && strtotime($assigned_packet->start_time) > strtotime($date_today->toTimeString()))
           $exam = 3;
       }
-      return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time);
+      return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time)
+      ->with('packet_info', $assigned_packet);
     }
 
     //Untuk submit jawaban, dijadikan array terus convert ke string utk store di DB
