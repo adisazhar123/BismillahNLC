@@ -35,7 +35,7 @@
                       {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                     </li>
                   </strong>
-                  @else
+                @elseif ($i != $question['right_ans'])
                     <li>
                       {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                     </li>
@@ -60,7 +60,7 @@
                        {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                      </li>
                    </strong>
-                    @else
+                 @elseif ($i != $question['right_ans'])
                      <li>
                        {!! str_replace('<img','<br><img', str_replace('</p>', '', str_replace('<p>', '', $question['option_'.$i]))) !!}
                      </li>
