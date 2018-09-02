@@ -673,15 +673,16 @@ class AdminController extends Controller
     }
 
     public function getPacketstoScore(){
-      // BUG: querynya salah urgent!
+      //cari jumlah tim yang udah di skor
       $packet_info = DB::table('packet')->select(DB::raw('count(team_packet.id) as number_of_scored_teams, packet.name, packet.id_packet'))
                   ->groupBy('id_packet', 'packet.name')
                   ->orderBy('id_packet', 'asc')
-                  ->where('final_score', '=', null) //salah disini
+                  ->where('final_score', '!=', null)
                   ->leftJoin('team_packet', 'packet.id_packet','=','team_packet.id_packet')
                   ->get();
 
-                  return $packet_info;
+                  // return $packet_info;
+      ///cari total tim per packet
       $no_of_teams_per_packet = DB::table('packet')->select(DB::raw('count(team_packet.id) as total_teams_per_packet, packet.name, packet.id_packet'))
                   ->groupBy('id_packet', 'packet.name')
                   ->orderBy('id_packet', 'asc')
@@ -693,18 +694,35 @@ class AdminController extends Controller
       $data = array();
       $row = array();
 
-      $idx = 0;
+      $pi_size = $packet_info->count();
 
+      //format utk datatable, 1 row ada kolom total teams per packet, packet name, id packet dan number of scored teams
       foreach ($no_of_teams_per_packet as $n) {
+        $found = 0;
         $row['total_teams_per_packet'] = $n->total_teams_per_packet;
         $row['packet_name'] = $n->name;
         $row['id_packet'] = $n->id_packet;
-        if (isset($packet_info[$idx]) && $packet_info[$idx]->id_packet == $n->id_packet) { //sini salah
-          $row['number_of_scored_teams'] = $packet_info[$idx]->number_of_scored_teams;
-        }else {
+        foreach ($packet_info as $pi) {
+          if ($n->id_packet == $pi->id_packet) {
+            $row['number_of_scored_teams'] = $pi->number_of_scored_teams;
+            $found = 1;
+            break;
+          }
+        }
+
+        if (!$found) {
           $row['number_of_scored_teams'] = 0;
         }
-        $idx++;
+
+        //
+        // if (isset($packet_info[$idx]) && $packet_info[$idx]->id_packet == $n->id_packet) { //sini salah
+        //   $row['number_of_scored_teams'] = $packet_info[$idx]->number_of_scored_teams;
+        // }else {
+        //   $row['number_of_scored_teams'] = 0;
+        // }
+
+
+        // $idx++;
         $data[] = $row;
       }
 

@@ -15,6 +15,7 @@
   </head>
   <body>
     <p>Paket soal: {{$identifier}}</p>
+    <p>ID: {{$type}}</p>
     <p>
       <strong>Pilihlah 1 jawaban yang paling benar!</strong>
     </p>

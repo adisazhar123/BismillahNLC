@@ -38,6 +38,7 @@
       <img src="http://www.color-hex.com/palettes/7808.png" alt="" height="100%" width="100%">
     </div> --}}
     <p>Paket soal: {{$identifier}}</p>
+    <p>ID: {{$type}}</p>
     <p>
       <strong>Pilihlah 1 jawaban yang paling benar!</strong>
     </p>

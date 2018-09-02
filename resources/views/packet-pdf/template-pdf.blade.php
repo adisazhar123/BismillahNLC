@@ -5,27 +5,33 @@
     <title></title>
 
     <style media="screen">
-    body{
-      font-size: 11;
-      text-align: justify;
-    }
-    #watermark {
-              position: fixed;
-              bottom:   0px;
-              left:     0px;
-              /** The width and height may change
-                  according to the dimensions of your letterhead
-              **/
-              width:    21.8cm;
-              height:   28cm;
+      /* @page {
+          margin: 0cm 0cm;
+      } */
+      body{
+        font-size: 11;
+        text-align: justify;
+      }
+      #watermark {
+        position: fixed;
+        bottom:   0px;
+        left:     0px;
+        /** The width and height may change
+            according to the dimensions of your letterhead
+        **/
+        width:    21.8cm;
+        height:   28cm;
 
-              /** Your watermark should be behind every content**/
-              z-index:  -1000;
-              opacity: 0.3;
-          }
-          /* @page {
-              margin: 0cm 0cm;
-          } */
+        /** Your watermark should be behind every content**/
+        z-index:  -1000;
+        opacity: 0.3;
+      }
+
+      .page_break {
+        page-break-after: always;
+        text-align: center;
+        justify-content: center;
+      }
 
     </style>
 
@@ -34,10 +40,23 @@
     {{-- <div id="watermark">
       <img src="http://www.color-hex.com/palettes/7808.png" alt="" height="100%" width="100%">
     </div> --}}
+
+    <div class="page_break">
+      <h3>NLC Online 2018</h3>
+      <img src="https://i2.wp.com/thefreshimages.com/wp-content/uploads/2017/12/lord-shiva-angry-wallpapers-3d.jpg?ssl=1" alt="front-cover">
+    </div>
+
+
+
+
     <p>Paket soal: {{$identifier}}</p>
+    <p>ID: {{$type}}</p>
     <p>
       <strong>Pilihlah 1 jawaban yang paling benar!</strong>
     </p>
+
+
+
     <div class="content">
       <ol>
        @foreach ($questions as $question)

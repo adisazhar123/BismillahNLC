@@ -38,12 +38,13 @@ class PDFController extends Controller
         $generated_packet = new GeneratedPacket;
         $nama_file='';
         $questions_order='';
+        $packet_type = $packet->name."_".substr(uniqid('', true), -4);
 
         $pdf = App::make('dompdf.wrapper');
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
 
         if ($request->randomize === '0') { //Utk paket yang gak acak soal
-          $pdf->loadView('packet-pdf.template-pdf', array('questions' => $questions, 'identifier' => $packet->name));
+          $pdf->loadView('packet-pdf.template-pdf', array('questions' => $questions, 'identifier' => $packet->name, 'type' => $packet_type));
 
           $nama_file = "public/paket_soal/".str_random(5).".pdf";
           Storage::put($nama_file, $pdf->output());
@@ -53,7 +54,7 @@ class PDFController extends Controller
           $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
 
             //utk generate paket dgn info Soal
-            $pdf->loadView('packet-pdf.template-pdf-with-info', array('questions' => $questions, 'identifier' => $packet->name));
+            $pdf->loadView('packet-pdf.template-pdf-with-info', array('questions' => $questions, 'identifier' => $packet->name, 'type' => $packet_type));
             Storage::put($nama_file."-with-info", $pdf->output());
             unset($pdf);
 
@@ -62,7 +63,7 @@ class PDFController extends Controller
           }
 
           $generated_packet->id_packet = $request->id_packet;
-          $generated_packet->packet_type = $packet->name."_".substr(uniqid('', true), -4);
+          $generated_packet->packet_type = $packet_type;
           $generated_packet->questions_order = $questions_order;
           $generated_packet->packet_file_directory = $nama_file;
           $generated_packet->shuffle = 0;
@@ -102,20 +103,20 @@ class PDFController extends Controller
           }
 
           $nama_file = "public/paket_soal/".str_random(5).".pdf";
-          $pdf->loadView('packet-pdf.template-pdf-random', array('related' => $related, 'non_related'=>$non_related, 'identifier' => $packet->name));
+          $pdf->loadView('packet-pdf.template-pdf-random', array('related' => $related, 'non_related'=>$non_related, 'identifier' => $packet->name, 'type' => $packet_type));
           Storage::put($nama_file, $pdf->output());
           unset($pdf);
 
           $pdf = App::make('dompdf.wrapper');
           $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
 
-            //utk generate paket dgn info Soal
-            $pdf->loadView('packet-pdf.template-pdf-random-with-info', array('related' => $related, 'non_related'=>$non_related, 'identifier' => $packet->name));
-            Storage::put($nama_file."-with-info", $pdf->output());
-            unset($pdf);
+          //utk generate paket dgn info Soal
+          $pdf->loadView('packet-pdf.template-pdf-random-with-info', array('related' => $related, 'non_related'=>$non_related, 'identifier' => $packet->name, 'type' => $packet_type));
+          Storage::put($nama_file."-with-info", $pdf->output());
+          unset($pdf);
 
           $generated_packet->id_packet = $request->id_packet;
-          $generated_packet->packet_type = $packet->name."_".substr(uniqid('', true), -4);
+          $generated_packet->packet_type = $packet_type;
           $generated_packet->questions_order = $questions_order;
           $generated_packet->packet_file_directory = $nama_file;
           $generated_packet->shuffle = 1;
