@@ -191,33 +191,33 @@ function startTimer(added_time){
       var distance = parseInt(countDownDate - now);
 
       // Time calculations for days, hours, minutes and seconds
-      var days = parseInt(Math.floor(distance / (1000 * 60 * 60 * 24)));
-      var hours = parseInt(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-      var minutes = parseInt(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-      var seconds = parseInt(Math.floor((distance % (1000 * 60)) / 1000));
+      var days = parseInt(Math.floor(parseInt(distance) / (1000 * 60 * 60 * 24)));
+      var hours = parseInt(Math.floor((parseInt(distance) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+      var minutes = parseInt(Math.floor((parseInt(distance) % (1000 * 60 * 60)) / (1000 * 60)));
+      var seconds = parseInt(Math.floor((parseInt(distance) % (1000 * 60)) / 1000));
 
-      if (hours < 10) {
+      if (parseInt(hours) < 10) {
         hours = "0"+hours.toString();
       }
-      if (minutes < 10) {
+      if (parseInt(minutes) < 10) {
         minutes = "0"+minutes.toString();
       }
-      if (seconds < 10) {
+      if (parseInt(seconds) < 10) {
         seconds = "0"+seconds.toString();
       }
 
 
-      document.getElementById("clock").innerHTML = "<strong>Sisa Waktu:</strong> "+hours + ":"
-      + minutes + ":" + seconds + "";
+      document.getElementById("clock").innerHTML = "<strong>Sisa Waktu:</strong> "+hours.toString() + ":"
+      + minutes.toString() + ":" + seconds.toString() + "";
 
-      if (distance < 0) {
+      if (parseInt(distance) < 0) {
         document.getElementById("clock").innerHTML = "Waktu Habis!";
           clearInterval(x);
           $(".my_page .main-content").addClass("disabled");
           $(".my_page .main-content").addClass("disabled");
           $("#confirm_finish").trigger('click');
       }
-      now+= 1000;
+      now = parseInt(now) + 1000;
 
   }, 1000);
 
