@@ -4,6 +4,12 @@
 	<li id="menu-home">
 		<a href="{{route('peserta.home')}}"><i class="fa fa-home"></i>Beranda</a>
 	</li>
+	<li id="menu-score">
+		<a href="{{url('/peserta/hasil-ujian')}}">
+			<i class="fa fa-star"></i>
+			Hasil Ujian
+		</a>
+	</li>
 	<li id="menu-announcement">
 		<a href="{{url('/peserta/announcement')}}"> <i class="fa fa-bell"></i>Pengumuman </a>
 	</li>

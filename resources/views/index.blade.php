@@ -351,6 +351,11 @@
       $(".modal").modal('show');
     });
     $("#mascot").click(function(){
+      @if (Auth::user())
+        $(".masuk")[0].click();
+        return false;
+      @endif
+      
       $(".modal").modal('show');
     });
   });

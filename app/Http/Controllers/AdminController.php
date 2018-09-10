@@ -802,6 +802,8 @@ class AdminController extends Controller
 
     $packet = Packet::find($request->id_packet);
 
+    $number_of_questions = count($packet->questions);
+
     if ($packet->type == "warmup") {
       $packet->current_capacity = $packet->current_capacity + 1;
       $packet->save();
@@ -837,7 +839,7 @@ class AdminController extends Controller
     $team_packet->status = 1;
 
     //init jawaban tim
-    for ($i=1; $i <=90 ; $i++) {
+    for ($i=1; $i <=$number_of_questions ; $i++) {
       $team_ans.= '0,';
       $ans_stats.='0,';
     }
@@ -857,13 +859,15 @@ class AdminController extends Controller
       $team_ans='';
       $ans_stats='';
 
-      for ($i=1; $i <=90 ; $i++) {
+
+
+      $packet = Packet::find($request->id_packet);
+      $number_of_questions = count($packet->questions);
+
+      for ($i=1; $i <=$number_of_questions ; $i++) {
         $team_ans.= '0,';
         $ans_stats.='0,';
       }
-
-      $packet = Packet::find($request->id_packet);
-
       for ($i=0; $i < $teams->count(); $i++) {
         $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
 
@@ -904,13 +908,17 @@ class AdminController extends Controller
       $team_ans='';
       $ans_stats='';
 
-      for ($i=1; $i <=90 ; $i++) {
-        $team_ans.= '0,';
-        $ans_stats.='0,';
-      }
+
 
       $packet = Packet::find($request->id_packet);
 
+      $number_of_questions = count($packet->questions);
+
+      for ($i=1; $i <=$number_of_questions ; $i++) {
+        $team_ans.= '0,';
+        $ans_stats.='0,';
+      }
+      
       for ($i=0; $i < $teams->count(); $i++) {
         $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
 

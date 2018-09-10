@@ -33,6 +33,8 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::put('/peserta/pilih-kloter', 'PesertaController@pilihKloter');
   Route::get('/peserta/announcement', 'PesertaController@announcementPage');
   Route::get('/peserta/server-time', 'PesertaController@getServerTime');
+  Route::get('/peserta/hasil-ujian', 'PesertaController@getMyScores');
+  Route::get('/peserta/my-scores', 'PesertaController@showMyScores');
 });
 
 
