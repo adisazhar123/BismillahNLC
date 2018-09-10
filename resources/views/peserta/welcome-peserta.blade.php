@@ -35,7 +35,6 @@
 @section('script')
   <script type="text/javascript">
     $(document).ready( function () {
-
       @if (session()->has('message'))
         alertify.success('{{session()->get('message')}}')
       @endif

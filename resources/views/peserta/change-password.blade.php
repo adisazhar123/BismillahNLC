@@ -20,7 +20,7 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header">
-        <h4>Penggantian Password User</h4>
+        <h3>Penggantian Password User</h3>
         <small>Gantilah password untuk keamanan akun anda!</small>
       </div>
       <div class="card-body">

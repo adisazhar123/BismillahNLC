@@ -102,6 +102,8 @@ class PesertaController extends Controller
     }
 
     public function showExam(){
+      // NOTE: untuk sementara halama ujian warmup dan penyisihan beda, karena warmup = 50 soal, penyisihan 90 soal...
+      //untuk kedepannya di-dinamiskan, sekarang di hardcode
       $team_ans="";
       $ans_stats='';
       $question_id="";
@@ -116,10 +118,6 @@ class PesertaController extends Controller
       //select id_packet yg aktif hari ini
       $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet', 'type')->get();
 
-      if ($packets_today->isEmpty()) {
-        //Gak ada ujian hari ini
-        return "Tidak ada ujian hari ini! sessionId: ".  Session::getId();
-      }
 
       //Ada ujian hari ini
 
@@ -139,6 +137,12 @@ class PesertaController extends Controller
         $time_now = $date_today->toTimeString();
         Session::put('team_packet_id', $team_packet->id);
 
+        $warm_up = 0;
+
+        if ($team_packet->packets->type == "warmup") {
+          $warm_up = 1;
+        }
+
         //Cek masih ada waktu gak
         if (strtotime($time_now) >= strtotime($has_time['start_time']) && strtotime($time_now) <= strtotime($has_time['end_time'])) {
           //Melanjutkan ujian
@@ -146,6 +150,14 @@ class PesertaController extends Controller
           // echo strtotime($has_time['end_time'])-strtotime($time_now);
           // echo "<br>";
           // echo "Time now ";
+
+          if ($warm_up) {
+            return view('peserta.ujian-warmup')->with('answers', explode(",", Redis::get('id-'.$team_packet->id_packet.'-'.$team_packet->id.'-ans')))
+            ->with('answers_stats', explode(",", Redis::get('id-'.$team_packet->id_packet.'-'.$team_packet->id.'-stat')))->with('ans_index', $ans_label_index)
+            ->with('id_team_packet', $team_packet->id)
+            ->with('packet_info', $has_time)->with('time_now', $time_now);
+          }
+
           return view('peserta.ujian')->with('answers', explode(",", Redis::get('id-'.$team_packet->id_packet.'-'.$team_packet->id.'-ans')))
           ->with('answers_stats', explode(",", Redis::get('id-'.$team_packet->id_packet.'-'.$team_packet->id.'-stat')))->with('ans_index', $ans_label_index)
           ->with('id_team_packet', $team_packet->id)
@@ -156,13 +168,21 @@ class PesertaController extends Controller
         else if (strtotime($time_now) <= strtotime($has_time['start_time'])) {
           //Waktu belum mulai. sabar sek
           //return "Mohon bersabar. Ujian akan mulai pukul". $has_time['start_time'];
+          if ($warm_up) {
+            return view('peserta.ujian-warmup')->with('start_time', $has_time['start_time']);
+
+          }
           return view('peserta.ujian')->with('start_time', $has_time['start_time']);
         }else {
           //Waktu sudah habis
           //has_finished = 1
           //return "Tidak ada ujian hari ini atau waktu anda sudah habis! (1)";
+          if ($warm_up) {
+            return view('peserta.ujian-warmup')->with('finished', 1)->with('id_team_packet', $team_packet->id)
+              ->with('packet_info', $has_time)->with('time_now', $time_now);
+          }
           return view('peserta.ujian')->with('finished', 1)->with('id_team_packet', $team_packet->id)
-            ->with('packet_info', $has_time)->with('time_now', $time_now);;
+            ->with('packet_info', $has_time)->with('time_now', $time_now);
 
         }
 
@@ -409,4 +429,19 @@ class PesertaController extends Controller
       }
       return "fail";
     }
+
+    public function getMyScores(){
+      $warm_up_ids = Packet::where('type', 'warmup')->get();
+      $wu_ids = array();
+
+      foreach ($warm_up_ids as $wu) {
+        $wu_ids [] = $wu->id_packet;
+      }
+      //cari ujian warmup yang udah dinilai
+      $team_packets = TeamPacket::with('packets')->where('id_team', Auth::user()->role_id)->whereIn('id_packet', $wu_ids)
+                      ->where('has_finished', 1)->where('final_score', '!=', null)->get();
+
+      return view('peserta.hasil-ujian', ['team_packets' => $team_packets]);
+    }
+
 }
