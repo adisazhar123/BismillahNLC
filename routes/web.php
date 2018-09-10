@@ -101,6 +101,7 @@ Route::middleware(['admin_only'])->group(function(){
   Route::post('/admin/user-list', 'AdminController@modifyUserList')->name('modify.user.admin');
 });
 
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+//Dokumentasinya bilang => For Laravel 5.5 and up, skip to step 3. All service providers and facades are automatically discovered.
+/*Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     '\UniSharp\LaravelFilemanager\Lfm::routes()';
-});
+});*/
