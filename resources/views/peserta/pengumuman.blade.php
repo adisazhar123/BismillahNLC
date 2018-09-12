@@ -75,9 +75,9 @@
                   @endphp
                   @foreach ($packets as $p)
                     @if ($p->capacity <= $p->current_capacity)
-                      <option disabled value="{{$p->id_packet}}">Kloter: {{$i}} | Jam {{$p->start_time." | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
+                      <option disabled value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
                     @else
-                      <option value="{{$p->id_packet}}">Kloter: {{$i}} | Jam {{$p->start_time." | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
+                      <option value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
                     @endif
                     @php
                       $i++;
@@ -87,10 +87,11 @@
 
               </select>
               <br><br>
+              {{-- cek kalo udah milih kloter, gaboleh milih lagi --}}
               @if (empty($pilihan_kloter))
                 <button type="submit" class="float-right btn btn-primary">Submit</button>
                 @else
-                  <button type="submit" class="float-right btn btn-primary" disabled>Submit</button>
+                  {{-- <button type="submit" class="float-right btn btn-primary" disabled>Submit</button> --}}
 
               @endif
             </form>

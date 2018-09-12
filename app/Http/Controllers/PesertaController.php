@@ -95,11 +95,15 @@ class PesertaController extends Controller
       $data->packet_file_directory = $id_generated->packet_file_directory;
 
 
-
-
-
       $data->save();
       $packet->save();
+
+      //save in redis cache
+      //format: id-packet_id-team_packet_id-type
+
+      Redis::set('id-'.$data->id_packet.'-'.$data->id.'-ans', $data->team_ans);
+      Redis::set('id-'.$data->id_packet.'-'.$data->id.'-stat', $data->ans_stats);
+
 
       return redirect()->back()->with('message', 'Kloter telah dipilih');
     }
