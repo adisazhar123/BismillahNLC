@@ -172,13 +172,14 @@ return [
         /*
          * Application Service Providers...
          */
+		UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+		Intervention\Image\ImageServiceProvider::class,
+		 
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
 		Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
