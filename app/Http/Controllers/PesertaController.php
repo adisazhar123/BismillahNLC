@@ -80,8 +80,12 @@ class PesertaController extends Controller
       $data->status               = 1;
       $data->has_finished         = 0;
 
+      $packet = Packet::find($request->kloter);
+      $packet->current_capacity = $packet->current_capacity + 1;
 
-      for ($i=1; $i <=90 ; $i++) {
+      $number_of_questions = count($packet->questions);
+
+      for ($i=1; $i <=$number_of_questions ; $i++) {
         $team_ans.= '0,';
         $ans_stats.='0,';
       }
@@ -91,8 +95,7 @@ class PesertaController extends Controller
       $data->packet_file_directory = $id_generated->packet_file_directory;
 
 
-      $packet = Packet::find($request->kloter);
-      $packet->current_capacity = $packet->current_capacity + 1;
+
 
 
       $data->save();
