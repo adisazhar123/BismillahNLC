@@ -51,5 +51,7 @@
 @endsection
 
 @section('script')
-
+<script type="text/javascript">
+  $("#menu-score").addClass('active');
+</script>
 @endsection

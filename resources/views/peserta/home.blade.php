@@ -162,7 +162,7 @@ $(document).on('click', '#confirm_finish', function(){
         $(".finish_exam").modal('hide');
         alertify.success("Ujian berhasil diselesaikan! Terima kasih sudah berpartisipasi di NLC Online 2018 :)");
         window.setTimeout(function(){
-          window.location = "{{url('/')}}";
+          window.location = "{{url('/peserta/home')}}";
         }, 2800);
 
       }else {

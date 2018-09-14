@@ -3,19 +3,42 @@
 @endsection
   <div class="card">
     <div class="card-body">
-      <h3>Selamat datang {{$team_name}} di NLC Online 2018</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
+      <h3>Selamat datang <strong>{{$team_name}}</strong> di NLC Online 2018</h3>
       @if (isset($packet_info) && $exam == 3 || $exam == 2)
         <div class="packet-info">
-          Nama packet: {{$packet_info->name}}<br>
-          Waktu mulai: {{$packet_info->start_time}} WIB<br>
-          Waktu selesai: {{$packet_info->end_time}} WIB
+          <h5>
+            Nama paket: {{$packet_info->name}}<br>
+            Waktu mulai: {{$packet_info->start_time}} WIB<br>
+            Waktu selesai: {{$packet_info->end_time}} WIB
+          </h5>
         </div>
       @endif
+      <p class="h4">
+        Berikut adalah informasi penting yang harus anda ketahui sebagai peserta NLC Online 2018:
+        <ol>
+          <li>Setiap tim hanya bisa login di satu device.</li>
+          <li>Diharuskan untuk mengikuti ujian menggunakan laptop atau komputer.</li>
+          <li>Ujian masih bisa dilanjutkan bila keluar dari browser.</li>
+          <li>Akun yang tidak aktif selama lebih dari 10 menit akan ter-logout secara otomatis.
+            Anda bisa login kembali untuk melanjutkan ujian.</li>
+          <li>Jika anda sudah selesai mengerjakan sebelum waktu berakhir, harap pencet <strong>submit</strong>
+          agar jawaban tersimpan!</li>
+          <li>Jika waktu sudah habis ketika anda sedang mengerjakan, maka sistem akan nge-submit jawaban
+          anda secara otomatis. Peserta yang keluar dari halaman ujian dan tidak <strong>submit</strong>, maka
+          jawaban tidak tersimpan alias nilai NOL.</li>
+          <li>Zona waktu yang digunakan pada sistem NLC Online 2018 adalah Waktu Indonesia Barat.</li>
+          <li>Informasi dan peraturan yang tidak tercantum disini berpatokan pada Rule Book NLC 2018.</li>
+          <li>Dengan mengikuti ujian pada NLC Online 2018 anda wajib mematuhi seluruh peraturan yang ada.
+          Tim yang melanggar akan mendapatkan sanksi.</li>
+        </ol>
+
+
+      </p>
+
+
 
       @if ($exam == 1)
-        <p>Tidak ada ujian untuk anda.</p>
+        <p><strong>Tidak ada ujian untuk anda.</strong></p>
         {{-- <button type="button" class="btn btn-nlc show-petunjuk" name="button">Selanjutnya</button> --}}
 
       @elseif ($exam == 2)
@@ -24,10 +47,10 @@
         <button type="button" class="btn btn-success show-tes" name="button">Lanjutkan ujian</button>
 
       @elseif ($exam == 3)
-        <p>Mohon untuk menunggu sebentar. Ujian belum mulai.<br>Ujian dimulai pukul {{$start_time}} WIB.</p>
+        <p><strong>Mohon untuk menunggu sebentar. Ujian belum mulai.<br>Ujian dimulai pukul {{$start_time}} WIB.</strong></p>
       @else
         {{-- gak ada ujian --}}
-        <p>Tidak ada ujian untuk hari ini.</p>
+        <p><strong>Tidak ada ujian untuk hari ini.</strong></p>
       @endif
     </div>
   </div>

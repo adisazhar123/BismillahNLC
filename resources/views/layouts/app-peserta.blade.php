@@ -140,8 +140,8 @@
         <div class="side-navbar-wrapper">
             <div class="sidenav-header d-flex align-items-center justify-content-center">
                 <div class="sidenav-header-inner text-center">
-                <img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset">
-                <h2 class="h5">{{Auth::user()->name}}</h2>
+                <img src="{{ asset('img/schematics.png') }}" class="img-fluid" style="height:unset"><br>
+                <small class="">{{Auth::user()->name}}</small><br>
                 <span>Waktu Server</span><br>
                 <span id="server_time"></span>
                 </div>
@@ -169,7 +169,7 @@
                             <!-- Log out-->
                             <li class="nav-item">
                                 <a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a>
+                                   onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="nav-link logout"> <span class="d-none d-sm-inline-block">Keluar</span><i class="fa fa-sign-out"></i></a>
                             </li>
                         </ul>
                     </div>
