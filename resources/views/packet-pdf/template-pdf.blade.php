@@ -11,6 +11,7 @@
       body{
         font-size: 11;
         text-align: justify;
+		font-family:Helvetica;
       }
       #watermark {
         position: fixed;
@@ -38,12 +39,12 @@
   </head>
   <body>
     {{-- <div id="watermark">
-      <img src="http://www.color-hex.com/palettes/7808.png" alt="" height="100%" width="100%">
+      <img src="{{ URL::to('/resources/assets/watermark/c.png') }}" alt="" height="100%" width="100%">
     </div> --}}
 
     <div class="page_break">
       <h3>NLC Online 2018</h3>
-      <img src="https://i2.wp.com/thefreshimages.com/wp-content/uploads/2017/12/lord-shiva-angry-wallpapers-3d.jpg?ssl=1" alt="front-cover">
+      <img src="{{ URL::to('/resources/assets/watermark/w.jpg') }}" alt="front-cover">
     </div>
 
 
