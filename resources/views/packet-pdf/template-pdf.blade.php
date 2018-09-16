@@ -53,6 +53,7 @@
 
   </head>
   <body>
+<<<<<<< HEAD
 	
 	<div class="pages first-page">
 		<img src="{{ resource_path('assets/watermark/c.png') }}" width="100%">
