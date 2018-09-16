@@ -156,8 +156,8 @@
 
 				// NOTE:
 				// Kalau tidak pake XAMPP hilangkan bismillahNLC/public/
-				var cmsURL = editor_config.path_absolute + 'nlc-filemanager?field_name=' + field_name;
-				// var cmsURL = editor_config.path_absolute + 'bismillahNLC/public/laravel-filemanager?field_name=' + field_name;
+				// var cmsURL = editor_config.path_absolute + 'nlc-filemanager?field_name=' + field_name;
+				var cmsURL = editor_config.path_absolute + 'nlconline/public/nlc-filemanager?field_name=' + field_name;
 				if (type == 'image') {
 					cmsURL = cmsURL + "&type=Images";
 				} else {
