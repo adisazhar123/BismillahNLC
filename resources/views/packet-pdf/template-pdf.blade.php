@@ -39,12 +39,12 @@
   </head>
   <body>
     {{-- <div id="watermark">
-      <img src="{{ URL::to('/resources/assets/watermark/c.png') }}" alt="" height="100%" width="100%">
+      <img src="{{ URL::to('/public/img/watermark/c.png') }}" alt="" height="100%" width="100%">
     </div> --}}
 
     <div class="page_break">
       <h3>NLC Online 2018</h3>
-      <img src="{{ URL::to('/resources/assets/watermark/w.jpg') }}" alt="front-cover">
+      <img src="{{ URL::to('/public/img/watermark/w.jpg') }}" alt="front-cover">
     </div>
 
 
