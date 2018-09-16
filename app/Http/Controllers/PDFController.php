@@ -19,7 +19,7 @@ class PDFController extends Controller
 
       $pdf = App::make('dompdf.wrapper');
       $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-      //$pdf->set_base_path(realpath('./'));
+      $pdf->set_base_path(realpath('./'));
       $pdf->loadView('packet-pdf.template-pdf', array('questions' => $questions));
       return $pdf->stream();
       //return $pdf->stream();
