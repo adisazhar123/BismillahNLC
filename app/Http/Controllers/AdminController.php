@@ -200,11 +200,11 @@ class AdminController extends Controller
           for ($i=1; $i <=5 ; $i++) {
             if ($i == $questions[$x]['right_ans']) {
               $ans = "<strong><li>".$questions[$x]['option_'.$i]."</li></strong>";
-              $ans = str_replace('</p>', '', str_replace('<p>', '', $ans));
+              $ans = str_replace('</p>', '<br>', str_replace('<p>', '', $ans));
               $question .= $ans;
             }else{
               $ans = "<li>".$questions[$x]['option_'.$i]."</li>";
-              $ans = str_replace('</p>', '', str_replace('<p>', '', $ans));
+              $ans = str_replace('</p>', '<br>', str_replace('<p>', '', $ans));
               $question .= $ans;
             }
           }
@@ -918,7 +918,7 @@ class AdminController extends Controller
         $team_ans.= '0,';
         $ans_stats.='0,';
       }
-      
+
       for ($i=0; $i < $teams->count(); $i++) {
         $assigned_packet = GeneratedPacket::where('id_packet', $packet['id_packet'])->inRandomOrder()->first();
 
