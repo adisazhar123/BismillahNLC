@@ -34,6 +34,7 @@
 					    <thead>
 					        <tr>
 											<th>#ID Tim</th>
+											<th>#ID NLC</th>
 					            <th>Nama Tim</th>
 											<th>Nama Paket</th>
 											<th>Skor</th>
@@ -65,6 +66,7 @@
 		ajax: "{{route('get.team.scores.admin')}}",
 		columns:[
 				{data: "id_team"},
+				{data: "teams.id_team_nlc"},
 				{data: "teams.name"},
 				{data: "packets.name"},
 				{data: "final_score"},

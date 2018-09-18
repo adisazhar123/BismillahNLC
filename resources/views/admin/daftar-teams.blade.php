@@ -38,6 +38,7 @@
 					    <thead>
 					        <tr>
 								<th>#ID Tim</th>
+								<th>#ID NLC</th>
 					            <th>Nama Tim</th>
 					            <th>Email</th>
 											<th>Region</th>
@@ -137,6 +138,7 @@
 			ajax: "{{route('get.teams.admin')}}",
 			columns:[
 					{data: "id_team"},
+					{data: "id_team_nlc"},
 					{data: "name"},
 					{data: "email"},
 					{data: "type"},

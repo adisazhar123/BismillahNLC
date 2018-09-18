@@ -753,17 +753,17 @@ class AdminController extends Controller
 				foreach($results as $row){
 					//Start adding the user
 					$id = DB::table('team')->insertGetId([
-					  // 'id_team' => $row->get("id_team"),
+					  'id_team_nlc' => $row->get("id_team"),
 					  'name' => $row->get("name"),
 					  'email' => $row->get("email"),
 					  'phone' => $row->get("phone"),
-					  'type' => $row->get('type')
+					  'type' => $row->get('region')
 					]);
 
 					$user = new User;
 					$user->name = $row->get('name');
 					$user->email = $row->get('email');
-					$user->password = bcrypt($row->get('email')."_".$row->get('type'));
+					$user->password = bcrypt('schematics2018');
 					$user->role = 3;
 					$user->role_id = $id;
 					$user->save();
@@ -903,7 +903,7 @@ class AdminController extends Controller
     }
 
     public function assignAllOffline(Request $request){
-      $teams = Team::where('type', 'Offline')->get();
+      $teams = Team::where('type','!=' ,'Online')->get();
 
       $team_ans='';
       $ans_stats='';

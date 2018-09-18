@@ -43,6 +43,7 @@
 					    <thead>
 					        <tr>
 											<th>#</th>
+											<th>#ID NLC</th>
 					            <th>Nama Tim</th>
 											<th>Status</th>
 											<th>Region</th>
@@ -84,6 +85,7 @@
 			ajax: '{{url('admin/get-teams-to-assign')}}?id_packet='+{{Input::get('id_packet')}},
 			columns:[
 					{data: "id_team"},
+					{data: 'id_team_nlc'},
 					{data: "name"},
 					{render: function(data,type,row){
 						if (row.team_packets.length) {
