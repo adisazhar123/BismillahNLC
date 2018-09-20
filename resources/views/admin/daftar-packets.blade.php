@@ -20,7 +20,7 @@
 <div class="alert alert-info" role="alert">
   <h4 class="alert-heading">Cara penggunaan</h4>
   <ul>
-  	<li>Untuk menambahkan paket klik 'Tambah Soal'.</li>
+  	<li>Untuk menambahkan paket klik 'Tambah Paket'.</li>
 		<li>Untuk mengganti pengaturan paket klik 'Ubah'.</li>
 		<li>Untuk menghapus paket klik 'Hapus'. <br>
 			<strong>Penghapusan paket mengakibatkan seluruh nilai dan generated PDF untuk paket tersebut HILANG!</strong>

@@ -647,7 +647,7 @@ class AdminController extends Controller
         for ($i=0; $i < sizeof($questions_order) - 1 ; $i++) {
           $q = Question::find($questions_order[$i]);
           if ($q->right_ans == $team_ans[$i]) {
-            $final_score+=4;
+            $final_score+=3;
           }elseif ($team_ans[$i] == 0){
 
           }else {

@@ -19,7 +19,7 @@
           <li>Setiap tim hanya bisa login di satu device.</li>
           <li>Diharuskan untuk mengikuti ujian menggunakan laptop atau komputer.</li>
           <li>Ujian masih bisa dilanjutkan bila keluar dari browser.</li>
-          <li>Akun yang tidak aktif selama lebih dari 10 menit akan ter-logout secara otomatis.
+          <li>Akun yang tidak aktif selama lebih dari 15 menit akan ter-logout secara otomatis.
             Anda bisa login kembali untuk melanjutkan ujian.</li>
           <li>Jika anda sudah selesai mengerjakan sebelum waktu berakhir, harap pencet <strong>submit</strong>
           agar jawaban tersimpan!</li>
