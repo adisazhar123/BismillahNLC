@@ -28,7 +28,7 @@
           jawaban tidak tersimpan alias nilai NOL.</li>
           <li>Zona waktu yang digunakan pada sistem NLC Online 2018 adalah Waktu Indonesia Barat.</li>
           <li>Informasi dan peraturan yang tidak tercantum disini berpatokan pada Rule Book NLC 2018.</li>
-          <li>Dengan mengikuti ujian pada NLC Online 2018 anda wajib mematuhi seluruh peraturan yang ada.
+          <li>Dengan mengikuti ujian NLC Online 2018 anda wajib mematuhi seluruh peraturan yang ada.
           Tim yang melanggar akan mendapatkan sanksi.</li>
         </ol>
 
