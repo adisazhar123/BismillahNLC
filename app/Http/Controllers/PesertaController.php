@@ -451,4 +451,8 @@ class PesertaController extends Controller
       return view('peserta.hasil-ujian', ['team_packets' => $team_packets]);
     }
 
+    public function viewTutorialWarmUp(){
+      return response()->file(storage_path()."/app/public/tutorial/tutorial_warmup.pdf");
+    }
+
 }

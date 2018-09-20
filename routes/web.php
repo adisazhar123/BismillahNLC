@@ -35,6 +35,7 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::get('/peserta/server-time', 'PesertaController@getServerTime');
   Route::get('/peserta/hasil-ujian', 'PesertaController@getMyScores');
   Route::get('/peserta/my-scores', 'PesertaController@showMyScores');
+  Route::get('/peserta/download/tutorial_warmup', 'PesertaController@viewTutorialWarmUp');
 });
 
 
