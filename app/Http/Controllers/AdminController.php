@@ -147,7 +147,7 @@ class AdminController extends Controller
     }
 
     public function getPacketDetails(Request $request){
-      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration', 'type', 'open', 'capacity')->find($request->id_packet);
+      $packet = Packet::select('id_packet','name','active_date', 'start_time', 'end_time', 'duration', 'type', 'open', 'capacity', 'current_capacity')->find($request->id_packet);
       return response()->json($packet);
     }
 
