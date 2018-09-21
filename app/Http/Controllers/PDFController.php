@@ -80,16 +80,16 @@ class PDFController extends Controller
           $randomized_questions->all();
 
           foreach ($randomized_questions as $my_questions) {
-            if ($my_questions->related == 0) {
+            if ($my_questions->related == 0) {                    //untuk menyimpan nonrelated
               $non_related[] = $my_questions;
               $questions_order.=$my_questions->id_question.',';
             }else{
-              $related[] = $my_questions;
+              $related[] = $my_questions;                       //untuk menyimpan related
             }
 
           }
 
-          usort($related, function($a, $b){
+          usort($related, function($a, $b){                   //sort yang related biar tetap urut
             if ($a['id_question'] < $b['id_question']) {
               return -1;
             }else {
