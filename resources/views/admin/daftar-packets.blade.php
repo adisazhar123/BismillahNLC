@@ -109,6 +109,10 @@
 						<small id="capacity-label">Max 3000</small>
 					</div>
 					<div class="form-group">
+						<label for="current_capacity">Kapasitas sekarang</label>
+						<input class="form-control" type="text" name="current_capacity" value="" id="current_capacity" readonly>
+					</div>
+					<div class="form-group">
 						<label for="type">Status</label>
 						<select class="form-control" id="status" name="status">
 							<option value='0' id="select_option_status_1">Kunci</option>
@@ -303,6 +307,7 @@
 						$("#duration").val(data.duration);
 						$("#capacity").val(data.capacity);
 						$("#type").val(data.type);
+						$("#current_capacity").val(data.current_capacity);
 						if (data.type =="non-warmup") {
 							$("#status").prop('disabled', true);
 							$("#capacity").prop('disabled', true);
