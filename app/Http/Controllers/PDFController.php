@@ -31,7 +31,7 @@ class PDFController extends Controller
 
       $questions = Question::where('id_packet', $request->id_packet)->get();
       $packet = Packet::find($request->id_packet);
-
+	set_time_limit(0);
 
       //Bikin sebanyak PDF packet_count
       for ($i=0; $i < $request->packet_count; $i++) {
@@ -124,6 +124,7 @@ class PDFController extends Controller
 
         }
       }
+	set_time_limit(30);
       return "ok";
     }
 
