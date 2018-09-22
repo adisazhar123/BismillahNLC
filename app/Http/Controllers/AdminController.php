@@ -805,7 +805,7 @@ class AdminController extends Controller
     $number_of_questions = count($packet->questions);
 
     if ($packet->type == "warmup") {
-      $packet->current_capacity = $packet->current_capacity + 1;
+      $packet->current_capacity = (int)$packet->current_capacity + 1;
       $packet->save();
     }
 
@@ -896,7 +896,7 @@ class AdminController extends Controller
         }
       }
       if ($packet->type == "warmup") {
-        $packet->current_capacity = $packet->current_capacity + $teams->count();
+        $packet->current_capacity = $teams->count();
         $packet->save();
       }
       return "ok";
@@ -948,7 +948,7 @@ class AdminController extends Controller
 
       }
       if ($packet->type == "warmup") {
-        $packet->current_capacity = $packet->current_capacity + $teams->count();
+        $packet->current_capacity = $teams->count();
         $packet->save();
       }
       return "ok";
@@ -963,7 +963,7 @@ class AdminController extends Controller
       Redis::del('id-'.$team_packet->id_packet.'-'.$team_packet->id.'-stat');
 
       if ($packet->type == "warmup") {
-        $packet->current_capacity = $packet->current_capacity -1 ;
+        $packet->current_capacity = (int)$packet->current_capacity - 1 ;
         $packet->save();
       }
       $team_packet->status = 0;

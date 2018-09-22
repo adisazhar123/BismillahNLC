@@ -81,7 +81,7 @@ class PesertaController extends Controller
       $data->has_finished         = 0;
 
       $packet = Packet::find($request->kloter);
-      $packet->current_capacity = $packet->current_capacity + 1;
+      $packet->current_capacity = (int)$packet->current_capacity + 1;
 
       $number_of_questions = count($packet->questions);
 
