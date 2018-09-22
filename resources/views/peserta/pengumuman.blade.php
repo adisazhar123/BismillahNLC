@@ -43,7 +43,7 @@
         <div class="card-body">
           <h3>Info Warmup</h3>
           @if ($pilihan_kloter)
-            <p>Warmup NLC Online anda mulai tanggal {{date_format(new DateTime($pilihan_kloter->packets['active_date']), 'd-m-Y')}} | jam {{$pilihan_kloter->packets['start_time']}}</p>
+            <p>Warmup NLC Online anda mulai tanggal {{date_format(new DateTime($pilihan_kloter->packets['active_date']), 'd-m-Y')}} | jam {{$pilihan_kloter->packets['start_time']}} WIB</p>
           @else
             <p>Anda belum memilih kloter. Mohon untuk memilih kloter warmup.</p>
           @endif
@@ -61,7 +61,7 @@
                 <option value="{{ $pilihan_kloter['id_packet'] or '' }}">
                   {{-- Kalo udah milih kloter --}}
                   @if ($pilihan_kloter)
-                    Kloter: {{$pilihan_kloter->packets['name']}} - Jam {{$pilihan_kloter->packets['start_time']}} |
+                    Kloter: {{$pilihan_kloter->packets['name']}} - Jam {{$pilihan_kloter->packets['start_time']}} WIB |
                     {{$pilihan_kloter->packets['active_date']}} | Kapasitas: {{$pilihan_kloter->packets['current_capacity']}}/{{$pilihan_kloter->packets['capacity']}}
                   @else
                     Pilih Kloter
@@ -75,9 +75,9 @@
                   @endphp
                   @foreach ($packets as $p)
                     @if ($p->capacity <= $p->current_capacity)
-                      <option disabled value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
+                      <option disabled value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." WIB | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
                     @else
-                      <option value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
+                      <option value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." WIB | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
                     @endif
                     @php
                       $i++;
