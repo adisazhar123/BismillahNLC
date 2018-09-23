@@ -445,8 +445,9 @@ class PesertaController extends Controller
         $wu_ids [] = $wu->id_packet;
       }
       //cari ujian warmup yang udah dinilai
-      $team_packets = TeamPacket::with('packets')->where('id_team', Auth::user()->role_id)->whereIn('id_packet', $wu_ids)
-                      ->where('has_finished', 1)->where('final_score', '!=', null)->get();
+      $team_packets = TeamPacket::with('packets')->where('id_team', Auth::user()->role_id)
+                      ->whereIn('id_packet', $wu_ids)->where('final_score', '!=', null)
+                      ->get();
 
       return view('peserta.hasil-ujian', ['team_packets' => $team_packets]);
     }
