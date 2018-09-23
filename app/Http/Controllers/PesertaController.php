@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Session;
 use View;
+use Log;
 use App\User;
 use App\Announcement;
 use App\Packet;
@@ -310,24 +311,30 @@ class PesertaController extends Controller
     //Untuk submit jawaban, dijadikan array terus convert ke string utk store di DB
     public function submitAns(Request $request){
       // NOTE: Pake redis cache
+      try {
+        $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
 
-      $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
+        $ans = explode(',', $ans);
 
-      $ans = explode(',', $ans);
+        $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
+        $stat = explode(',', $stat);
 
-      $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
-      $stat = explode(',', $stat);
+        $ans[$request->q_index-1] = $request->value;
+        $stat[$request->q_index-1] = "green";
 
-      $ans[$request->q_index-1] = $request->value;
-      $stat[$request->q_index-1] = "green";
+        $ans = implode(',', $ans);
+        $stat = implode(',', $stat);
 
-      $ans = implode(',', $ans);
-      $stat = implode(',', $stat);
+        Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans', $ans);
+        Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
+    
+        return response()->json(['message' => 'ok'], 200);
+      } catch (\Exception $e) {
+        Log::emergency("Server error submit answer: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
 
-      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans', $ans);
-      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
+      }
 
-      return response()->json(['message' => 'ok'], 200);
+
 
       // NOTE: Uncomment bawah kalo mau insert lgsg ke DB
       // $team_packet = TeamPacket::find($request->id_team_packet);
@@ -349,13 +356,20 @@ class PesertaController extends Controller
 
     //Untuk submit status jawaban e.g. "ragu", dijadikan array terus convert ke string utk store di DB
     public function submitAnsStat(Request $request){
-      $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
-      $stat = explode(',', $stat);
-      $stat[$request->q_index-1] = "orange";
-      $stat = implode(',', $stat);
-      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
 
-      return response()->json(['message' => 'ok'], 200);
+      try {
+        $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
+        $stat = explode(',', $stat);
+        $stat[$request->q_index-1] = "orange";
+        $stat = implode(',', $stat);
+        Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
+
+        return response()->json(['message' => 'ok'], 200);
+      } catch (\Exception $e) {
+        Log::emergency("Server error submit answer stats: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
+      }
+
+
 
       // $team_packet = TeamPacket::find($request->id_team_packet);
       // $stats = explode(',', $team_packet->ans_stats);
@@ -371,23 +385,31 @@ class PesertaController extends Controller
 
     //Untuk reset jawaban, dijadikan array terus convert ke string utk store di DB
     public function resetAns(Request $request){
-      $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
 
-      $ans = explode(',', $ans);
+      try {
+        $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
 
-      $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
-      $stat = explode(',', $stat);
+        $ans = explode(',', $ans);
 
-      $ans[$request->q_index-1] = "0";
-      $stat[$request->q_index-1] = "0";
+        $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
+        $stat = explode(',', $stat);
 
-      $ans = implode(',', $ans);
-      $stat = implode(',', $stat);
+        $ans[$request->q_index-1] = "0";
+        $stat[$request->q_index-1] = "0";
 
-      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans', $ans);
-      Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
+        $ans = implode(',', $ans);
+        $stat = implode(',', $stat);
 
-      return response()->json(['message' => 'ok'], 200);
+        Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans', $ans);
+        Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
+
+        return response()->json(['message' => 'ok'], 200);
+      } catch (\Exception $e) {
+        Log::emergency("Server error reset answer: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
+
+      }
+
+
 
       // $team_packet = TeamPacket::find($request->id_team_packet);
       // $stats = explode(',', $team_packet->ans_stats);
@@ -421,20 +443,25 @@ class PesertaController extends Controller
     }
 
     public function submitExam(Request $request){
-      $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
-      $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
 
-      $team_packet = TeamPacket::find($request->id_team_packet);
-      $team_packet->has_finished = 1;
-      $team_packet->status = 0;
-      $team_packet->team_ans = $ans;
-      $team_packet->ans_stats = $stat;
-      $team_packet->final_score = null;
+      try {
+        $ans = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans');
+        $stat = Redis::get('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat');
 
-      if ($team_packet->save()) {
+        $team_packet = TeamPacket::find($request->id_team_packet);
+        $team_packet->has_finished = 1;
+        $team_packet->status = 0;
+        $team_packet->team_ans = $ans;
+        $team_packet->ans_stats = $stat;
+        $team_packet->final_score = null;
+        $team_packet->save();
         return "ok";
+
+      } catch (\Exception $e) {
+        Log::emergency("Server error submit exam: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
+        return "fail";
       }
-      return "fail";
+
     }
 
     public function getMyScores(){

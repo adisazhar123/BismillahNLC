@@ -109,6 +109,9 @@ $(document).on('click',".form-check-input", function(){
       if (typeof data.intended_url !== 'undefined') {
         window.location= '{{route('index')}}';
       }
+    },
+    error: function(){
+      alertify.error("Server error. Mohon untuk refresh halaman.");
     }
   })
 
@@ -133,6 +136,9 @@ $(document).on("click", ".question_no", function(){
         if (typeof data.intended_url !== 'undefined') {
           window.location= '{{route('index')}}';
         }
+      },
+      error: function(){
+        alertify.error("Server error. Mohon untuk refresh halaman.");
       }
     })
   }
@@ -154,6 +160,9 @@ $(document).on("click", ".fa-refresh", function(){
       if (typeof data.intended_url !== 'undefined') {
         window.location= '{{route('index')}}';
        }
+    },
+    error: function(){
+      alertify.error("Server error. Mohon untuk refresh halaman");
     }
   });
 });
@@ -186,8 +195,36 @@ $(document).on('click', '#confirm_finish', function(){
     error: function(){
       alertify.error("Server error!");
     }
-  })
+  });
 });
+
+
+function submitUjian(){
+  var id_team_packet = $("#id_team_packet").val();
+  id_packet = $("#id_packet").val();
+  $(".my_page").addClass('disabled');
+
+  $.ajax({
+    method: "PUT",
+    data: {id_team_packet, id_packet},
+    url: '{{route('peserta.submit.exam')}}',
+    success: function(data){
+      if (data == "ok") {
+        $(".finish_exam").modal('hide');
+        alertify.success("Ujian berhasil diselesaikan! Terima kasih sudah berpartisipasi di NLC Online 2018 :)");
+        window.setTimeout(function(){
+          window.location = "{{url('/peserta/home')}}";
+        }, 2800);
+
+      }else {
+        alertify.error("Gagal menyelesaikan ujian!");
+      }
+    },
+    error: function(){
+      alertify.error("Server error!");
+    }
+  });
+}
 
 function startTimer(added_time){
   // Set the date we're counting down to
@@ -229,7 +266,8 @@ function startTimer(added_time){
           clearInterval(x);
           $(".my_page .main-content").addClass("disabled");
           $(".my_page .main-content").addClass("disabled");
-          $("#confirm_finish").trigger('click');
+          //$("#confirm_finish").trigger('click');
+          submitUjian();
       }
       now = parseInt(now) + 1000;
 
