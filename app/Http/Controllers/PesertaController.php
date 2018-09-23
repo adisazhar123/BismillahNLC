@@ -304,6 +304,8 @@ class PesertaController extends Controller
         else if ($team_packet && strtotime($assigned_packet->start_time) > strtotime($date_today->toTimeString()))
           $exam = 3;
       }
+
+      Session::put('team_packet_id', $team_packet->id);    
       return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time)
       ->with('packet_info', $assigned_packet);
     }
@@ -327,7 +329,7 @@ class PesertaController extends Controller
 
         Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-ans', $ans);
         Redis::set('id-'.$request->id_packet.'-'.$request->id_team_packet.'-stat', $stat);
-    
+
         return response()->json(['message' => 'ok'], 200);
       } catch (\Exception $e) {
         Log::emergency("Server error submit answer: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
