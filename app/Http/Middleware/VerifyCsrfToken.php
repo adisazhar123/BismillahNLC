@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/peserta/finish-exam', '/peserta/reset-answer', '/peserta/submit-answer-status', '/peserta/submit-answer'
+        '/peserta/finish-exam', '/peserta/reset-answer', '/peserta/submit-answer-status', '/peserta/submit-answer',
+        '/login'
     ];
 }
