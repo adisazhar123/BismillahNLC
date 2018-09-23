@@ -26,6 +26,7 @@
           <li>Jika waktu sudah habis ketika anda sedang mengerjakan, maka sistem akan nge-submit jawaban
           anda secara otomatis. Peserta yang keluar dari halaman ujian dan tidak <strong>submit</strong>, maka
           jawaban tidak tersimpan alias nilai NOL.</li>
+		<li>Jawaban benar +3, jawaban kosong 0, jawaban salah -1.</li>
           <li>Zona waktu yang digunakan pada sistem NLC Online 2018 adalah Waktu Indonesia Barat.</li>
           <li>Informasi dan peraturan yang tidak tercantum disini berpatokan pada Rule Book NLC 2018.</li>
           <li>Dengan mengikuti ujian NLC Online 2018 anda wajib mematuhi seluruh peraturan yang ada.
