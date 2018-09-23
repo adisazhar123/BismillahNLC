@@ -193,7 +193,7 @@ $(document).on('click', '#confirm_finish', function(){
       }
     },
     error: function(){
-      alertify.error("Server error!");
+      alertify.error("Server error! Mohon untuk refresh halaman atau hubungi panitia.");
     }
   });
 });
@@ -221,7 +221,7 @@ function submitUjian(){
       }
     },
     error: function(){
-      alertify.error("Server error!");
+      alertify.error("Server error! Mohon untuk refresh halaman atau hubungi panitia.");
     }
   });
 }
