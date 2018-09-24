@@ -82,6 +82,9 @@ class PesertaController extends Controller
       $data->has_finished         = 0;
 
       $packet = Packet::find($request->kloter);
+      if (!$packet) {
+        return redirect()->back()->with('message', 'Paket tidak ditemukan. Mohon untuk menghubungi panitia!');
+      }
       $packet->current_capacity = (int)$packet->current_capacity + 1;
 
       $number_of_questions = count($packet->questions);
@@ -108,10 +111,15 @@ class PesertaController extends Controller
 
       return redirect()->back()->with('message', 'Kloter telah dipilih');
     }
-
+    /**
+     * [showExam Show exam page to participants]
+     * @return [type] [description]
+     */
     public function showExam(){
       // NOTE: untuk sementara halama ujian warmup dan penyisihan beda, karena warmup = 50 soal, penyisihan 90 soal...
       //untuk kedepannya di-dinamiskan, sekarang di hardcode
+      //
+      try {
       $team_ans="";
       $ans_stats='';
       $question_id="";
@@ -239,6 +247,12 @@ class PesertaController extends Controller
         }
       }
       return view('peserta.ujian');*/
+
+      } catch (\Exception $e) {
+        Log::emergency("Server error! Can't show exam. Team packet id: " . $team_packet->id.", Error: " . $e->getMessage());
+        return response()->json("Server error can't show welcome. Hubungi panitia!", 500);
+      }
+
     }
 
     public function showPetunjuk(){
@@ -251,64 +265,73 @@ class PesertaController extends Controller
     }
 
     public function showWelcome(){
-      View::share('team_name', Auth::user()->name);
 
-      //Cek ada ujian gak hari ini
-      //Utk menyimpan id_packet ujian hari ini
-      $packets_today_arr = array();
-      $packets_today_type = array();
-      //Set timezone
-      $date_today = Carbon::now('Asia/Jakarta');
-      //select id_packet yg aktif hari ini
-      $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet', 'type')->get();
+      try {
 
+        View::share('team_name', Auth::user()->name);
 
-
-      //variable utk nyimpen flag ada ujian gak. 0 = ga ada, 1 = ada tapi belum diassign, 2 = ada dan udah diassign (peserta pernah close browser atau logout)
-      //3 = udah diassign tapi start_time belum mulai
-
-      $exam=1;
+        //Cek ada ujian gak hari ini
+        //Utk menyimpan id_packet ujian hari ini
+        $packets_today_arr = array();
+        $packets_today_type = array();
+        //Set timezone
+        $date_today = Carbon::now('Asia/Jakarta');
+        //select id_packet yg aktif hari ini
+        $packets_today = Packet::where('active_date', $date_today->toDateString())->where('active', 1)->select('id_packet', 'type')->get();
 
 
-      if ($packets_today->isEmpty()) {
-        //Gak ada ujian hari ini
-        $exam=0;
-        return view('peserta.welcome-peserta')->with('exam', $exam);
-      }else {
-        //Ada ujian hari ini
-        //id_packet disimpan di array
-        foreach ($packets_today as $p) {
-          $packets_today_arr[] = $p->id_packet;
-          $packets_today_type[] = $p->type;
-        }
 
-        //Utk mencari paket ujian yang udah diassign tapi belum diselesaikan oleh tim pada hari ini
-        $team_packet = TeamPacket::whereIn('id_packet', $packets_today_arr)->where('id_team', Auth::user()->role_id)
-                      ->where('has_finished', 0)->where('status', 1)->first();
+        //variable utk nyimpen flag ada ujian gak. 0 = ga ada, 1 = ada tapi belum diassign, 2 = ada dan udah diassign (peserta pernah close browser atau logout)
+        //3 = udah diassign tapi start_time belum mulai
 
-        // NOTE: uncomment utk assign randomly
-        //belum dpt assign packet
-        // if (!$team_packet) {
-        //   return view('peserta.welcome-peserta')->with('exam', $exam);
-        //
-        // }
+        $exam=1;
 
-        if (!$team_packet) {
+
+        if ($packets_today->isEmpty()) {
+          //Gak ada ujian hari ini
+          $exam=0;
           return view('peserta.welcome-peserta')->with('exam', $exam);
+        }else {
+          //Ada ujian hari ini
+          //id_packet disimpan di array
+          foreach ($packets_today as $p) {
+            $packets_today_arr[] = $p->id_packet;
+            $packets_today_type[] = $p->type;
+          }
+
+          //Utk mencari paket ujian yang udah diassign tapi belum diselesaikan oleh tim pada hari ini
+          $team_packet = TeamPacket::whereIn('id_packet', $packets_today_arr)->where('id_team', Auth::user()->role_id)
+                        ->where('has_finished', 0)->where('status', 1)->first();
+
+          // NOTE: uncomment utk assign randomly
+          //belum dpt assign packet
+          // if (!$team_packet) {
+          //   return view('peserta.welcome-peserta')->with('exam', $exam);
+          //
+          // }
+
+          if (!$team_packet) {
+            return view('peserta.welcome-peserta')->with('exam', $exam);
+          }
+
+          $assigned_packet = Packet::find($team_packet->id_packet);
+
+          if ($team_packet && strtotime($assigned_packet->start_time) < strtotime($date_today->toTimeString()))
+            $exam = 2;
+          else if ($team_packet && strtotime($assigned_packet->start_time) > strtotime($date_today->toTimeString()))
+            $exam = 3;
         }
 
-        $assigned_packet = Packet::find($team_packet->id_packet);
-
-        if ($team_packet && strtotime($assigned_packet->start_time) < strtotime($date_today->toTimeString()))
-          $exam = 2;
-        else if ($team_packet && strtotime($assigned_packet->start_time) > strtotime($date_today->toTimeString()))
-          $exam = 3;
+        Session::put('team_packet_id', $team_packet->id);
+        return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time)
+        ->with('packet_info', $assigned_packet);
+      } catch (\Exception $e) {
+        Log::emergency("Server error. Can't show welcome. TeamPacket ID: " . $team_packet->id.", Error: " . $e->getMessage());
+        return response()->json("Server error can't show welcome. Hubungi panitia!", 500);
       }
 
-      Session::put('team_packet_id', $team_packet->id);    
-      return view('peserta.welcome-peserta')->with('exam', $exam)->with('start_time', $assigned_packet->start_time)
-      ->with('packet_info', $assigned_packet);
     }
+
 
     //Untuk submit jawaban, dijadikan array terus convert ke string utk store di DB
     public function submitAns(Request $request){
@@ -333,10 +356,9 @@ class PesertaController extends Controller
         return response()->json(['message' => 'ok'], 200);
       } catch (\Exception $e) {
         Log::emergency("Server error submit answer: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
+        return response()->json("Server error can't submit answer. Hubungi panitia!", 500);
 
       }
-
-
 
       // NOTE: Uncomment bawah kalo mau insert lgsg ke DB
       // $team_packet = TeamPacket::find($request->id_team_packet);
@@ -356,6 +378,7 @@ class PesertaController extends Controller
       // }
     }
 
+
     //Untuk submit status jawaban e.g. "ragu", dijadikan array terus convert ke string utk store di DB
     public function submitAnsStat(Request $request){
 
@@ -369,9 +392,9 @@ class PesertaController extends Controller
         return response()->json(['message' => 'ok'], 200);
       } catch (\Exception $e) {
         Log::emergency("Server error submit answer stats: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
+        return response()->json("Server error can't submit answer stats. Hubungi panitia!", 500);
+
       }
-
-
 
       // $team_packet = TeamPacket::find($request->id_team_packet);
       // $stats = explode(',', $team_packet->ans_stats);
@@ -408,10 +431,9 @@ class PesertaController extends Controller
         return response()->json(['message' => 'ok'], 200);
       } catch (\Exception $e) {
         Log::emergency("Server error reset answer: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
+        return response()->json("Server error can't reset answers. Hubungi panitia!", 500);
 
       }
-
-
 
       // $team_packet = TeamPacket::find($request->id_team_packet);
       // $stats = explode(',', $team_packet->ans_stats);
@@ -457,11 +479,14 @@ class PesertaController extends Controller
         $team_packet->ans_stats = $stat;
         $team_packet->final_score = null;
         $team_packet->save();
+
+        Log::info("TeamPacket ID: " . $request->id_team_packet . " successfully submitted exam!");
+
         return "ok";
 
       } catch (\Exception $e) {
         Log::emergency("Server error submit exam: id_team_packet: " . $request->id_team_packet.", message: " . $e->getMessage());
-        return "fail";
+        return response()->json("Server error. Can't submit exam.", 500);
       }
 
     }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 use Auth;
 use Session;
+use Input;
+use Log;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -44,16 +46,47 @@ class LoginController extends Controller
       return view('index');
     }
 
-    protected function authenticated(Request $request, $user){
-      if(Auth::check()){
-        User::find(Auth::id())->update(['session_token' => Session::getId()]);
-        if (Auth::user()->role == 3){
-          return response()->json(['intended_url'=>'/peserta/home']);
-        }else if (Auth::user()->role == 2){
-          return response()->json(['intended_url'=>'/admin/scoreboard']);
-        }else {
-          return response()->json(['intended_url'=>'/admin']);
-        }
+    // protected function authenticated(){
+    //   if(Auth::check()){
+    //     User::find(Auth::id())->update(['session_token' => Session::getId()]);
+    //     if (Auth::user()->role == 3){
+    //       return response()->json(['intended_url'=>'/peserta/welcome-new']);
+    //     }else if (Auth::user()->role == 2){
+    //       return response()->json(['intended_url'=>'/admin/scoreboard']);
+    //     }else {
+    //       return response()->json(['intended_url'=>'/admin']);
+    //     }
+    //   }
+    // }
+
+    public function doLogin(){
+      $userdata = array(
+        'email'     => Input::get('email'),
+        'password'  => Input::get('password')
+      );
+
+      try {
+        // attempt to do the login
+        if (Auth::attempt($userdata)) {
+           User::find(Auth::id())->update(['session_token' => Session::getId()]);
+           Log::info("User with email: " . Auth::user()->email ." is logged in!");
+           if (Auth::user()->role == 3){
+             return response()->json(['intended_url'=>'/peserta/home']);
+           }else if (Auth::user()->role == 2){
+             return response()->json(['intended_url'=>'/admin/scoreboard']);
+           }else {
+             return response()->json(['intended_url'=>'/admin']);
+           }
+
+         } else {
+           Log::info("User with email: " . Input::get('email') ." tried to login with wrong credentials!");
+           return response()->json('wrong credentials');
+         }
+      } catch (\Exception $e) {
+        Log::emergency("Server error. Can't login, email: " . Input::get('email'). ", error: " . $e->getMessage());
+        return response()->json("Server Error", 500);
       }
+
+
     }
 }

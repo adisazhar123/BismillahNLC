@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use View;
+use Log;
 use Illuminate\Http\Request;
 use App\Team;
 use App\TeamPacket;
@@ -1061,6 +1062,26 @@ class AdminController extends Controller
     public function deleteAnnouncement(Request $request){
       $a = Announcement::find($request->id)->delete();
       return redirect()->back()->with('message', 'Pengumuman berhasil dihapus!');
+    }
 
+    public function submitAllTeams(Request $request){
+      try {
+        $teamPackets = TeamPacket::where('id_packet', $request->id_packet)->get()->toArray();
+        // return $teamPackets;
+        //
+        for ($i=0; $i < count($teamPackets); $i++) {
+          //format: id-packet_id-team_packet_id-type
+          $ans = Redis::get('id-'.$request->id_packet.'-'.$teamPackets[$i]['id'].'-ans');
+          $stat = Redis::get('id-'.$request->id_packet.'-'.$teamPackets[$i]['id'].'-stat');
+          $tp = TeamPacket::find($teamPackets[$i]['id']);
+          $tp->team_ans = $ans;
+          $tp->ans_stats = $stat;
+          $tp->save();
+          // echo "TP Id: ".$tp->id.", " .$ans." ";
+        }
+      } catch (\Exception $e) {
+        Log::emergency("Server error. Can't submit all teams. Error: " . $e->getMessage());
+        return response()->json("Server error. Can't submit all teams.", 500);
+      }
     }
   }

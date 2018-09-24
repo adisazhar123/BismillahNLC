@@ -14,7 +14,7 @@
 
 Auth::routes();
 Route::get('/', 'PagesController@index')->name('index');
-
+Route::post('/login', 'Auth\LoginController@doLogin');
 
 //Role: Peserta
 Route::middleware(['single_session', 'participant_only'])->group(function(){
@@ -35,7 +35,7 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::get('/peserta/server-time', 'PesertaController@getServerTime');
   Route::get('/peserta/hasil-ujian', 'PesertaController@getMyScores');
   Route::get('/peserta/my-scores', 'PesertaController@showMyScores');
-  Route::get('/peserta/download/tutorial_warmup', 'PesertaController@viewTutorialWarmUp');
+  Route::get('/peserta/download/tutorial_warmup', 'PesertaController@viewTutorialWarmUp');  
 });
 
 
@@ -95,6 +95,7 @@ Route::get('/admin/view-pdf-info/{id}', 'AdminController@viewPdfInfo')->name('vi
   Route::get('/admin/get-team-scores', 'AdminController@getTeamScores')->name('get.team.scores.admin');
   Route::get('/admin/generate-score-page', 'AdminController@generateScorePage')->name('generate.score.page.admin');
   Route::get('/admin/get-packets-to-score', 'AdminController@getPacketstoScore')->name('get.packets.to.score.admin');
+  Route::put('/admin/submit/all-team-packets', 'AdminController@submitAllTeams')->name('submit.all.team.packets');
 });
 
 //Admin

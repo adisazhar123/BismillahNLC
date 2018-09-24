@@ -178,9 +178,9 @@
 					},
 					{render: function(data, type, row){
 						if(row.active == 1)
-							return "<button class='btn btn-success' disabled id=toggle packet-id="+row.id_packet+">Aktifkan</button><button type=button name=button id=duplicate class='btn btn-default' packet-id="+row.id_packet+">Duplikat</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
+							return "<button class='btn btn-success' disabled id=toggle packet-id="+row.id_packet+">Aktifkan</button><button type=button name=button id=duplicate class='btn btn-default' packet-id="+row.id_packet+">Duplikat</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</a><button class='btn btn-success' id=submit_all packet-id="+row.id_packet+">Submit All Team Packets</button>";
 						else
-						return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button type=button name=button id=duplicate class='btn btn-default' packet-id="+row.id_packet+">Duplikat</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button disabled class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</button>";
+						return "<button class='btn btn-success' id=toggle packet-id="+row.id_packet+">Aktifkan</button><button type=button name=button id=duplicate class='btn btn-default' packet-id="+row.id_packet+">Duplikat</button><button class='btn btn-danger' id=delete packet-id="+row.id_packet+">Hapus</button><button class='btn btn-warning' id=edit packet-id="+row.id_packet+">Ubah</button><button disabled class='btn btn-danger' id=toggle packet-id="+row.id_packet+">Non-aktifkan</button><a href="+APP_URL+"/admin/list-questions/"+row.id_packet+" class='btn btn-info' id=view>Info</a><button class='btn btn-success' id=submit_all packet-id="+row.id_packet+">Submit All Team Packets</button>";
 					}
 				}
 			]
@@ -352,7 +352,32 @@
 					}
 				});
 			});
+			$(document).on('click', '#submit_all', function(){
+				id_packet = $(this).attr('packet-id');
+				$("body").loading({
+					zIndex: 9999999
+				});
+				$.ajax({
+					url: '{{route('submit.all.team.packets')}}',
+					data: {id_packet},
+					method: "PUT",
+					success: function(){
+						alertify.success("Team packet berhasil disubmit!");
+						table1.ajax.reload(null, false);
+						$("body").loading('stop');
+
+					},
+					error: function(){
+						alertify.error("Server error!");
+						$("body").loading('stop');
+
+					}
+				});
+			});
+
 		});
+
+
 
 
 

@@ -12,6 +12,9 @@
 
 <div class="row my_page animated fadeIn">
   <div class="col-lg-12">
+    <div class="alert alert-warning">
+      Jika halaman kosong mohon untuk update browser atau gunakan browser yang lain.
+    </div>
     <div class="main-content">
     </div>
   </div>
@@ -62,6 +65,9 @@ $(document).ready(function(){
             startTimer((new Date().getTime() - this.start_ajax_time));
           }
         }
+      },
+      error: function(){
+        alertify.error("Server error! Mohon untuk refresh halaman atau hubungi panitia.");
       }
     });
   });
@@ -111,7 +117,7 @@ $(document).on('click',".form-check-input", function(){
       }
     },
     error: function(){
-      alertify.error("Server error. Mohon untuk refresh halaman.");
+      alertify.error("Server error! Mohon untuk refresh halaman atau hubungi panitia.");
     }
   })
 
@@ -138,7 +144,7 @@ $(document).on("click", ".question_no", function(){
         }
       },
       error: function(){
-        alertify.error("Server error. Mohon untuk refresh halaman.");
+        alertify.error("Server error! Mohon untuk refresh halaman atau hubungi panitia.");
       }
     })
   }
@@ -162,7 +168,7 @@ $(document).on("click", ".fa-refresh", function(){
        }
     },
     error: function(){
-      alertify.error("Server error. Mohon untuk refresh halaman");
+      alertify.error("Server error! Mohon untuk refresh halaman atau hubungi panitia.");
     }
   });
 });

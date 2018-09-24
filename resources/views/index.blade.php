@@ -355,9 +355,15 @@
         $(".masuk")[0].click();
         return false;
       @endif
-      
+
       $(".modal").modal('show');
     });
+  });
+
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
   });
 
   $("form").submit(function(e){
@@ -370,16 +376,21 @@
       url: '{{ route('login') }}',
       data: data,
       success: function(data){
-        $(".modal").modal('hide');
-        alertify.success("Login berhasil :)");
-        window.setTimeout(function(){
-          window.location = "{{url('/')}}"+data.intended_url;
-        }, 1500);
+        if (typeof data.intended_url !== 'undefined') {
+          $(".modal").modal('hide');
+          alertify.success("Login berhasil :)");
+          window.setTimeout(function(){
+            window.location = "{{url('/')}}"+data.intended_url;
+          }, 1500);
+
+        }else {
+          alertify.error("Akun tidak dikenal :(");
+        }
         $("#login_btn").html("Go");
         $("#login_btn").prop('disabled', false);
       },
       error: function(data){
-        alertify.error("Akun tidak dikenal :(");
+        alertify.error("Server error. Mohon untuk menghubungi panitia");
         $("#login_btn").html("Go");
         $("#login_btn").prop('disabled', false);
       }
