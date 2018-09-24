@@ -108,7 +108,8 @@
 				success: function(data){
 					if (data == "ok") {
 						alertify.success("Berhasil generate skor!");
-						table1.ajax.reload();
+						table1.ajax.reload(null, false);
+
 					}else {
 						alertify.error("Gagal!");
 					}
