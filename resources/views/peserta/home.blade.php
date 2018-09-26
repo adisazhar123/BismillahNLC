@@ -152,7 +152,9 @@ $(document).on("click", ".question_no", function(){
 
 $(document).on("click", ".fa-refresh", function(){
   var name = $(this).attr('name');
+  console.log(name)
   q_index = name.slice(3);
+  console.log(q_index);
   id_team_packet = $("#id_team_packet").val();
 
   $(".row.q_"+name+" input[type='radio']").prop('checked', false)
