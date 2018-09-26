@@ -153,12 +153,13 @@ $(document).on("click", ".question_no", function(){
 $(document).on("click", ".fa-refresh", function(){
   var name = $(this).attr('name');
   console.log(name)
-  q_index = name.slice(3);
+  var q_index = name.slice(3);
   console.log(q_index);
-  id_team_packet = $("#id_team_packet").val();
+  var id_team_packet = $("#id_team_packet").val();
+  console.log(id_team_packet)
 
-  $(".row.q_"+name+" input[type='radio']").prop('checked', false)
-  $("#q_"+name).css('background-color', 'white')
+  $(".row.q_"+name+" input[type='radio']").prop('checked', false);
+  $("#q_"+name).css('background-color', 'white');
 
   $.ajax({
     url: '{{route('peserta.reset.ans')}}',
