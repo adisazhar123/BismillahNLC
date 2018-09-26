@@ -128,6 +128,7 @@ $(document).on("click", ".question_no", function(){
   current_color = rgb2hex($(this).css('background-color'));
   q_index = $(this).attr('id').slice(5);
   id_team_packet = $("#id_team_packet").val();
+  var id_packet = $("#id_packet").val();
 
   if (current_color != '#ffc966') {
     $(this).css('background-color', "#ffc966");
@@ -157,6 +158,7 @@ $(document).on("click", ".fa-refresh", function(){
   console.log(q_index);
   var id_team_packet = $("#id_team_packet").val();
   console.log(id_team_packet)
+  var id_packet = $("#id_packet").val();
 
   $(".row.q_"+name+" input[type='radio']").prop('checked', false);
   $("#q_"+name).css('background-color', 'white');
