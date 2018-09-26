@@ -102,8 +102,8 @@ $(document).on('click',".form-check-input", function(){
   var q_index = name.slice(3);
   var value = $(this).val();
   var status = "green";
-  id_team_packet = $("#id_team_packet").val();
-  id_packet = $("#id_packet").val();
+  var id_team_packet = $("#id_team_packet").val();
+  var id_packet = $("#id_packet").val();
 
   $("#q_"+name).css('background-color', "#98fb98");
 
@@ -125,9 +125,9 @@ $(document).on('click',".form-check-input", function(){
 })
 
 $(document).on("click", ".question_no", function(){
-  current_color = rgb2hex($(this).css('background-color'));
-  q_index = $(this).attr('id').slice(5);
-  id_team_packet = $("#id_team_packet").val();
+  var current_color = rgb2hex($(this).css('background-color'));
+  var q_index = $(this).attr('id').slice(5);
+  var id_team_packet = $("#id_team_packet").val();
   var id_packet = $("#id_packet").val();
 
   if (current_color != '#ffc966') {
@@ -184,7 +184,7 @@ $(document).on('click', '#submit_exam', function(){
 
 $(document).on('click', '#confirm_finish', function(){
   var id_team_packet = $("#id_team_packet").val();
-  id_packet = $("#id_packet").val();
+  var id_packet = $("#id_packet").val();
   $(".my_page").addClass('disabled');
 
   $.ajax({
@@ -212,7 +212,7 @@ $(document).on('click', '#confirm_finish', function(){
 
 function submitUjian(){
   var id_team_packet = $("#id_team_packet").val();
-  id_packet = $("#id_packet").val();
+  var id_packet = $("#id_packet").val();
   $(".my_page").addClass('disabled');
 
   $.ajax({

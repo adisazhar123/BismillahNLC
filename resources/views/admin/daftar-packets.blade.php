@@ -326,11 +326,9 @@
 
 			$(document).on('click', '#duplicate', function(){
 				id_packet = $(this).attr('packet-id');
-
 				$("body").loading({
 					zIndex: 9999999
 				});
-
 				$.ajax({
 					url: '{{route('duplicate.packet')}}',
 					method: "POST",
@@ -365,7 +363,6 @@
 						alertify.success("Team packet berhasil disubmit!");
 						table1.ajax.reload(null, false);
 						$("body").loading('stop');
-
 					},
 					error: function(){
 						alertify.error("Server error!");
