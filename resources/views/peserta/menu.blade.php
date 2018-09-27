@@ -20,7 +20,7 @@
 	<li><a href="#m2" id="menu-tutorial" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Tutorial </a>
 		<ul id="m2" class="collapse list-unstyled ">
 			<li class="disabled"><a target="_blank" href="{{url('/peserta/download/tutorial_warmup')}}"> <i class="fa fa-book"></i>Warm Up </a></li>
-			<li><a href="{{url('/peserta/download/tutorial_penyisihan')}}"> <i class="fa fa-book"></i>Penyisihan </a></li>
+			<li><a target="_blank" href="{{url('/peserta/download/tutorial_penyisihan')}}"> <i class="fa fa-book"></i>Penyisihan </a></li>
 
 		</ul>
 	</li>
