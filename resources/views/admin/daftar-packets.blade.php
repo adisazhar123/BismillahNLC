@@ -350,6 +350,7 @@
 					}
 				});
 			});
+			
 			$(document).on('click', '#submit_all', function(){
 				id_packet = $(this).attr('packet-id');
 				$("body").loading({

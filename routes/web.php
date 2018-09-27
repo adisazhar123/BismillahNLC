@@ -35,7 +35,8 @@ Route::middleware(['single_session', 'participant_only'])->group(function(){
   Route::get('/peserta/server-time', 'PesertaController@getServerTime');
   Route::get('/peserta/hasil-ujian', 'PesertaController@getMyScores');
   Route::get('/peserta/my-scores', 'PesertaController@showMyScores');
-  Route::get('/peserta/download/tutorial_warmup', 'PesertaController@viewTutorialWarmUp');  
+  Route::get('/peserta/download/tutorial_warmup', 'PesertaController@viewTutorialWarmUp');
+  Route::get('/peserta/download/tutorial_penyisihan', 'PesertaController@viewTutorialPenyisihan');  
 });
 
 
@@ -73,7 +74,7 @@ Route::middleware(['admin_and_commitee'])->group(function(){
   Route::get('/admin/list-pdf/{id}', 'AdminController@listPdf')->name('list.pdf.admin');
   Route::delete('/admin/delete-pdf', 'AdminController@deletePdf')->name('delete.pdf.admin');
   Route::get('/admin/view-pdf/{id}', 'AdminController@viewPdf')->name('view.pdf.admin');
-Route::get('/admin/view-pdf-info/{id}', 'AdminController@viewPdfInfo')->name('view.pdf.info.admin');
+  Route::get('/admin/view-pdf-info/{id}', 'AdminController@viewPdfInfo')->name('view.pdf.info.admin');
   Route::get('/admin/assign-teams-page', 'AdminController@assignTeamPage')->name('assign.team');
   Route::get('/admin/get-packets-for-assign', 'AdminController@getPacketsforAssign')->name('get.packets.for.assign');
   Route::get('/admin/get-teams-to-assign', 'AdminController@getTeamstoAssign')->name('get.teams.to.assign');

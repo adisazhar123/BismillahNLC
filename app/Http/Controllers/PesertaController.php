@@ -509,5 +509,8 @@ class PesertaController extends Controller
     public function viewTutorialWarmUp(){
       return response()->file(storage_path()."/app/public/tutorial/tutorial_warmup.pdf");
     }
+    public function viewTutorialPenyisihan(){
+      return response()->file(storage_path()."/app/public/tutorial/tutorial_penyisihan.pdf");
+    }
 
 }
