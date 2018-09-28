@@ -39,7 +39,7 @@
           </div>
       </div>
 
-      <div class="card">
+      {{-- <div class="card">
         <div class="card-body">
           <h3>Info Warmup</h3>
           @if ($pilihan_kloter)
@@ -48,9 +48,9 @@
             <p>Anda belum memilih kloter. Mohon untuk memilih kloter warmup.</p>
           @endif
         </div>
-      </div>
+      </div> --}}
 
-      <div class="card">
+      {{-- <div class="card">
         <div class="card-body">
           <h3 class="text-dark">Pemilihan Kloter Pengerjaan Warmup/ Latihan</h3>
             <form action="{{url('/peserta/pilih-kloter')}}" method="POST">
@@ -97,7 +97,7 @@
             </form>
         <p class="">*Penutupan pemilihan kloter akan melalui pengumuman.</p>
         </div>
-      </div>
+      </div> --}}
 
 
     </div>
