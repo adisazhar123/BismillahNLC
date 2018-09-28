@@ -61,40 +61,40 @@
                 <option value="{{ $pilihan_kloter['id_packet'] or '' }}">
                   {{-- Kalo udah milih kloter --}}
                   @if ($pilihan_kloter)
-                    Kloter: {{$pilihan_kloter->packets['name']}} - Jam {{$pilihan_kloter->packets['start_time']}} WIB |
-                    {{$pilihan_kloter->packets['active_date']}} | Kapasitas: {{$pilihan_kloter->packets['current_capacity']}}/{{$pilihan_kloter->packets['capacity']}}
+                    {{-- Kloter: {{$pilihan_kloter->packets['name']}} - Jam {{$pilihan_kloter->packets['start_time']}} WIB |
+                    {{$pilihan_kloter->packets['active_date']}} | Kapasitas: {{$pilihan_kloter->packets['current_capacity']}}/{{$pilihan_kloter->packets['capacity']}} --}}
                   @else
-                    Pilih Kloter
+                    {{-- Pilih Kloter --}}
                   @endif
 
                 </option>
                 {{-- kalo belum milih kloter --}}
                 @if (empty($pilihan_kloter))
                   @php
-                    $i=1;
+                    // $i=1;
                   @endphp
                   @foreach ($packets as $p)
                     @if ($p->capacity <= $p->current_capacity)
-                      <option disabled value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." WIB | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
+                      {{-- <option disabled value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." WIB | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option> --}}
                     @else
-                      <option value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." WIB | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option>
+                      {{-- <option value="{{$p->id_packet}}">Kloter: {{$p->name}} | Jam {{$p->start_time." WIB | ".date_format(new DateTime($p->active_date), 'd-m-Y')}} | Kapasitas: {{$p->current_capacity}}/{{$p->capacity}}</option> --}}
                     @endif
                     @php
-                      $i++;
+                      // $i++;
                     @endphp
                   @endforeach
                 @endif
-
+{{--
               </select>
-              <br><br>
+              <br><br> --}}
               {{-- cek kalo udah milih kloter, gaboleh milih lagi --}}
               @if (empty($pilihan_kloter))
-                <button type="submit" class="float-right btn btn-primary">Submit</button>
+                {{-- <button type="submit" class="float-right btn btn-primary">Submit</button> --}}
                 @else
                   {{-- <button type="submit" class="float-right btn btn-primary" disabled>Submit</button> --}}
 
               @endif
-            </form>
+            {{-- </form>
         <p class="">*Penutupan pemilihan kloter akan melalui pengumuman.</p>
         </div>
       </div> --}}
